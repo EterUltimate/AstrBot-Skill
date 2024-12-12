@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "18"
       - name: npm install
-        run: npm install
+        run: npm add -D vitepress
         working-directory: './' # working-directory 指定 shell 命令运行目录
       - name: npm run build
         run: npm run docs:build
