@@ -35,6 +35,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORDNEKO }}
           script: |
-            rm -rf /root/docker_data/caddy/caddy_data/static_site/astrbot_docs_2/*
-            mv /tmp/build/* /root/docker_data/caddy/caddy_data/static_site/astrbot_docs_2
-            rm -rf /tmp/build/
+            rm -rf /root/docker_data/caddy/caddy_data/static_site/astrbot_docs/v2/*
+            mv /tmp/dist/* /root/docker_data/caddy/caddy_data/static_site/astrbot_docs_2/v2/
+            rm -rf /tmp/dist/
