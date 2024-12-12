@@ -7,7 +7,7 @@ hero:
   text: "易于上手的多平台聊天机器人及开发框架。"
   tagline: 松耦合 / 异步 / 多消息平台部署 / 易用的插件系统 / 完善的大语言模型（LLM）接入
   image:
-    src: /logo.svg
+    src: source/images/logo.svg
     alt: AstrBot Logo
   actions:
     - theme: brand
