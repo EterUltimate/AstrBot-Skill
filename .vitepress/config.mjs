@@ -109,6 +109,21 @@ export default defineConfig({
           },
         ]
       },
+      {
+        text: '其他',
+        base: '/others',
+        collapsed: false,
+        items: [
+          {
+            text: '接入 OneAPI', 
+            link: '/oneapi'
+          },
+          {
+            text: "自部署文转图",
+            link: '/self-host-t2i'
+          }
+        ]
+      },
     ],
 
     socialLinks: [
