@@ -1,0 +1,39 @@
+# 使用 Windows 一键安装器部署 AstrBot
+
+安装器是一个使用 `Powershell` 编写的脚本，体积小巧，<20KB。需要您的电脑上安装有 `Powershell`，一般 `Windows 10` 及以上版本的设备都会自带这个工具。
+
+> [!WARNING]
+> 需要您的电脑上安装有 `Python 3.10` 及以上的版本，并且已经配置好环境变量。
+
+## 下载安装器
+
+打开 https://github.com/Soulter/AstrBotLauncher/releases/latest 
+
+下载 `Source code (zip)` 并解压到您的电脑。
+
+## 运行安装器
+
+运行 `launcher_astrbot_en.bat` 批处理文件。
+
+> [!WARNING]
+> - 这个脚本没有病毒。如果提示 `Windows 已保护您的电脑`，请点击 `更多信息`，然后点击 `仍要运行`。
+>
+> - 脚本默认使用 `python` 指令来执行代码，如果你想指定 Python 解释器器路径或者指令，请修改 `launcher_astrbot_en.bat` 文件。找到 `set PYTHON_CMD=python` 这一行，将 `python` 改为你的 Python 解释器路径或指令。
+
+如果没有检测到 Python 环境，脚本将会提示并退出。
+
+脚本将自动检测目录下是否有 `AstrBot` 文件夹，如果没有，将会从 [GitHub](https://github.com/Soulter/AstrBot/releases/latest) 自动下载最新的 AstrBot 源码。下载好后，会自动安装 AstrBot 的依赖并运行。
+
+## 🎉 大功告成！
+
+如果一切顺利，你会看到 AstrBot 打印出的日志。
+
+如果没有报错，你会看到一条日志显示类似 `🌈 管理面板已启动，可访问` 并附带了几条链接。打开其中一个链接即可访问 AstrBot 管理面板。
+
+> [!TIP]
+> 由于 Docker 隔离了网络环境，所以不能使用 `localhost` 访问管理面板。
+>
+> 默认用户名和密码是 `astrbot` 和 `astrbot`。
+
+
+接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
