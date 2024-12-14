@@ -58,7 +58,7 @@ class MyPlugin(Star):
     @filter.command("helloworld")
     async def helloworld(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
-        event.set_result(f"你好, {user_name}!")
+        yield event.plain_result(f"Hello, {user_name}!") # 发送一条纯文本消息
 ```
 
 一个插件就是一个类，这个类继承自 `Star`。`Star` 是 AstrBot 插件的基类，还额外提供了一些基础的功能。请务必使用 `@register` 装饰器注册插件，否则 AstrBot 无法识别。在 AstrBot 中，插件也叫做 `Star`。
@@ -188,7 +188,7 @@ class MyPlugin(Star):
     @command("helloworld") # from astrbot.api.event.filter import command
     async def helloworld(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
-        event.set_result(f"你好, {user_name}!")
+        yield event.plain_result(f"Hello, {user_name}!")
 ```
 
 #### 注册一个带参数的指令
@@ -198,12 +198,12 @@ AstrBot 会自动帮你解析指令的参数。
 ```python
 @command("echo")
 def echo(self, event: AstrMessageEvent, message: str):
-    event.set_result(f"你发了: {message}")
+    yield event.plain_result(f"你发了: {message}")
 
 @command("add")
 def add(self, event: AstrMessageEvent, a: int, b: int):
     # /add 1 2 -> 结果是: 3
-    event.set_result(f"结果是: {a + b}")
+    yield event.plain_result(f"结果是: {a + b}")
 ```
 
 #### 注册一个指令组
@@ -218,12 +218,12 @@ def math(self):
 @math.command("add")
 async def add(self, event: AstrMessageEvent, a: int, b: int):
     # /math add 1 2 -> 结果是: 3
-    event.set_result(f"结果是: {a + b}")
+    yield event.plain_result(f"结果是: {a + b}")
 
 @math.command("sub")
 async def sub(self, event: AstrMessageEvent, a: int, b: int):
     # /math sub 1 2 -> 结果是: -1
-    event.set_result(f"结果是: {a - b}")
+    yield event.plain_result(f"结果是: {a - b}")
 ```
 
 指令组函数内不需要实现任何函数，请直接 `pass` 或者添加函数内注释。指令组的子指令使用 `指令组名.command` 来注册。
@@ -257,16 +257,16 @@ def calc():
 
 @calc.command("add")
 async def add(self, event: AstrMessageEvent, a: int, b: int):
-    event.set_result(f"结果是: {a + b}")
+    yield event.plain_result(f"结果是: {a + b}")
 
 @calc.command("sub")
 async def sub(self, event: AstrMessageEvent, a: int, b: int):
-    event.set_result(f"结果是: {a - b}")
+    yield event.plain_result(f"结果是: {a - b}")
 
 @calc.command("help")
 def calc_help(self, event: AstrMessageEvent):
     # /math calc help
-    event.set_result("这是一个计算器插件，拥有 add, sub 指令。")
+    yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
 ```
 
 #### 过滤群/私聊事件
@@ -274,7 +274,7 @@ def calc_help(self, event: AstrMessageEvent):
 ```python
 @event_message_type(EventMessageType.PRIVATE_MESSAGE)
 async def on_private_message(self, event: AstrMessageEvent):
-    event.set_result("收到了一条私聊消息。")
+    yield event.plain_result("收到了一条私聊消息。")
 ```
 
 `EventMessageType` 是一个 `Enum` 类型，包含了所有的事件类型。当前的事件类型有 `PRIVATE_MESSAGE` 和 `GROUP_MESSAGE`。
@@ -285,7 +285,7 @@ async def on_private_message(self, event: AstrMessageEvent):
 @platform_adapter_type(PlatformAdapterType.AIOCQHTTP | PlatformAdapterType.QQOFFICIAL)
 async def on_aiocqhttp(self, event: AstrMessageEvent):
     '''只接收 AIOCQHTTP 和 QQOFFICIAL 的消息'''
-    event.set_result("收到了一条信息")
+    yield event.plain_result("收到了一条信息")
 ```
 
 当前版本下，`PlatformAdapterType` 有 `AIOCQHTTP`, `QQOFFICIAL`, `VCHAT`。
@@ -298,24 +298,24 @@ async def on_aiocqhttp(self, event: AstrMessageEvent):
 @command("helloworld")
 @event_message_type(EventMessageType.PRIVATE_MESSAGE)
 async def helloworld(self, event: AstrMessageEvent):
-    event.set_result("你好！")
+    yield event.plain_result("你好！")
 ```
 
 ### 发送消息
 
-有两种发送消息的方式。
+上面介绍的都是基于 `yield` 的方式，也就是异步生成器。这样的好处是可以在一个函数中多次发送消息。
 
 ```python
 @command("helloworld")
 async def helloworld(self, event: AstrMessageEvent):
-    event.set_result("你好！") # 第一种
-    await event.send("你好！") # 第二种
+    yield event.plain_result("Hello!")
+    yield event.plain_result("你好！")
+
+    yield event.image_result("path/to/image.jpg") # 发送图片
+    yield event.image_result("https://example.com/image.jpg") # 发送 URL 图片，务必以 http 或 https 开头
 ```
 
-第一种相当于是作为事件的结果去发送消息，第二种支持在一次事件处理中多次发送消息。两种效果都一样。
-
-
-### 发送图片等富媒体消息
+### 发送图文等富媒体消息
 
 AstrBot 支持发送富媒体消息，比如图片、语音、视频等。使用 `MessageChain` 来构建消息。
 
@@ -329,8 +329,7 @@ async def helloworld(self, event: AstrMessageEvent):
         Image.fromFileSystem("path/to/image.jpg"), # 从本地文件目录发送图片
         Plain("这是一个图片。")
     ]
-    await event.send(chain)
-    # 或者 event.set_result(MessageEventResult(chain=chain))
+    yield event.chain_result(chain)
 ```
 
 上面构建了一个 `message chain`，也就是消息链，最终会发送一条包含了图片和文字的消息，并且保留顺序。
@@ -338,30 +337,19 @@ async def helloworld(self, event: AstrMessageEvent):
 你也可以快捷发送图文而不用显式构建 `message chain`。
 
 ```python
-await event.send(MessageChain()
-                .message("文本消息")
-                .url_image("https://example.com/image.jpg")
-                .file_image("path/to/image.jpg")
-            )
-
-# 或者 event.set_result(MessageEventResult()
-#                .message("文本消息")
-#                .url_image("https://example.com/image.jpg")
-#                .file_image("path/to/image.jpg")
-#            )
+yield event.make_result().message("文本消息")
+                        .url_image("https://example.com/image.jpg")
+                        .file_image("path/to/image.jpg")
 ```
-
-> [!TIP]
-> MessageEventResult 是 MessageChain 的子类。比 MessageChain 多了一个控制事件是否继续传播的功能。
 
 ### 控制事件传播
 
-```python
+```python{6}
 @command("check_ok")
 async def check_ok(self, event: AstrMessageEvent):
     ok = self.check() # 自己的逻辑
     if not ok:
-        event.set_result("检查失败")
+        yield event.plain_result("检查失败")
         event.stop_event() # 停止事件传播
 ```
 
@@ -376,7 +364,7 @@ AstrBot 支持将文字渲染成图片。
 async def on_aiocqhttp(self, event: AstrMessageEvent, text: str):
     url = await self.text_to_image(text) # text_to_image() 是 Star 类的一个方法。
     # path = await self.text_to_image(text, return_url = False) # 如果你想保存图片到本地
-    await event.send(MessageChain().url_image(url))
+    yield event.image_result(url)
     
 ```
 
@@ -404,7 +392,7 @@ TMPL = '''
 @command("todo")
 async def custom_t2i_tmpl(self, event: AstrMessageEvent):
     url = await self.html_render(TMPL, {"items": ["吃饭", "睡觉", "玩原神"]}) # 第二个参数是 Jinja2 的渲染数据
-    await event.send(MessageChain().url_image(url))
+    yield event.image_result(url)
 ```
 
 返回的结果:
@@ -443,7 +431,7 @@ async def get_weather(self, event: AstrMessageEvent, location: str) -> MessageEv
         location(string): 地点
     '''
     resp = self.get_weather_from_api(location)
-    await event.set_result("天气信息: " + resp)
+    yield event.plain_result("天气信息: " + resp)
 ```
 
 在 `location(string): 地点` 中，`location` 是参数名，`string` 是参数类型，`地点` 是参数描述。
