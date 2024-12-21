@@ -315,11 +315,32 @@ async def helloworld(self, event: AstrMessageEvent):
     yield event.image_result("https://example.com/image.jpg") # 发送 URL 图片，务必以 http 或 https 开头
 ```
 
+如果是一些定时任务或者不想立即发送消息，可以使用 `event.unified_msg_origin` 得到一个字符串并将其存储，然后在想发送消息的时候使用 `self.context.send_message(unified_msg_origin, chains)` 来发送消息。
+
+
+```python
+from astrbot.api.event import MessageChain
+
+@command("helloworld")
+async def helloworld(self, event: AstrMessageEvent):
+    umo = event.unified_msg_origin
+    message_chain = MessageChain().message("Hello!").file_image("path/to/image.jpg")
+    await self.context.send_message(event.unified_msg_origin, message_chain)
+```
+
+通过这个特性，你可以将 unified_msg_origin 存储起来，然后在需要的时候发送消息。
+
+>[!TIP]
+> 关于 unified_msg_origin。
+> unified_msg_origin 是一个字符串，记录了一个会话的唯一ID，AstrBot能够据此找到属于哪个消息平台的哪个会话。这样就能够实现在 `send_message` 的时候，发送消息到正确的会话。有关 MessageChain，请参见接下来的一节。
+
 ### 发送图文等富媒体消息
 
 AstrBot 支持发送富媒体消息，比如图片、语音、视频等。使用 `MessageChain` 来构建消息。
 
 ```python
+from astrbot.api.message_components import *
+
 @command("helloworld")
 async def helloworld(self, event: AstrMessageEvent):
     chain = [
