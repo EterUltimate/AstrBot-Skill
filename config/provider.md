@@ -132,3 +132,9 @@ AstrBot 支持加载使用 `LlamaFactory` 微调的模型。
 - `llmtuner_template` 基座模型的类型。如 `llama3`, `qwen`。请参考 `LlamaFactory` 的文档。
 - `finetuning_type` 微调类型。如 `lora`。
 - `quantization_bit` 量化位数。如 `4`, `8`。
+
+## Dify
+
+AstrBot 支持接入 Dify。
+
+请参考 [接入 Dify](/others/dify)。
