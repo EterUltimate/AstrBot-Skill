@@ -31,6 +31,12 @@ docker run -it --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/
 ```
 
 > [!TIP]
+> AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请额外添加 `-v /var/run/docker.sock:/var/run/docker.sock` 参数。即:
+> ```bash
+> docker run -it --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+> ```
+
+> [!TIP]
 > 如果要在后台运行，请添加 `-d` 参数。建议第一次启动时不要加 `-d` 参数，以便查看日志。
 
 ## 🎉 大功告成！

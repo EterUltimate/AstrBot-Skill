@@ -19,6 +19,9 @@ cd AstrBot
 
 ## 运行源码
 
+> [!TIP]
+> AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请使用 `sudo` 执行下面的指令，以便 AstrBot 能够正常操作 Docker。
+
 在 AstrBot 源码目录下，使用终端运行以下命令：
 
 ```bash

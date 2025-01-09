@@ -51,7 +51,8 @@ export default defineConfig({
                 ]
               },
               { text: 'qqofficial(QQ官方)', link: '/qqofficial' },
-              { text: 'vchat(微信)', link: '/vchat' }
+              { text: 'vchat(微信)', link: '/vchat' },
+              { text: 'Telegram', link: '/telegram'}
             ]
           },
           {
@@ -96,6 +97,10 @@ export default defineConfig({
             text: '内置指令', 
             link: '/command'
           },
+          {
+            text: '沙箱化代码执行器(beta)',
+            link: '/code-interpreter'
+          }
         ]
       },
       {
@@ -117,6 +122,10 @@ export default defineConfig({
           {
             text: '接入 OneAPI', 
             link: '/oneapi'
+          },
+          {
+            text: '接入 Dify',
+            link: '/dify'
           },
           {
             text: "自部署文转图",

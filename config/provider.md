@@ -6,13 +6,16 @@ outline: deep
 
 本页的配置在 `data/cmd_config.json` 的 `provider` 字段中。
 
-`provider` 字段的值是一个列表，列表中的每个元素都是一个类似下面的大语言模型提供商的配置。只需将其添加到列表中即可。
+`provider` 字段的值是一个`列表`，列表中的每个元素都是一个类似下面的大语言模型提供商的配置。只需将其添加到列表中即可。
 
 > [!TIP]
 > 使用 `/provider` 指令可以查看、切换大语言模型提供商。
 > 
 > 使用 `/model` 指令可以查看、切换提供商支持的模型。（需要提供商适配）
 
+下面所有的配置都可在管理面板可视化配置：
+
+![](../source/images/provider/image.png)
 
 ## OpenAI Chat Completion
 
@@ -58,13 +61,19 @@ ollama 的 key 默认是 ollama。
 
 ### Gemini
 
+对于 Gemini，有两种配置方式。一种是使用 OpenAI 兼容的 API，即 `type` 字段为 `openai_chat_completion`。另一种是使用 Gemini 的专用 API，即 `type` 字段为 `googlegenai_chat_completion`。
+
+在管理面板可视化配置时，第一种为 `gemini(OpenAI兼容)`，第二种为 `gemini(googlegenai原生)`。
+
+如果你正在使用某些反代项目以在中国大陆使用 Gemini，它们可能不会提供 OpenAI 兼容的API，这时候就需要使用 `gemini(googlegenai原生)`。
+
 ```json
 {
     "id": "gemini_default",
-    "type": "openai_chat_completion",
+    "type": "openai_chat_completion", # 或者 googlegenai_chat_completion。在复制本代码时请把这个注释删掉，否则会报错。
     "enable": true,
     "key": [],
-    "api_base": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "api_base": "https://generativelanguage.googleapis.com/v1beta/openai/", # 如果是 googlegenai_chat_completion，这里填写 https://generativelanguage.googleapis.com 或者你的 Gemini（Palm）反代地址。
     "model_config": {
         "model": "gemini-1.5-flash"
     }

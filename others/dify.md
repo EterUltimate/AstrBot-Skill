@@ -1,0 +1,34 @@
+# 接入 Dify
+
+在 v3.4.2 及之后，AstrBot 支持接入 Dify LLMOps 平台以增强本项目的功能。
+
+## 使用
+
+如下图，点击 `dify`，即可创建一个适用于 Dify 的 Provider。
+
+![](../source/images/provider/image.png)
+
+创建后，如下图所示：
+
+![](../source/images/dify/image.png)
+
+在 Dify 中，一个 `API Key` 唯一对应一个 Dify 应用。因此，您可以创建多个 Provider 以适配多个 Dify 应用。
+
+根据目前的 Dify 项目，一共有三种类型，分别是：
+
+- chat
+- agent
+- workflow
+
+对于 Workflow 应用，AstrBot 在每次请求时会附上两个变量:
+
+- `astrbot_text_query`: 用户输入的`文本内容`
+- `astrbot_session_id`: 会话 ID
+
+因此您需要修改您的 Workflow 的输入的变量名以适配 AstrBot 的输入。
+
+![](../source/images/dify/image-1.png)
+
+您可以自定义 Workflow 输出的内容对应的变量名，在上图中可看到并可配置。设置好变量名后，您需要修改您的 Workflow 的输出的变量名以让 AstrBot 正确解析。
+
+![](../source/images/dify/image-2.png)
