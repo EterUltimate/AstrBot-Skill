@@ -23,7 +23,6 @@ cd AstrBot
 
 ```bash
 python3 -m venv ./venv
-source venv/bin/activate
 ```
 
 以上步骤会创建一个虚拟环境并激活（以免打乱你电脑本地的 Python 环境），并使用清华大学的镜像源来安装 AstrBot 的依赖。依赖的安装需要花费一些时间。
@@ -31,24 +30,30 @@ source venv/bin/activate
 接下来，通过以下命令安装依赖文件：
 
 ```bash
-python3 -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+venv/bin/python3 -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 ```
 
 > [!TIP]
 > 推荐使用更快的 uv 工具来安装依赖文件（平均快 10-100 倍）：
 > ```bash
-> python3 -m pip install uv
-> python3 -m uv pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+> venv/bin/python3 -m pip install uv
+> venv/bin/python3 -m uv pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 > ```
 
 然后运行 AstrBot
 
-> [!TIP]
-> AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请使用 `sudo` 执行下面的指令，以便 AstrBot 能够正常操作 Docker。
 
 ```bash
-python3 main.py
+venv/bin/python3 main.py
 ```
+
+> [!TIP]
+> AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请使用 `sudo` 以便 AstrBot 能够正常操作 Docker。
+> ```bash
+> sudo -E venv/bin/python3 main.py
+> ```
+
+
 
 ## 🎉 大功告成！
 
