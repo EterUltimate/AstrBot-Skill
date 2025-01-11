@@ -138,3 +138,12 @@ AstrBot 支持加载使用 `LlamaFactory` 微调的模型。
 AstrBot 支持接入 Dify。
 
 请参考 [接入 Dify](/others/dify)。
+
+
+## Whisper 语音转文字
+
+AstrBot 支持接入 OpenAI 开源的 Whisper 模型，实现语音转文字。
+
+可以接入 API 版本的，也可以在本地部署 Whisper。
+
+详见 [Whisper 语音转文字](/use/whisper)。

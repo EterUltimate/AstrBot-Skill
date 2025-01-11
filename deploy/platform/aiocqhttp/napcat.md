@@ -10,9 +10,24 @@ NapCatQQ 的文档：[NapCatQQ 文档](https://napcat.napneko.icu/)
 > - 一个 QQ 号（最好不是新创建的 QQ 号）。
 > - 一台具有摄像功能的手机以扫码登录 QQ。
 
-NapCat 提供了大量的部署方式，包括 Docker、Windows 一键安装包等等。在本篇文章里将以 Docker 部署为例。
+NapCat 提供了大量的部署方式，包括 Docker、Windows 一键安装包等等。
+
+## 通过一键脚本部署
+
+推荐这种方式。
+
+### Windows
+
+看这篇文章：[NapCat.Shell - Win手动启动教程](https://napneko.github.io/guide/boot/Shell#napcat-shell-win%E6%89%8B%E5%8A%A8%E5%90%AF%E5%8A%A8%E6%95%99%E7%A8%8B)
+
+### Linux
+
+看这篇文章：[NapCat.Installer - Linux一键使用脚本(支持Ubuntu 20+/Debian 10+/Centos9)](https://napneko.github.io/guide/boot/Shell#napcat-installer-linux%E4%B8%80%E9%94%AE%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC-%E6%94%AF%E6%8C%81ubuntu-20-debian-10-centos9)
 
 ## 通过 Docker 部署
+
+> [!TIP]
+> 如果用 Docker 部署，将无法正常接收到`语音数据`、`文件数据`。这意味着语音转文字、沙箱的文件输入功能将无法使用。可以接收到文字消息、图片消息等其他类型的消息。
 
 默认您安装了 Docker。
 

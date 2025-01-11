@@ -100,6 +100,10 @@ export default defineConfig({
           {
             text: '沙箱化代码执行器(beta)',
             link: '/code-interpreter'
+          },
+          {
+            text: '接入 Whisper 语音转文字',
+            link: '/whisper'
           }
         ]
       },
