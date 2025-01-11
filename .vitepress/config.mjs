@@ -104,6 +104,10 @@ export default defineConfig({
           {
             text: '接入 Whisper 语音转文字',
             link: '/whisper'
+          },
+          {
+            text: '更新管理面板',
+            link: '/update-webui'
           }
         ]
       },
