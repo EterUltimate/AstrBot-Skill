@@ -7,6 +7,18 @@
 欢迎加群讨论：[322154837](https://qm.qq.com/cgi-bin/qm/qr?k=EYGsuUTfe00_iOu9JTXS7_TEpMkXOvwv&jump_from=webapi&authKey=uUEMKCROfsseS+8IzqPjzV3y1tzy4AkykwTib2jNkOFdzezF9s9XknqnIaf3CDft)
 
 
+> [!TIP]
+> 为了该项目的可持续性，如果遇到问题，请优先提交 ISSUE，其次是在 QQ 群里提问。
+
+
+> [!TIP]
+> 为了该项目的可持续性，如果遇到问题，请优先提交 ISSUE，其次是在 QQ 群里提问。
+
+
+> [!TIP]
+> 为了该项目的可持续性，如果遇到问题，请优先提交 ISSUE，其次是在 QQ 群里提问。
+
+
 ## GitHub
 
 欢迎提交 Issue 或 Pull Request：
