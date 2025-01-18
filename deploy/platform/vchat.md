@@ -3,6 +3,12 @@
 # 通过 VChat 接入微信
 
 > [!WARNING]
+> 由于各种原因不再推荐通过 VChat 接入。请使用 [Gewechat](/deploy/platform/gewechat)。
+> 由于各种原因不再推荐通过 VChat 接入。请使用 [Gewechat](/deploy/platform/gewechat)。
+> 由于各种原因不再推荐通过 VChat 接入。请使用 [Gewechat](/deploy/platform/gewechat)。
+
+
+> [!WARNING]
 > 1. 仅支持微信个人号
 > 2. 微信限制，需要手动扫码登录
 > 3. 微信限制一个微信号必须**有一台手机在线**才能登录电脑微信。而 VChat 是一个电脑微信客户端。因此，你需要有一台手机登录该微信，才能使用 VChat。（可以使用安卓虚拟机，详见下文）
