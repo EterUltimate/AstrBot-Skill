@@ -51,6 +51,7 @@ export default defineConfig({
                 ]
               },
               { text: 'qqofficial(QQ官方)', link: '/qqofficial' },
+              { text: 'gewechat(微信,推荐)', link: '/gewechat' },
               { text: 'vchat(微信)', link: '/vchat' },
               { text: 'Telegram', link: '/telegram'}
             ]
