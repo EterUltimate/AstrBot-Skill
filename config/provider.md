@@ -50,7 +50,7 @@ outline: deep
     "type": "openai_chat_completion",
     "enable": true,
     "key": ["ollama"],
-    "api_base": "http://localhost:11434",
+    "api_base": "http://localhost:11434/v1",
     "model_config": {
         "model": "llama3.1-8b"
     }
@@ -58,6 +58,9 @@ outline: deep
 ```
 
 ollama 的 key 默认是 ollama。
+
+> [!TIP]
+> 1. 部分模型不支持工具调用或者调用效果很差，因此您可能需要手动 /tool ls 得到所有启用的工具，并使用 /tool off 禁用
 
 ### Gemini
 
