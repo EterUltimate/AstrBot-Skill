@@ -94,6 +94,35 @@ AstrBot 默认配置如下：
 
 - `wl_ignore_admin_on_friend`: 是否管理员发送的私聊消息无视 ID 白名单。默认为 `true`。
 
+- `path_mapping`: 路径映射。此功能解决由于文件系统不一致导致路径不存在的问题。格式为 <原路径>:<映射路径>。如 `/app/.config/QQ:/var/lib/docker/volumes/xxxx/_data/`。这样，当消息平台下发的事件中图片和语音路径以 `/app/.config/QQ` 开头时，被替换为 `/var/lib/docker/volumes/xxxx/_data/`。这在 AstrBot 或者平台协议端使用 Docker 部署时特别有用。
+
+情况一：由于某些平台协议端（如 Napcat）在 Docker 部署时，下发的语音数据中的路径是其容器内部的文件系统的路径，使得 AstrBot 无法直接获取到。
+
+情况二：如果您使用 Docker 部署 AstrBot，使得 AstrBot 无法访问宿主机文件系统或者无法访问同样使用 Docker 部署的协议端的文件系统
+
+如果遇到这两种情况可以使用此功能。
+
+对于情况一：
+
+首先，请记录其输出的路径的开头（可以开启 DEBUG 模式找到），对于 Napcat 的语音，是 `/app/.config/QQ`。
+
+然后，docker run 添加参数 `-v <路径开头>:<想要映射的宿主机的路径>`。这一步的目的是将容器内的指定目录映射到宿主机的指定目录下，这使得 AstrBot 访问其数据成为可能。
+
+然后，在 `path_mapping` 处添加：`<路径开头>:<想要映射的宿主机的路径>”` 即可。
+
+对于情况二：
+
+目的也是一样的，我们要让双方基于宿主机文件系统进行交流。
+
+AstrBot Docker 在启动时，将 `data` 目录映射到了宿主机的 `<AstrBot工作目录>/data` 目录下。
+
+因此，协议端的 docker run 添加参数 `-v <路径开头>:<AstrBot工作目录>/data/temp/<自定义目录名>` 即可。在此之前您可能需要手动在 `<AstrBot工作目录>/data/temp/` 下创建这个自定义的目录。
+
+然后，在 `path_mapping` 处添加：`<路径开头>:<AstrBot工作目录>/data/temp/<自定义目录名>”` 即可。
+
+
+如果您有 Docker 相关知识，会更好理解以上文本。如果难以理解，可以提交 ISSUE（推荐） 或者加社区群询问。
+
 ### `provider`
 
 和 `platform` 一样也是一个列表，存储了大语言模型提供商的配置。

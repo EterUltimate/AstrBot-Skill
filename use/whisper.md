@@ -1,7 +1,8 @@
 ## 接入 Whisper 语音转文字
 
 > [!TIP]
-> 如果您使用 Docker 部署 AstrBot，`目前`将无法接收到 QQ 的语音消息，因为无法访问宿主机文件系统。
+> 如果您使用 Docker 部署 AstrBot，并且使用 Napcat，您需要在平台设置中配置路径映射，以让 AstrBot 能够正常访问到音频文件。参考 [配置](/config/astrbot-config#platform-settings)
+> 或者保证 AstrBot 和 Napcat 都不使用 Docker 部署。
 
 AstrBot 支持接入 Whisper 语音转文字。
 
