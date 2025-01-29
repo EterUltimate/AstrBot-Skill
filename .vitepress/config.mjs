@@ -114,13 +114,17 @@ export default defineConfig({
       },
       {
         text: '开发',
-        base: '/dev',
+        base: '/dev', 
         collapsed: false,
         items: [
           {
-            text: '几行代码实现一个插件', 
+            text: '插件基础开发', 
             link: '/plugin'
           },
+          {
+            text: '接入平台适配器', 
+            link: '/plugin-platform-adapter'
+          }
         ]
       },
       {
