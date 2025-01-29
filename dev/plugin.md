@@ -17,7 +17,7 @@ outline: deep
 
 ### 获取插件模板
 
-打开 [helloworld](https://github.com/Soulter/helloworld)。点击右上角的 `Use this template`，然后点击 `Create new repository`。在 `Repository name` 处输入你的插件名字，不要中文。建议以 `astrbot_plugin_` 开头，如 `astrbot_plugin_yuanshen`。
+打开 [helloworld](https://github.com/Soulter/helloworld)。点击右上角的 `Use this template`，然后点击 `Create new repository`。在 `Repository name` 处输入你的插件名字，不要中文。建议以 `astrbot_plugin_` 开头，如 `astrbot_plugin_genshin`。
 
 ![](../source/images/plugin/image.png)
 
@@ -374,7 +374,82 @@ async def check_ok(self, event: AstrMessageEvent):
         event.stop_event() # 停止事件传播
 ```
 
-当事件停止传播，**后续所有步骤将不会被执行。**
+当事件停止传播，**后续所有步骤将不会被执行。**假设有一个插件A，A终止事件传播之后所有后续操作都不会执行，比如执行其它插件的handler、请求LLM。
+
+### 注册插件配置(beta)
+
+> 大于等于 v3.4.15
+
+随着插件功能的增加，可能需要定义一些配置以让用户自定义插件的行为。
+
+AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户在管理面板上直接配置插件，而不需要修改代码。
+
+![](../source/images/plugin/QQ_1738149538737.png)
+
+**Schema 介绍**
+
+要注册配置，首先需要在您的插件目录下添加一个 `_config_schema.json` 的 json 文件。
+
+文件内容是一个 `Schema`（模式），用于表示配置。Schema 是 json 格式的，例如上图的 Schema 是：
+
+```json
+{
+    "token": {
+        "description": "Bot Token",
+        "type": "string",
+        "hint": "测试醒目提醒",
+        "obvious_hint": true
+    },
+    "sub_config": {
+        "description": "测试嵌套配置",
+        "type": "object",
+        "hint": "xxxx",
+        "items": {
+            "name": {
+                "description": "testsub",
+                "type": "string",
+                "hint": "xxxx"
+            },
+            "id": {
+                "description": "testsub",
+                "type": "int",
+                "hint": "xxxx"
+            },
+            "time": {
+                "description": "testsub",
+                "type": "int",
+                "hint": "xxxx",
+                "default": 123
+            }
+        }
+    }
+}
+```
+- `type`: **此项必填**。配置的类型。支持 `string`, `int`, `float`, `bool`, `object`, `list`。
+- `description`: 可选。配置的描述。建议一句话描述配置的行为。
+- `hint`: 可选。配置的提示信息，表现在上图中右边的问号按钮，当鼠标悬浮在问号按钮上时显示。
+- `obvious_hint`: 可选。配置的 hint 是否醒目显示。如上图的 `token`。
+- `default`: 可选。配置的默认值。如果用户没有配置，将使用默认值。int 是 0，float 是 0.0，bool 是 False，string 是 ""，object 是 {}，list 是 []。
+- `items`: 可选。如果配置的类型是 `object`，需要添加 `items` 字段。`items` 的内容是这个配置项的子 Schema。理论上可以无限嵌套，但是不建议过多嵌套。
+- `invisible`: 可选。配置是否隐藏。默认是 `false`。如果设置为 `true`，则不会在管理面板上显示。
+
+**使用配置**
+
+AstrBot 在载入插件时会检测插件目录下是否有 `_config_schema.json` 文件，如果有，会自动解析配置并保存在 `data/config/<plugin_name>_config.json` 下（依照 Schema 创建的配置文件实体），并在实例化插件类时传入给 `__init__()`。
+
+```py
+@register("config", "Soulter", "一个配置示例", "1.0.0")
+class ConfigPlugin(Star):
+    def __init__(self, context: Context, config: dict):
+        super().__init__(context)
+        self.config = config
+        print(self.config)
+```
+
+**配置版本管理**
+
+如果您在发布不同版本时更新了 Schema，请注意，AstrBot 会递归检查 Schema 的配置项，如果发现配置文件中缺失了某个配置项，会自动添加默认值。但是 AstrBot 不会删除配置文件中**多余的**配置项，即使这个配置项在新的 Schema 中不存在（您在新的 Schema 中删除了这个配置项）。
+
 
 ### 文字渲染成图片
 
