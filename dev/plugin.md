@@ -388,7 +388,7 @@ AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户
 
 **Schema 介绍**
 
-要注册配置，首先需要在您的插件目录下添加一个 `_config_schema.json` 的 json 文件。
+要注册配置，首先需要在您的插件目录下添加一个 `_conf_schema.json` 的 json 文件。
 
 文件内容是一个 `Schema`（模式），用于表示配置。Schema 是 json 格式的，例如上图的 Schema 是：
 
@@ -437,7 +437,7 @@ AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户
 
 **使用配置**
 
-AstrBot 在载入插件时会检测插件目录下是否有 `_config_schema.json` 文件，如果有，会自动解析配置并保存在 `data/config/<plugin_name>_config.json` 下（依照 Schema 创建的配置文件实体），并在实例化插件类时传入给 `__init__()`。
+AstrBot 在载入插件时会检测插件目录下是否有 `_conf_schema.json` 文件，如果有，会自动解析配置并保存在 `data/config/<plugin_name>_config.json` 下（依照 Schema 创建的配置文件实体），并在实例化插件类时传入给 `__init__()`。
 
 ```py
 @register("config", "Soulter", "一个配置示例", "1.0.0")
