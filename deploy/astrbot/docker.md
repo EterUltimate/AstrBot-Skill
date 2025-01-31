@@ -26,12 +26,16 @@ cd AstrBot
 sudo docker compose up -d
 ```
 
+> Windows 下不需要加 sudo，下同
+
 ## 通过 Docker 部署
 
 ```bash
 mkdir astrbot
 sudo docker run -itd --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
 ```
+
+> Windows 下不需要加 sudo，下同
 
 通过以下命令查看 AstrBot 的日志：
 
@@ -44,6 +48,39 @@ sudo docker logs -f astrbot
 > ```bash
 > sudo docker run -it --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
 > ```
+
+## Docker Desktop 可视化部署
+
+首先下载 Docker Desktop（Windows、带 GUI 的Linux、MacOS 都可以）。
+
+启用 host networking
+
+![](../../source/images/docker/image.png)
+
+国内用户需要配置代理，下面填代理软件的代理地址，clash 默认是 7890，v2rayN 默认是 10809：
+
+![](../../source/images/docker/image-1.png)
+
+搜索 soulter/astrbot 然后点击 Pull：
+
+![](../../source/images/docker/image-2.png)
+
+等待下载：
+
+![](../../source/images/docker/image-3.png)
+
+点击 RUN:
+![alt text](../../source/images/docker/image-4.png)
+
+在 Options 中，按照如下设置：
+
+![alt text](../../source/images/docker/image-5.png)
+
+Volumns 第一项随便创建一个文件夹即可。
+
+点击 RUN：
+
+![](../../source/images/docker/image-6.png)
 
 ## 🎉 大功告成！
 
