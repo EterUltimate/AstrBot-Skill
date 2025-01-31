@@ -5,7 +5,13 @@
 > 
 > 以下教程默认您的环境已安装 Docker。如果没有安装，请参考 [Docker 官方文档](https://docs.docker.com/get-docker/) 进行安装。
 
+> 如果网络环境在国内，可能无法正常拉取 Docker 镜像，请挂代理（需要额外在 Docker 设置中配置），或者使用国内镜像源。
+> 镜像源可参考：[目前国内可用Docker镜像源汇总（截至2025年1月）](https://www.coderjia.cn/archives/dba3f94c-a021-468a-8ac6-e840f85867ea)
+> 如果仍不会配置，请加群询问~
+
+
 ## 通过 Docker Compose 部署
+
 
 首先，需要 Clone AstrBot 仓库到本地：
 
@@ -17,27 +23,27 @@ cd AstrBot
 然后，运行 Compose：
 
 ```bash
-docker compose up
+sudo docker compose up -d
 ```
-
-> [!TIP]
-> 如果要在后台运行，请添加 `-d` 参数。建议第一次启动时不要加 `-d` 参数，以便查看日志。
 
 ## 通过 Docker 部署
 
 ```bash
 mkdir astrbot
-docker run -it --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
+sudo docker run -itd --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
+```
+
+通过以下命令查看 AstrBot 的日志：
+
+```bash
+sudo docker logs -f astrbot
 ```
 
 > [!TIP]
 > AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请额外添加 `-v /var/run/docker.sock:/var/run/docker.sock` 参数。即:
 > ```bash
-> docker run -it --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+> sudo docker run -it --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
 > ```
-
-> [!TIP]
-> 如果要在后台运行，请添加 `-d` 参数。建议第一次启动时不要加 `-d` 参数，以便查看日志。
 
 ## 🎉 大功告成！
 
