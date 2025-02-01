@@ -98,7 +98,29 @@ ollama 的 key 默认是 ollama。
 }
 ```
 
-### 智浦 GLM
+### 智谱 GLM
+
+glm-4-flash 是智谱的免费模型，可以快速接入测试。
+
+首先，注册并登录 https://open.bigmodel.cn/，
+
+然后进入：https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys
+
+点击右上角的 添加新 API Key：
+
+![alt text](../source/images/provider/image-1.png)
+
+随便填写一个名称，添加成功后，点击复制：
+
+![](../source/images/provider/image-2.png)
+
+回到 AstrBot，点击配置、服务提供商配置，点击加号，添加 zhipu：
+
+![](../source/images/provider/image-3.png)
+
+将刚刚复制的 key 填到 API Key 处然后保存即可。
+
+使用 /provider 指令切换到 zhipu。
 
 ```json
 {
