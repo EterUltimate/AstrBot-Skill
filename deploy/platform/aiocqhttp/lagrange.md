@@ -29,7 +29,7 @@
 {
     "Type": "ReverseWebSocket",
     "Host": "127.0.0.1",
-    "Port": 6198,
+    "Port": 6199,
     "Suffix": "/ws",
     "ReconnectInterval": 5000,
     "HeartBeatInterval": 5000,
@@ -53,4 +53,4 @@
 - ID(id)：随意填写，用于区分不同的消息平台实例。系统会自动填充。
 - 启用(enable): 勾选。
 - 反向 WebSocket 主机地址：请填写你的机器的 IP 地址。如 `0.0.0.0`
-- 反向 WebSocket 端口：填写上面配置出来的 `Port` 端口，例如 `6198`。
+- 反向 WebSocket 端口：填写上面配置出来的 `Port` 端口，例如 `6199`。
