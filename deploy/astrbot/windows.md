@@ -40,7 +40,7 @@
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
 
 
-## FAQ
+## 报错：Python is not installed
 
 如果提示 Python is not installed，并且已经安装 Python，并且**也已经重启并仍报这个错误**，说明环境变量不对，有两个方法解决：
 
