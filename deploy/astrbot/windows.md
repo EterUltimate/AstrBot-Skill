@@ -5,9 +5,9 @@
 > [!WARNING]
 > 需要您的电脑上安装有 `Python 3.10` 及以上的版本，并且已经配置好环境变量。
 
+> [!TIP]
+> 如果部署不了，请参阅其他两个部署方式：Docker 部署和 手动部署。
 
-> [!WARNING]
-> 如果部署不了，请参阅手动部署，也很简单。
 
 ## 下载安装器
 
@@ -41,8 +41,11 @@
 > **当管理面板打开时遇到 404 错误：**
 > 在 [release](https://github.com/Soulter/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
 
-
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
+
+
+> [!TIP]
+> 如果部署不了，请参阅其他两个部署方式：Docker 部署和 手动部署。
 
 
 ## 报错：Python is not installed
