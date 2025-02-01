@@ -70,6 +70,28 @@ ollama 的 key 默认是 ollama。
 
 如果你正在使用某些反代项目以在中国大陆使用 Gemini，它们可能不会提供 OpenAI 兼容的API，这时候就需要使用 `gemini(googlegenai原生)`。
 
+以第二种方式为例，
+
+打开 https://aistudio.google.com/app/apikey
+
+首次注册会出现以下页面，选择 Get API key
+
+![alt text](../source/images/provider/image-4.png)
+
+然后复制生成的 Key 即可。
+
+回到 AstrBot，在配置->服务提供商配置处点击 + 号，选择：
+
+![](../source/images/provider/image-5.png)
+
+粘贴复制的 Key。
+
+然后，如果您的网络环境在国内，可能需要在 其他配置->HTTP 代理 配置代理才能正常访问。或者，可以暂时使用这个反代：
+
+https://dynamic-halva-76bb38.netlify.app/
+
+即在 API Base 处填写上面这个链接即可。
+
 ```json
 {
     "id": "gemini_default",
