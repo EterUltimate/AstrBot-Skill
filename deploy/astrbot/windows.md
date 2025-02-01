@@ -36,9 +36,10 @@
 如果没有报错，你会看到一条日志显示类似 `🌈 管理面板已启动，可访问` 并附带了几条链接。打开其中一个链接即可访问 AstrBot 管理面板。
 
 > [!TIP]
-> 由于 Docker 隔离了网络环境，所以不能使用 `localhost` 访问管理面板。
->
 > 默认用户名和密码是 `astrbot` 和 `astrbot`。
+>
+> **当管理面板打开时遇到 404 错误：**
+> 在 [release](https://github.com/Soulter/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
 
 
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。

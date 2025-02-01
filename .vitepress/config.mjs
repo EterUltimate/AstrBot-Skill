@@ -59,6 +59,10 @@ export default defineConfig({
             text: '部署好后...', 
             link: '/when-deployed'
           },
+          {
+            text: '管理面板 404 Not found', 
+            link: '/dashboard-404'
+          },
         ]
       },
       {
