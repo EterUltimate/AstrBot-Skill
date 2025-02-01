@@ -38,22 +38,12 @@ python3 -m venv ./venv
 
 接下来，通过以下命令安装依赖文件：
 
-```bash
-venv/bin/python3 -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
-```
-
-> [!TIP]
-> 推荐使用更快的 uv 工具来安装依赖文件（平均快 10-100 倍）：
-> ```bash
-> venv/bin/python3 -m pip install uv
-> venv/bin/python3 -m uv pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
-> ```
-
-然后运行 AstrBot
-
+Mac/Linux/WSL 执行：
 
 ```bash
-venv/bin/python3 main.py
+source venv/bin/activate
+python -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+python main.py
 ```
 
 > [!TIP]
@@ -62,6 +52,14 @@ venv/bin/python3 main.py
 > sudo -E venv/bin/python3 main.py
 > ```
 
+
+Windows 执行:
+
+```bash
+venv\Scripts\activate
+python -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+python main.py
+```
 
 
 ## 🎉 大功告成！
