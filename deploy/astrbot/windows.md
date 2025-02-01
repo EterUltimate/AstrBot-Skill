@@ -19,6 +19,7 @@
 > - 这个脚本没有病毒。如果提示 `Windows 已保护您的电脑`，请点击 `更多信息`，然后点击 `仍要运行`。
 >
 > - 脚本默认使用 `python` 指令来执行代码，如果你想指定 Python 解释器器路径或者指令，请修改 `launcher_astrbot_en.bat` 文件。找到 `set PYTHON_CMD=python` 这一行，将 `python` 改为你的 Python 解释器路径或指令。
+>
 
 如果没有检测到 Python 环境，脚本将会提示并退出。
 
@@ -37,3 +38,28 @@
 
 
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
+
+
+## FAQ
+
+如果提示 Python is not installed，并且已经安装 Python，并且**也已经重启并仍报这个错误**，说明环境变量不对，有两个方法解决：
+
+**方法 1:**
+
+windows 搜索 Python，打开文件位置：
+
+![](../../source/images/windows/image.png)
+
+右键下面这个快捷方式，打开文件所在位置：
+
+![alt text](../../source/images/windows/image-1.png)
+
+复制文件地址：
+
+![](../../source/images/windows/image-2.png)
+
+回到 `launcher_astrbot_en.bat` 文件，右键点击 `在记事本中编辑`，找到 `set PYTHON_CMD=python` 这一行，将 `python` 改为你的 Python 解释器路径或指令，路径两端的双引号不要删。
+
+**方法 2:**
+
+重装 python，并且在安装时勾选 `Add Python to PATH`，然后重启电脑。
