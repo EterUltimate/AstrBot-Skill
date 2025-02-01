@@ -51,6 +51,11 @@ sudo docker logs -f astrbot
 
 ## Docker Desktop 可视化部署
 
+> 由于可视化运行容器无法设置网络模式，请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
+
+> 由于可视化运行容器无法设置网络模式，请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
+
+
 首先下载 Docker Desktop（Windows、带 GUI 的Linux、MacOS 都可以）。
 
 启用 host networking
