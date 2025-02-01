@@ -1,5 +1,8 @@
 # 通过 NapCatQQ 协议实现端接入 QQ
 
+> [!TIP]
+> 如果过于频繁使用（同一时间发送消息次数过多），可能会导致更高的风控风险，请注意使用频率。
+
 NapCatQQ 是基于无头 QQNT 的 OneBot 协议实现端。它本质上运行了一个 QQNT 实例。
 
 NapCatQQ 的 GitHub 仓库：[NapCatQQ](https://github.com/NapNeko/NapCatQQ)

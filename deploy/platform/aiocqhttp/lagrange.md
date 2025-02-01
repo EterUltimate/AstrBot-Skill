@@ -1,6 +1,9 @@
 # 接入 Lagrange
 
 > [!TIP]
+> 如果过于频繁使用（同一时间发送消息次数过多），可能会导致更高的风控风险，请注意使用频率。
+
+> [!TIP]
 > 最新的部署方式请以 [Lagrange Doc](https://lagrangedev.github.io/Lagrange.Doc/Lagrange.OneBot/Config/#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85) 为准。
 
 ## 下载
