@@ -15,16 +15,25 @@ git clone http://github.com/Soulter/AstrBot
 cd AstrBot
 ```
 
-如果你没有安装 `git`，你可以直接在 [GitHub](https://github.com/Soulter/AstrBot/releases/latest) 上下载 `Source code (zip)` 并解压到您的电脑。
+如果你没有安装 `git`，请先下载安装。
+
+或者，直接从 GitHub 上下载源码解压：
+
+![](../../source/images/cli/image.png)
 
 ## 运行源码
 
 在 AstrBot 源码目录下，使用终端运行以下命令：
 
+> 如果是 Windows，直接下载源码解压的，请打开解压的文件夹，在地址栏输入：
+> ![](../../source/images/cli/image-1.png)
+
 ```bash
 python3 -m venv ./venv
 ```
 
+> 也可能是 `python` 而不是 `python3`
+ 
 以上步骤会创建一个虚拟环境并激活（以免打乱你电脑本地的 Python 环境），并使用清华大学的镜像源来安装 AstrBot 的依赖。依赖的安装需要花费一些时间。
 
 接下来，通过以下命令安装依赖文件：
