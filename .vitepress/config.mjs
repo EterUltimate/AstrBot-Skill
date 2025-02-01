@@ -83,6 +83,10 @@ export default defineConfig({
             link: '/provider-ollama'
           },
           {
+            text: '接入 LMStudio 使用 DeepSeek-R1 等模型',
+            link: '/provider-lmstudio'
+          },
+          {
             text: '消息平台适配器', 
             link: '/platform'
           },
