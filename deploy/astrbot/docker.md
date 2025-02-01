@@ -46,15 +46,10 @@ sudo docker logs -f astrbot
 > [!TIP]
 > AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请额外添加 `-v /var/run/docker.sock:/var/run/docker.sock` 参数。即:
 > ```bash
-> sudo docker run -it --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+> sudo docker run -itd --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
 > ```
 
-## Docker Desktop 可视化部署
-
-> 由于可视化运行容器无法设置网络模式，请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
-
-> 由于可视化运行容器无法设置网络模式，请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
-
+## Windows Docker Desktop 部署
 
 首先下载 Docker Desktop（Windows、带 GUI 的Linux、MacOS 都可以）。
 
@@ -74,18 +69,14 @@ sudo docker logs -f astrbot
 
 ![](../../source/images/docker/image-3.png)
 
-点击 RUN:
-![alt text](../../source/images/docker/image-4.png)
+由于可视化运行容器无法设置网络模式，接下来请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
 
-在 Options 中，按照如下设置：
+```bash
+docker run -itd --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
+```
 
-![alt text](../../source/images/docker/image-5.png)
+![](../../source/images/docker/image-7.png)
 
-Volumns 第一项随便创建一个文件夹即可。
-
-点击 RUN：
-
-![](../../source/images/docker/image-6.png)
 
 ## 🎉 大功告成！
 
