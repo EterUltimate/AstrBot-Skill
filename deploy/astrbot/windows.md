@@ -17,7 +17,15 @@
 
 ## 运行安装器
 
-运行 `launcher_astrbot_en.bat` 批处理文件。
+> 视频和此处不一致，请参考此处！！！
+
+解压后，打开文件夹，
+
+地址栏输入 Powershell 并打开:
+
+![](../../source/images/windows/image-4.png)
+
+将 `launcher_astrbot_en.bat` 批处理文件拖进去回车运行。
 
 > [!WARNING]
 > - 这个脚本没有病毒。如果提示 `Windows 已保护您的电脑`，请点击 `更多信息`，然后点击 `仍要运行`。
