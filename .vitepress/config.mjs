@@ -76,6 +76,10 @@ export default defineConfig({
             link: '/provider'
           },
           {
+            text: '接入 Ollama 使用 DeepSeek-R1 等模型',
+            link: '/provider-ollama'
+          },
+          {
             text: '消息平台适配器', 
             link: '/platform'
           },
