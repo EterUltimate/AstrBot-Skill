@@ -32,7 +32,7 @@ sudo docker compose up -d
 
 ```bash
 mkdir astrbot
-sudo docker run -itd --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
+sudo docker run -itd -p 6000-6200:6000-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
 ```
 
 > Windows 下不需要加 sudo，下同
@@ -46,36 +46,8 @@ sudo docker logs -f astrbot
 > [!TIP]
 > AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请额外添加 `-v /var/run/docker.sock:/var/run/docker.sock` 参数。即:
 > ```bash
-> sudo docker run -itd --network=host -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+> sudo docker run -itd -p 6000-6200:6000-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
 > ```
-
-## Windows Docker Desktop 部署
-
-首先下载 Docker Desktop（Windows、带 GUI 的Linux、MacOS 都可以）。
-
-启用 host networking
-
-![](../../source/images/docker/image.png)
-
-国内用户需要配置代理，下面填代理软件的代理地址，clash 默认是 7890，v2rayN 默认是 10809：
-
-![](../../source/images/docker/image-1.png)
-
-搜索 soulter/astrbot 然后点击 Pull：
-
-![](../../source/images/docker/image-2.png)
-
-等待下载：
-
-![](../../source/images/docker/image-3.png)
-
-由于可视化运行容器无法设置网络模式，接下来请通过命令行运行容器。Windows 请在 powershell 中运行上面方法的代码。MacOS 和Linux请在终端中运行。
-
-```bash
-docker run -itd --network=host -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
-```
-
-![](../../source/images/docker/image-7.png)
 
 
 ## 🎉 大功告成！
