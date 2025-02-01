@@ -5,6 +5,10 @@
 > [!WARNING]
 > 需要您的电脑上安装有 `Python 3.10` 及以上的版本，并且已经配置好环境变量。
 
+
+> [!WARNING]
+> 如果部署不了，请参阅手动部署，也很简单。
+
 ## 下载安装器
 
 打开 https://github.com/Soulter/AstrBotLauncher/releases/latest 
