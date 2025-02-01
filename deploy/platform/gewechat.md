@@ -23,11 +23,9 @@ Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github
 
 - `nickname` 请随便填一个具有辨识度的英文名。
 - `base_url` 是连接到 Gewechat 后端的 API 地址。如果你将 Gewechat 部署到了其他服务器或设备，请自行修改 `localhost` 为服务器地址。
-- `host` 为回调地址主机，即 gewechat 下发事件到 AstrBot 的地址。**请填写宿主机局域网地址 或者服务器公网地址（如果在用服务器）**
+- `host` 为回调地址主机，即 gewechat 下发事件到 AstrBot 的地址。**请填写宿主机局域网地址(windows 用 ipconfig 看，linux 用 ip -a 看) 或者服务器公网地址（如果在用服务器）**
 - `port` 为回调地址端口，可不修改。**请确保放行了这个端口**
 
-> 关于 host：
-> 请
 
 勾选 `启用`，然后点击 `保存`。
 
