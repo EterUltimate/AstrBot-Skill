@@ -21,6 +21,16 @@ export default defineConfig({
         ]
       },
       {
+        text: '广告',
+        base: '/ad',
+        items: [
+          {
+            text: "土豆云 4C16G 9.9/首月",
+            link: '/ad-toodou'
+          }
+        ]
+      },
+      {
         text: '部署',
         base: '/deploy',
         collapsed: false,
