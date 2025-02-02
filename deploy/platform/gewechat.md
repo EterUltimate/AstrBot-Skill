@@ -17,7 +17,7 @@ Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github
 
 ## 在 AstrBot 中配置 Gewechat 适配器
 
-在 AstrBot 的管理面板中，选择左边栏的 `配置`，然后在右边的界面中，点击 `消息平台` 选项卡。点击 `+` 号，选择 `vchat`，会出现 `vchat` 的相关配置项，如下图所示：
+在 AstrBot 的管理面板中，选择左边栏的 `配置`，然后在右边的界面中，点击 `消息平台` 选项卡。点击 `+` 号，选择 `gewechat`，会出现 `gewechat` 的相关配置项，如下图所示：
 
 ![](../../source/images/gewechat/image.png)
 
