@@ -36,7 +36,7 @@ export default defineConfig({
             ]
           },
           { 
-            text: '部署消息平台', 
+            text: '部署消息平台(协议端)', 
             base: '/deploy/platform',
             collapsed: true,
             items: [
