@@ -30,8 +30,8 @@ model_name 格式：`<model_name>:<model_version>`。如 `deepseek-r1:8b`。
 
 > 输入 /provider 查看 AstrBot 配置的模型
 
-> 对于 Docker Desktop 用户，API Base URL 请填写为 `http://host.docker.internal:11434/v1`。
-
+> 对于 Mac/Windows 使用 Docker Desktop 部署 AstrBot 部署的用户，API Base URL 请填写为 `http://host.docker.internal:11434/v1`。
+> 对于 Linux 使用 Docker 部署 AstrBot 部署的用户，API Base URL 请填写为 `http://172.17.0.1:11434/v1`，或者将 `172.17.0.1` 替换为你的公网 IP IP（确保宿主机系统放行了 11434 端口）。
 
 ### FAQ
 
