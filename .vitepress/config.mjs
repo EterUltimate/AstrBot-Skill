@@ -21,7 +21,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '广告',
+        text: '恰饭',
         base: '/ad',
         items: [
           {
