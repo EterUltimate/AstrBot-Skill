@@ -28,6 +28,13 @@ sudo docker compose up -d
 
 > Windows 下不需要加 sudo，下同
 
+> [!TIP]
+> 默认的 compose 文件没有映射宿主机的 docker.sock 文件，因此无法使用沙箱代码执行器。如果你需要使用沙箱代码执行器，请修改 `docker-compose.yml` 文件，添加在 volumes：
+> ```yaml
+> volumes:
+>   - /var/run/docker.sock:/var/run/docker.sock
+> ```
+
 ## 通过 Docker 部署
 
 ```bash
