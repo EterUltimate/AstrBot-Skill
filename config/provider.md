@@ -197,3 +197,10 @@ AstrBot 支持接入 OpenAI 开源的 Whisper 模型，实现语音转文字。
 可以接入 API 版本的，也可以在本地部署 Whisper。
 
 详见 [Whisper 语音转文字](/use/whisper)。
+
+
+## OpenAI TTS 文字转语音
+
+AstrBot 支持接入 OpenAI TTS 模型，实现文字转语音。
+
+详见 [OpenAI TTS 文字转语音](/use/tts)。

@@ -128,6 +128,10 @@ export default defineConfig({
             link: '/whisper'
           },
           {
+            text: '接入 OpenAI TTS',
+            link: '/tts'
+          },
+          {
             text: '更新管理面板',
             link: '/update-webui'
           }
