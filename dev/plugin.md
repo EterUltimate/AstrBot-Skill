@@ -301,6 +301,62 @@ async def helloworld(self, event: AstrMessageEvent):
     yield event.plain_result("你好！")
 ```
 
+### 事件钩子【New】
+
+#### 收到 LLM 请求时
+
+在 AstrBot 默认的执行流程中，在调用 LLM 前，会触发 `on_llm_request` 钩子。
+
+可以获取到 `ProviderRequest` 对象，可以对其进行修改。
+
+ProviderRequest 对象包含了 LLM 请求的所有信息，包括请求的文本、系统提示等。
+
+```python
+from astrbot.api.provider import ProviderRequest
+
+@filter.on_llm_request()
+async def my_custom_hook_1(self, event: AstrMessageEvent, req: ProviderRequest): # 请注意有三个参数
+    print(req) # 打印请求的文本
+    req.system_prompt += "自定义 system_prompt" 
+
+```
+
+#### LLM 请求完成时
+
+在 LLM 请求完成后，会触发 `on_llm_response` 钩子。
+
+可以获取到 `ProviderResponse` 对象，可以对其进行修改。
+
+```python
+from astrbot.api.provider import LLMResponse
+
+@filter.on_llm_response()
+async def on_llm_resp(self, event: AstrMessageEvent, resp: LLMResponse): # 请注意有三个参数
+    print(resp)
+```
+
+#### 发送消息给消息平台适配器前
+
+在发送消息前，会触发 `on_decorating_result` 钩子。
+
+可以在这里实现一些消息的装饰，比如转语音、转图片、加前缀等等
+
+```python
+@filter.on_decorating_result()
+async def on_decorating_result(self, event: AstrMessageEvent):
+    print(event.get_result()) # 打印消息链
+```
+
+#### 发送消息给消息平台适配器后
+
+在发送消息给消息平台后，会触发 `after_message_sent` 钩子。
+
+```python
+@filter.after_message_sent()
+async def after_message_sent(self, event: AstrMessageEvent):
+    pass
+```
+
 ### 发送消息
 
 上面介绍的都是基于 `yield` 的方式，也就是异步生成器。这样的好处是可以在一个函数中多次发送消息。
