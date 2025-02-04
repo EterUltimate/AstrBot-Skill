@@ -72,3 +72,13 @@ AstrBot 支持接入企业微信。
 在企业微信-工作台中，找到刚刚创建的应用，发送 `/help`，看看 AstrBot 是否能够回复。
 
 ![](../../source/images/wecom/3dc9fa61145ab0dd8f56a10295affec8_720.png)
+
+## 语音输入
+
+为了语音输入，需要你的电脑上安装有 `ffmpeg`。
+
+linux 用户可以使用 `apt install ffmpeg` 安装。
+
+windows 用户可以在 [ffmpeg 官网](https://ffmpeg.org/download.html) 下载安装。
+
+mac 用户可以使用 `brew install ffmpeg` 安装。
