@@ -61,9 +61,9 @@ export default defineConfig({
                   { text: '使用其他端', link: '/others'}
                 ]
               },
-              { text: 'Telegram', link: '/telegram'},
-              { text: 'Gewechat(微信)', link: '/gewechat' },
               { text: '企业微信', link: '/wecom' },
+              { text: 'Telegram', link: '/telegram'},
+              { text: 'Gewechat(微信个人号)', link: '/gewechat' },
             ]
           },
           {
