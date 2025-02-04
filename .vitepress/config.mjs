@@ -18,6 +18,7 @@ export default defineConfig({
         items: [
           { text: '什么是 AstrBot', link: '/what-is-astrbot' },
           { text: '社区', link: '/community' }
+          { text: '常见问题', link: '/faq' }
         ]
       },
       {
