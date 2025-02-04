@@ -50,9 +50,9 @@ export default defineConfig({
             base: '/deploy/platform',
             collapsed: true,
             items: [
-              { text: 'qqofficial(QQ官方)', link: '/qqofficial' },
+              { text: 'QQ 官方接口(qqofficial)', link: '/qqofficial' },
               {
-                text: 'aiocqhttp(QQ)', 
+                text: 'QQ 个人号(aiocqhttp)', 
                 base: '/deploy/platform/aiocqhttp',
                 collapsed: true,
                 items: [
@@ -62,8 +62,8 @@ export default defineConfig({
                 ]
               },
               { text: '企业微信', link: '/wecom' },
+              { text: '微信个人号(gewechat)', link: '/gewechat' },
               { text: 'Telegram', link: '/telegram'},
-              { text: 'Gewechat(微信个人号)', link: '/gewechat' },
             ]
           },
           {
