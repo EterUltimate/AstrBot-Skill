@@ -57,7 +57,9 @@ AstrBot 支持接入企业微信。
 
 ![](../../source/images/wecom/image-9.png)
 
-在 URL 处填入 `http://你的带公网地址的服务器ip:6185/callback/command`
+在 URL 处填入 `http://你的带公网地址的服务器ip:6195/callback/command`
+
+> 请注意放行端口
 
 并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处。
 
