@@ -55,7 +55,7 @@ AstrBot 支持接入企业微信。
 
 ![](../../source/images/wecom/image-6.png)
 
-![](../../source/images/wecom/image-7.png)
+![](../../source/images/wecom/image-9.png)
 
 在 URL 处填入 `http://你的带公网地址的服务器ip:6185/callback/command`
 
@@ -81,4 +81,4 @@ linux 用户可以使用 `apt install ffmpeg` 安装。
 
 windows 用户可以在 [ffmpeg 官网](https://ffmpeg.org/download.html) 下载安装。
 
-mac 用户可以使用 `brew install ffmpeg` 安装。
+mac 用户可以使用 `brew install ffmpeg` 安装。   
