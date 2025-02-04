@@ -24,14 +24,19 @@ Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github
 
 ![](../../source/images/gewechat/image.png)
 
-- `nickname` 请随便填一个具有辨识度的英文名。
+- `nickname` 请随便填一个具有辨识度的英文名,不需要是微信用户名。
 - `base_url` 是连接到 Gewechat 后端的 API 地址。
 - `host` 为回调地址主机，即 gewechat 下发事件到 AstrBot 的地址。**请填写宿主机局域网地址(windows 用 ipconfig 看，linux 用 ip -a 看) 或者服务器公网地址（如果在用服务器）**
 - `port` 为回调地址端口，可不修改。
 
-> 对于 Mac/Windows 使用 Docker Desktop 部署 AstrBot 部署的用户，base_url 请填写为 `http://host.docker.internal:2531`。并且回调地址端口不要修改。
-> 对于 Linux 使用 Docker 部署 AstrBot 部署的用户，API Base URL 请填写为 `http://172.17.0.1:2531`，或者将 `172.17.0.1` 替换为你的公网 IP（确保宿主机系统放行了 2531 端口）。回调地址端口不要修改。
+> 对于 Mac/Windows 使用 Docker Desktop 部署 AstrBot 部署的用户，base_url 请填写为 `http://host.docker.internal:2531`。并且回调地址端口不要修改。如果还不行，请通过 `docker inspect gewe` 查看 gewechat 容器网络的 IP 地址，然后 `http://ip地址:2531`。
+> 对于 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect gewe` 查看 gewechat 容器网络的 IP 地址，然后 `http://ip地址:2531`。如果有 公网ip，也可以是公网 ip，但是需要放行 2531 端口。
 
+对于 host，如果使用 Docker Desktop 部署 AstrBot 部署的用户，请填写为 `host.docker.internal`。如果使用 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect astrbot` 查看 astrbot 容器网络的 IP 地址，然后填进去。
+
+> docker inspert:
+>
+> ![](../../source/images/gewechat/image-1.png)
 
 勾选 `启用`，然后点击 `保存`。
 
