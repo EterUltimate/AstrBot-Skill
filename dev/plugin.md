@@ -65,13 +65,13 @@ class MyPlugin(Star):
 
 在 `__init__` 中会传入一个 `Context` 对象，这个对象包含了 AstrBot 的一些基础信息。
 
-具体的处理函数在插件类中定义，叫做 `Star Handler`，比如这里的 `helloworld` 函数。
+具体的处理函数在插件类中定义，叫做 `Handler`，如这里的 `helloworld` 函数。
 
 > [!WARNING]
 >
-> `Star Handler` 请务必写在插件类中，前两个参数必须是 `self` 和 `event`。
+> `Handler` 需要在插件类中注册，前两个参数必须为 `self` 和 `event`。如果文件行数过长，可以将真正的服务函数写在外部，然后在 `Handler` 中调用。
 >
-> `Star` 类所在的文件名需要命名为 `main.py`。
+> 插件类所在的文件名需要命名为 `main.py`。
 > 
 
 ### API 文件结构
@@ -187,9 +187,14 @@ class MyPlugin(Star):
     
     @command("helloworld") # from astrbot.api.event.filter import command
     async def helloworld(self, event: AstrMessageEvent):
+        '''这是 hello world 指令'''
         user_name = event.get_sender_name()
         yield event.plain_result(f"Hello, {user_name}!")
 ```
+
+> [!TIP]
+> 指令不能带空格。类似的，可以使用下面的指令组功能。
+
 
 #### 注册一个带参数的指令
 
