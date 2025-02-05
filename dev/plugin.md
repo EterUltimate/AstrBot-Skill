@@ -83,7 +83,7 @@ api
 ├── __init__.py
 ├── all.py # 无脑使用所有的结构
 ├── event 
-│   └── filter
+│   └── filter # 过滤器，事件钩子
 ├── message_components.py # 消息段组建类型
 ├── platform # 平台相关的结构
 ├── provider # 大语言模型提供商相关的结构
@@ -279,6 +279,15 @@ async def on_private_message(self, event: AstrMessageEvent):
 
 `EventMessageType` 是一个 `Enum` 类型，包含了所有的事件类型。当前的事件类型有 `PRIVATE_MESSAGE` 和 `GROUP_MESSAGE`。
 
+
+#### 接收所有事件
+
+```python
+@event_message_type(EventMessageType.ALL)
+async def on_private_message(self, event: AstrMessageEvent):
+    yield event.plain_result("收到了一条消息。")
+```
+
 #### 过滤某个消息适配器事件
 
 ```python
@@ -288,7 +297,20 @@ async def on_aiocqhttp(self, event: AstrMessageEvent):
     yield event.plain_result("收到了一条信息")
 ```
 
-当前版本下，`PlatformAdapterType` 有 `AIOCQHTTP`, `QQOFFICIAL`, `VCHAT`。
+当前版本下，`PlatformAdapterType` 有 `AIOCQHTTP`, `QQOFFICIAL`, `GEWECHAT`, `ALL`。
+
+
+### 限制管理员才能使用指令
+
+```python
+@permission_type(PermissionType.ADMIN)
+@command("test")
+async def test(self, event: AstrMessageEvent):
+    pass
+```
+
+仅管理员才能使用 `test` 指令。
+
 
 #### 多个过滤器
 
