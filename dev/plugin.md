@@ -48,8 +48,7 @@ git clone <你的插件仓库地址>
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 
-# 注册插件的装饰器
-@register("helloworld", "Your Name", "一个简单的 Hello World 插件", "1.0.0")
+@register("helloworld", "Your Name", "一个简单的 Hello World 插件", "1.0.0", "repo url")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -57,15 +56,16 @@ class MyPlugin(Star):
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("helloworld")
     async def helloworld(self, event: AstrMessageEvent):
+        '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
         user_name = event.get_sender_name()
         yield event.plain_result(f"Hello, {user_name}!") # 发送一条纯文本消息
 ```
 
-一个插件就是一个类，这个类继承自 `Star`。`Star` 是 AstrBot 插件的基类，还额外提供了一些基础的功能。请务必使用 `@register` 装饰器注册插件，否则 AstrBot 无法识别。在 AstrBot 中，插件也叫做 `Star`。
+一个插件就是一个类，这个类继承自 `Star`。`Star` 是 AstrBot 插件的基类，还额外提供了一些基础的功能。请务必使用 `@register` 装饰器注册插件，否则 AstrBot 无法识别。
 
-在 `__init__` 中会传入一个 `Context` 对象，这个对象包含了 AstrBot 的一些基础信息。
+在 `__init__` 中会传入 `Context` 对象，这个对象包含了 AstrBot 的大多数组件
 
-具体的处理函数在插件类中定义，叫做 `Handler`，如这里的 `helloworld` 函数。
+具体的处理函数 `Handler` 在插件类中定义，如这里的 `helloworld` 函数。
 
 > [!WARNING]
 >
