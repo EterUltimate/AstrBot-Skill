@@ -43,7 +43,8 @@ export default defineConfig({
             items: [
               { text: 'Docker部署', link: '/docker' },
               { text: 'Windows一键安装', link: '/windows' },
-              { text: '手动部署', link: '/cli' }
+              { text: '手动部署', link: '/cli' },
+              { text: '一键脚本(Linux, 社区提供)', link: '/linux-one' }
             ]
           },
           { 
