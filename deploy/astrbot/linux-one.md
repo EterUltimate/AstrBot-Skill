@@ -8,9 +8,20 @@
 
 在终端执行
 
+CentOS安装脚本：
+
 ```bash
 bash <(curl -sSL https://gitee.com/mc_cloud/mccloud_bot/raw/master/mccloud_install.sh)
 ```
+
+Ubuntu安装脚本：
+
+```bash
+wget -O - https://gitee.com/mc_cloud/mccloud_bot/raw/master/mccloud_install_u.sh | bash
+```
+
+支持 QQ 微信 一键管理。命令：bot
+
 
 ## 备注
 
