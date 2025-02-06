@@ -12,3 +12,7 @@
 ![](../source/images/plugin-publish/image.png)
 
 3. 提交 Issue
+
+
+
+或者通过 PR 提交插件。

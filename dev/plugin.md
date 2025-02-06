@@ -56,7 +56,7 @@ class MyPlugin(Star):
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("helloworld")
     async def helloworld(self, event: AstrMessageEvent):
-        '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
+        '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。非常建议填写。
         user_name = event.get_sender_name()
         yield event.plain_result(f"Hello, {user_name}!") # 发送一条纯文本消息
 ```
@@ -121,18 +121,36 @@ class AstrBotMessage:
 
 其中，`raw_message` 是消息平台适配器的**原始消息对象**。
 
-### 消息链的元素种类
+### 消息链
 
-消息链的结构使用了 `nakuru-project`。它一共有如下种消息类型。常用的已经用注释标注
+消息链描述一个消息的结构，是一个有序列表。
+
+```
+[Plain(text="Hello"), At(qq=123456), Image(file="https://example.com/image.jpg")]
+```
+qq
+> qq 是对应消息平台上的用户 ID。
+
+消息链的结构使用了 `nakuru-project`。它一共有如下种消息类型。常用的已经用注释标注。
 
 ```py
 ComponentTypes = {
     "plain": Plain, # 文本消息
-    "text": Plain, # 文本消息
+    "text": Plain, # 文本消息，同上
     "face": Face, # QQ 表情
     "record": Record, # 语音
     "video": Video, # 视频
     "at": At, # At 消息发送者
+    "music": Music, # 音乐
+    "image": Image, # 图片
+    "reply": Reply, # 回复消息
+    "forward": Forward, # 转发消息
+    "node": Node, # 转发消息中的节点
+    "xml": Xml,
+    "json": Json,
+    "cardimage": CardImage,
+    "tts": TTS,
+    "unknown": Unknown,
     "rps": RPS, 
     "dice": Dice, 
     "shake": Shake,
@@ -140,28 +158,18 @@ ComponentTypes = {
     "share": Share,
     "contact": Contact,
     "location": Location,
-    "music": Music, # 音乐
-    "image": Image, # 图片
-    "reply": Reply, # 回复消息
     "redbag": RedBag,
     "poke": Poke,
-    "forward": Forward, # 转发消息
-    "node": Node, # 转发消息中的节点
-    "xml": Xml,
-    "json": Json,
-    "cardimage": CardImage,
-    "tts": TTS,
-    "unknown": Unknown
 }
 ```
 
 请善于 debug 来了解消息结构：
 
-```python{3}
+```python{3,4}
 @event_message_type(EventMessageType.ALL) # 注册一个过滤器，参见下文。
 async def on_message(self, event: AstrMessageEvent):
-    print(event.message_obj.raw_message) # 打印消息内容
-
+    print(event.message_obj.raw_message) # 平台下发的原始消息在这里
+    print(event.message_obj.message) # AstrBot 解析出来的消息链内容
 ```
 
 
@@ -171,9 +179,9 @@ async def on_message(self, event: AstrMessageEvent):
 >
 > 接下来的代码中处理函数可能会忽略插件类的定义，但请记住，所有的处理函数都需要写在插件类中。
 
-### 事件过滤器
+### 事件监听器
 
-事件过滤器可以帮助您过滤事件，可以实现指令、指令组、事件监听等功能。
+事件监听器可以收到平台下发的消息内容，可以实现指令、指令组、事件监听等功能。
 
 #### 注册一个指令
 
@@ -274,7 +282,7 @@ def calc_help(self, event: AstrMessageEvent):
     yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
 ```
 
-#### 过滤群/私聊事件
+#### 群/私聊事件监听器
 
 ```python
 @event_message_type(EventMessageType.PRIVATE_MESSAGE)
@@ -285,7 +293,9 @@ async def on_private_message(self, event: AstrMessageEvent):
 `EventMessageType` 是一个 `Enum` 类型，包含了所有的事件类型。当前的事件类型有 `PRIVATE_MESSAGE` 和 `GROUP_MESSAGE`。
 
 
-#### 接收所有事件
+#### 接收所有消息事件
+
+这将接收所有的事件。
 
 ```python
 @event_message_type(EventMessageType.ALL)
@@ -293,7 +303,7 @@ async def on_private_message(self, event: AstrMessageEvent):
     yield event.plain_result("收到了一条消息。")
 ```
 
-#### 过滤某个消息适配器事件
+#### 只接收某个消息平台的事件
 
 ```python
 @platform_adapter_type(PlatformAdapterType.AIOCQHTTP | PlatformAdapterType.QQOFFICIAL)
@@ -383,6 +393,19 @@ async def on_decorating_result(self, event: AstrMessageEvent):
 async def after_message_sent(self, event: AstrMessageEvent):
     pass
 ```
+
+### 优先级
+
+> 大于等于 v3.4.21 版本才有这个功能，低于这个版本的 AstrBot 会报错。
+
+指令、事件监听器可以设置优先级，先于其他指令、监听器执行。默认优先级都是 0。
+
+```python
+@command("helloworld", priority=1)
+async def helloworld(self, event: AstrMessageEvent):
+    yield event.plain_result("Hello!")
+```
+
 
 ### 发送消息
 
