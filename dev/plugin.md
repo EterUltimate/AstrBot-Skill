@@ -58,6 +58,7 @@ class MyPlugin(Star):
     async def helloworld(self, event: AstrMessageEvent):
         '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。非常建议填写。
         user_name = event.get_sender_name()
+        message_str = event.message_str # 获取消息的纯文本内容
         yield event.plain_result(f"Hello, {user_name}!") # 发送一条纯文本消息
 ```
 
@@ -197,11 +198,12 @@ class MyPlugin(Star):
     async def helloworld(self, event: AstrMessageEvent):
         '''这是 hello world 指令'''
         user_name = event.get_sender_name()
+        message_str = event.message_str # 获取消息的纯文本内容
         yield event.plain_result(f"Hello, {user_name}!")
 ```
 
 > [!TIP]
-> 指令不能带空格。类似的，可以使用下面的指令组功能。
+> 指令不能带空格。类似的，可以使用下面的指令组功能。或者也使用监听器自己解析消息内容。
 
 
 #### 注册一个带参数的指令
@@ -287,6 +289,7 @@ def calc_help(self, event: AstrMessageEvent):
 ```python
 @event_message_type(EventMessageType.PRIVATE_MESSAGE)
 async def on_private_message(self, event: AstrMessageEvent):
+    message_str = event.message_str # 获取消息的纯文本内容
     yield event.plain_result("收到了一条私聊消息。")
 ```
 
