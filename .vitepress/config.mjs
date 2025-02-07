@@ -92,6 +92,10 @@ export default defineConfig({
             link: '/provider'
           },
           {
+            text: '自定义温度等模型参数',
+            link: '/model-config'
+          },
+          {
             text: '接入 Ollama 使用 DeepSeek-R1 等模型',
             link: '/provider-ollama'
           },
