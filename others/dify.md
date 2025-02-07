@@ -20,6 +20,10 @@
 - agent
 - workflow
 
+请确保你在 AstrBot 里设置的 APP 类型和 Dify 里面创建的应用的类型一致！！！
+
+![](../source/images/dify/image-3.png)
+
 对于 Workflow 应用，AstrBot 在每次请求时会附上两个变量:
 
 - `astrbot_text_query`: 用户输入的`文本内容`
@@ -32,3 +36,18 @@
 您可以自定义 Workflow 输出的内容对应的变量名，在上图中可看到并可配置。设置好变量名后，您需要修改您的 Workflow 的输出的变量名以让 AstrBot 正确解析。
 
 ![](../source/images/dify/image-2.png)
+
+
+## 在聊天时动态设置输入变量
+
+使用 `/set` 指令可以动态设置输入变量，如下图所示：
+
+![alt text](../source/images/dify/image-5.png)
+
+当设置变量后，AstrBot 会在下次向 Dify 请求时附上您设置的变量，以灵活适配您的 Workflow。
+
+![alt text](../source/images/dify/image-4.png)
+
+当然，可以使用 `/unset` 指令来取消设置的变量。
+
+变量在 AstrBot 重启之后会被清空。
