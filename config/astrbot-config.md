@@ -121,6 +121,10 @@ AstrBot Docker 在启动时，将 `data` 目录映射到了宿主机的 `<AstrBo
 然后，在 `path_mapping` 处添加：`<路径开头>:<AstrBot工作目录>/data/temp/<自定义目录名>”` 即可。
 
 
+> [TIP]
+> 请注意，ubuntu 系通过源码运行的用户如果映射到宿主机的 /root 目录下，请保证astrbot 有sudo权限 
+
+
 如果您有 Docker 相关知识，会更好理解以上文本。如果难以理解，可以提交 ISSUE（推荐） 或者加社区群询问。
 
 ### `provider`
