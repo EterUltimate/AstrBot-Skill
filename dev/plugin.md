@@ -483,6 +483,30 @@ yield event.make_result().message("文本消息")
                         .file_image("path/to/image.jpg")
 ```
 
+### [aiocqhttp] 直接调用协议端 API
+
+```py
+@command("helloworld")
+async def helloworld(self, event: AstrMessageEvent):
+    if event.get_platform_name() == "aiocqhttp":
+        # qq
+        from astrbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent
+        assert isinstance(event, AiocqhttpMessageEvent)
+        client = event.bot # 得到 client
+        payloads = {
+            "message_id": event.message_obj.message_id,
+        }
+        ret = await client.api.call_action('delete_msg', **payloads) # 调用 协议端  API
+        logger.info(f"delete_msg: {ret}")
+```
+
+关于 CQHTTP API，请参考如下文档：
+
+Napcat API 文档：https://napcat.apifox.cn/
+
+Lagrange API 文档：https://lagrange-onebot.apifox.cn/
+
+
 ### 控制事件传播
 
 ```python{6}
