@@ -82,6 +82,16 @@ AstrBot 支持接入企业微信。
 
 ![](../../source/images/wecom/3dc9fa61145ab0dd8f56a10295affec8_720.png)
 
+## 反向代理(自定义 API BASE)
+
+AstrBot 支持自定义企业微信的终结点以适应家庭 ip 没有固定的公网 IP 问题。
+
+只需要将您的自定义地址填入 `api_base_url` 即可。
+
+![](../../source/images/wecom/image-11.png)
+
+> 如果您没有公网 ip 当然也可以购买一台服务器，推荐 阿里云 的 99 元/年的服务器。
+
 ## 语音输入
 
 为了语音输入，需要你的电脑上安装有 `ffmpeg`。
