@@ -131,11 +131,11 @@ export default defineConfig({
             link: '/code-interpreter'
           },
           {
-            text: '接入 Whisper 语音转文字',
+            text: '配置 Whisper 语音转文字',
             link: '/whisper'
           },
           {
-            text: '接入 OpenAI TTS',
+            text: '配置文字转语音(TTS)',
             link: '/tts'
           },
           {
