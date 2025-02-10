@@ -5,15 +5,19 @@
 > [!TIP]
 > 如果您使用 Docker 部署 AstrBot，将无法使用文件输入/输出功能，因为 Docker 无法直接访问宿主机的文件系统。
 
-## Demo
+推荐使用 
 
-![](../source/images/code-interpreter/a3cd3a0e-aca5-41b2-aa52-66b568bd955b.png)
+## Linux Docker 启动 AstrBot
 
-![alt text](../source/images/code-interpreter/image.png)
+如果您使用 Docker 部署了 AstrBot，您需要在启动 Docker 容器时，请将 `/var/run/docker.sock` 挂载到容器内部。这样 AstrBot 才能够启动沙箱容器。
 
-![](../source/images/code-interpreter/image-1.png)
+```bash
+sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+```
 
-![](../source/images/code-interpreter/image-2.png)
+## Linux 手动源码 启动 AstrBot
+
+如果您使用源码部署 AstrBot，并且是 Ubuntu 系的系统，您需要在启动 AstrBot 时，带上 sudo 权限。
 
 ## 使用
 
@@ -65,3 +69,14 @@
 代码执行器除了能够识别和处理图片、文字任务，还能够识别您发送的文件，并且能够发送文件。但是，目前来说有一些环境上的限制。
 
 文件输入/输出只支持 `QQ` 平台，并且使用 `napcat`，并且非 Docker 部署 napcat。
+
+
+## Demo
+
+![](../source/images/code-interpreter/a3cd3a0e-aca5-41b2-aa52-66b568bd955b.png)
+
+![alt text](../source/images/code-interpreter/image.png)
+
+![](../source/images/code-interpreter/image-1.png)
+
+![](../source/images/code-interpreter/image-2.png)
