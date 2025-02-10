@@ -717,12 +717,22 @@ AstrBot 支持调用大语言模型。你可以通过 `self.context.get_using_pr
 async def test(self, event: AstrMessageEvent):
     func_tools_mgr = self.context.get_llm_tool_manager()
     
+    # 获取用户当前与 LLM 的对话以获得上下文信息。
+    curr_cid = await self.context.conversation_manager.get_curr_conversation_id(event.unified_msg_origin) # 当前用户所处对话的对话id，是一个 uuid。
+    conversation = None # 对话对象
+    context = [] # 上下文列表
+    if curr_cid:
+        conversation = await self.context.conversation_manager.get_conversation(event.unified_msg_origin, curr_cid)
+        context = json.loads(conversation.history)
+    # 可以用这个方法自行为用户新建一个对话
+    # curr_cid = await self.context.conversation_manager.new_conversation(event.unified_msg_origin)
+
     # 方法1. 最底层的调用 LLM 的方式, 如果启用了函数调用，不会进行产生任何副作用（不会调用函数工具,进行对话管理等），只是会回传所调用的函数名和参数
     llm_response = await self.context.get_using_provider().text_chat(
         prompt="你好",
         session_id=None, # 此已经被废弃
-        contexts=[],
-        image_urls=[],
+        contexts=[], # 也可以用上面获得的用户当前的对话记录 context
+        image_urls=[], # 图片链接，支持路径和网络链接
         func_tool=func_tools_mgr, # 当前用户启用的函数调用工具。如果不需要，可以不传
         system_prompt=""  # 系统提示，可以不传
     )
@@ -732,7 +742,6 @@ async def test(self, event: AstrMessageEvent):
     #     { "role": "user", "content": "你好"}
     # ]
     # text_chat() 将会将 contexts 和 prompt,image_urls 合并起来形成一个上下文，然后调用 LLM 进行对话
-
     if llm_response.role == "assistant":
         print(llm_response.completion_text) # 回复的文本
     elif llm_response.role == "tool":
@@ -740,20 +749,13 @@ async def test(self, event: AstrMessageEvent):
     print(llm_response.raw_completion) # LLM 的原始响应，OpenAI 格式。其存储了包括 tokens 使用在内的所有信息。可能为 None，请注意处理
     
     # 方法2. 以下方法将会经过 AstrBot 内部的 LLM 处理机制。会自动执行函数工具等。结果将会直接发给用户。
-    curr_cid = await self.context.conversation_manager.get_curr_conversation_id(event.unified_msg_origin) # 当前用户所处对话的对话id，是一个 uuid。
-    conversation = None
-    context = []
-    if curr_cid:
-        conversation = await self.context.conversation_manager.get_conversation(event.unified_msg_origin, curr_cid)
-        context = json.loads(conversation.history)
-    # 可以用这个方法自行为用户新建一个对话
-    # curr_cid = await self.context.conversation_manager.new_conversation(event.unified_msg_origin)
     yield event.request_llm(
         prompt="你好",
         func_tool_manager=func_tools_mgr,
         session_id=curr_cid, # 对话id。如果指定了对话id，将会记录对话到数据库
         contexts=context, # 列表。如果不为空，将会使用此上下文与 LLM 对话。
         system_prompt="",
+        image_urls=[], # 图片链接，支持路径和网络链接
         conversation=conversation # 如果指定了对话，将会记录对话
     )
 ```
