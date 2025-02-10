@@ -124,12 +124,18 @@ class AstrBotMessage:
 
 ### 消息链
 
-消息链描述一个消息的结构，是一个有序列表。
+`消息链`描述一个消息的结构，是一个有序列表，列表中每一个元素称为`消息段`。
+
+引用方式：
+
+```py
+from astrbot.api.message_components import *
+```
 
 ```
 [Plain(text="Hello"), At(qq=123456), Image(file="https://example.com/image.jpg")]
 ```
-qq
+
 > qq 是对应消息平台上的用户 ID。
 
 消息链的结构使用了 `nakuru-project`。它一共有如下种消息类型。常用的已经用注释标注。
@@ -482,6 +488,65 @@ yield event.make_result().message("文本消息")
                         .url_image("https://example.com/image.jpg")
                         .file_image("path/to/image.jpg")
 ```
+
+### 发送群合并转发消息
+
+> 当前适配情况：aiocqhttp
+
+可以按照如下方式发送群合并转发消息。
+
+```py
+@filter.command("test")
+async def test(self, event: AstrMessageEvent):
+    from astrbot.api.message_components import Node, Plain, Image
+    node = Node(
+        uin=905617992,
+        name="Soulter",
+        content=[
+            Plain("hi"),
+            Image.fromFileSystem("test.jpg")
+        ]
+    )
+    yield event.chain_result([node])
+```
+
+![发送群合并转发消息](../source/images/plugin/image-4.png)
+
+
+### 发送视频消息
+
+> 当前适配情况：aiocqhttp
+
+```python
+@filter.command("test")
+async def test(self, event: AstrMessageEvent):
+    from astrbot.api.message_components import Video
+    # fromFileSystem 需要用户的协议端和机器人端处于一个系统中。
+    music = Video.fromFileSystem(
+        path="test.mp4"
+    )
+    # 更通用
+    music = Video.fromURL(
+        url="https://example.com/video.mp4"
+    )
+    yield event.chain_result([music])
+```
+![发送视频消息](../source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
+
+## 发送 QQ 表情
+
+> 当前适配情况：仅 aiocqhttp
+
+QQ 表情 ID 参考：https://bot.q.qq.com/wiki/develop/api-v2/openapi/emoji/model.html#EmojiType
+
+```python
+@filter.command("test")
+async def test(self, event: AstrMessageEvent):
+    from astrbot.api.message_components import Face, Plain
+    yield event.chain_result([Face(id=21), Plain("你好呀")])
+```
+
+![发送 QQ 表情](../source/images/plugin/image-5.png)
 
 ### [aiocqhttp] 直接调用协议端 API
 
