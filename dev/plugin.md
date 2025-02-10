@@ -533,7 +533,7 @@ async def test(self, event: AstrMessageEvent):
 ```
 ![发送视频消息](../source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
 
-## 发送 QQ 表情
+### 发送 QQ 表情
 
 > 当前适配情况：仅 aiocqhttp
 
