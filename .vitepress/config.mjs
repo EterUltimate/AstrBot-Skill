@@ -127,6 +127,10 @@ export default defineConfig({
             link: '/command'
           },
           {
+            text: '函数调用', 
+            link: '/function-calling'
+          },
+          {
             text: '沙箱化代码执行器(beta)',
             link: '/code-interpreter'
           },
