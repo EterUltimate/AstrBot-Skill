@@ -60,3 +60,10 @@ Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github
 ## 注意事项
 
 一旦登录成功，请牢记在配置时配置的 username，如果更换，则相当于使用新设备登录。频繁新设备登录容易触发风控。
+
+## 常见问题
+
+1. Cannot connect to host xxxx:2531。请通过 `docker logs gewe` 检查 Gewechat 容器是否正常运行。如果没有正常运行且 `[!!!!!!] Failed to allocate manager object, freezing.`，请参考 https://github.com/Soulter/AstrBot/issues/343#issuecomment-2640184838
+2. host 回调地址异常。请参考 https://github.com/Soulter/AstrBot/issues/327
+3. 创建设备失败。请重启 gewe 容器几次再看情况。如果还不行就等一段时间之后再尝试。
+4. 设备 id 不存在。请修改 AstrBot 配置，将 gewechat 的配置中的 username 随便改一个名字后保存重启。
