@@ -15,7 +15,7 @@
 
 点击创建好的机器人，然后你将会被导航到机器人的管理页面。如下图所示：
 
-![](../../source/images/qqofficial/image.png)
+![](../../../source/images/qqofficial/image.png)
 
 ## 允许机器人加入频道/群/私聊
 
@@ -23,7 +23,7 @@
 
 然后你将会看到 QQ 群配置、消息列表配置和 QQ 频道配置。根据你的需求来选择QQ群、允许私聊的QQ号、QQ频道。
 
-![](../../source/images/qqofficial/image-1.png)
+![](../../../source/images/qqofficial/image-1.png)
 
 ## 获取 appid、secret
 
@@ -35,7 +35,7 @@
 
 点击 `开发->开发设置`，找到 IP 白名单。添加你的服务器 IP 地址。
 
-![](../../source/images/qqofficial/image-3.png)
+![](../../../source/images/qqofficial/image-3.png)
 
 ## 在 AstrBot 配置
 
