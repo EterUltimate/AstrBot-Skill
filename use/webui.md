@@ -50,3 +50,7 @@ AstrBot 管理面板具有管理插件、查看日志、可视化配置、查看
 使用 `/dashboard_update` 命令可以手动更新管理面板（管理员指令）。
 
 管理面板文件在 data/dist 目录下。如果需要手动替换，请在 https://github.com/Soulter/AstrBot/releases/ 下载 `dist.zip` 然后解压到 data 目录下。
+
+## 自定义 WebUI 端口
+
+修改 data/cmd_config.json 文件内 `dashboard` 配置中的 `port`。
