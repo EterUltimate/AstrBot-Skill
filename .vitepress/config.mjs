@@ -132,6 +132,10 @@ export default defineConfig({
             link: '/function-calling'
           },
           {
+            text: '网页搜索',
+            link: '/websearch'
+          },
+          {
             text: '沙箱化代码执行器(beta)',
             link: '/code-interpreter'
           },
