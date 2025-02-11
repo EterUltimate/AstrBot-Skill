@@ -54,7 +54,7 @@ export default defineConfig({
             items: [
               { 
                 text: 'QQ 官方接口(qqofficial)', 
-                base: '/qqofficial',
+                base: '/deploy/platform/qqofficial',
                 collapsed: true,
                 items: [
                   { text: 'Webhook 方式', link: '/webhook' },
