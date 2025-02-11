@@ -7,7 +7,7 @@
 > 1. 截至目前，QQ 官方机器人需要设置 IP 白名单。
 > 2. 支持群聊、私聊、频道聊天、频道私聊。
 >
-> 由于腾讯即将终止对 WebSockets 接入的支持，目前不再推荐使用此方式部署机器人，请使用 Webhook 方式。
+> 由于腾讯即将终止对 Websockets 接入的支持，目前不再推荐使用此方式部署机器人，请使用 [Webhook](/deploy/platform/qqofficial/webhook) 方式。
 
 
 首先，打开 [QQ官方机器人](https://q.qq.com) 并登录。

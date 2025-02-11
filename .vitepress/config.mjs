@@ -52,7 +52,15 @@ export default defineConfig({
             base: '/deploy/platform',
             collapsed: true,
             items: [
-              { text: 'QQ 官方接口(qqofficial)', link: '/qqofficial' },
+              { 
+                text: 'QQ 官方接口(qqofficial)', 
+                base: '/qqofficial',
+                collapsed: true,
+                items: [
+                  { text: 'Webhook 方式', link: '/webhook' },
+                  { text: 'Websockets 方式', link: '/websockets'},
+                ]
+              },
               {
                 text: 'QQ 个人号(aiocqhttp)', 
                 base: '/deploy/platform/aiocqhttp',
