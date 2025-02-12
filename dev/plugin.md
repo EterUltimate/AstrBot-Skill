@@ -572,6 +572,22 @@ Napcat API 文档：https://napcat.apifox.cn/
 Lagrange API 文档：https://lagrange-onebot.apifox.cn/
 
 
+### [gewechat] 平台发送消息
+
+```py
+@command("helloworld")
+async def helloworld(self, event: AstrMessageEvent):
+    if event.get_platform_name() == "gewechat":
+        from astrbot.core.platform.sources.gewechat.gewechat_platform_adapter import GewechatPlatformAdapter
+        assert isinstance(event, GewechatPlatformAdapter)
+        client = event.client
+        to_wxid = self.message_obj.raw_message.get('to_wxid', None)
+        # await client.post_text()
+        # await client.post_image()
+        # await client.post_voice()
+```
+
+
 ### 控制事件传播
 
 ```python{6}
@@ -786,3 +802,106 @@ async def get_weather(self, event: AstrMessageEvent, location: str) -> MessageEv
 
 > [!WARNING]
 > 请务必将注释格式写对！
+
+
+### 获取 AstrBot 配置
+
+```py
+config = self.context.get_config()
+# 使用方式类似 dict，如 config['provider']
+# config.save_config() 保存配置
+```
+
+### 获取当前载入的所有提供商
+
+```py
+providers = self.context.get_all_providers()
+providers_stt = self.context.get_all_stt_providers()
+providers_tts = self.context.get_all_tts_providers()
+```
+
+### 获取当前正在使用提供商
+
+```py
+provider = self.context.get_using_provider() # 没有使用时返回 None
+provider_stt = self.context.get_using_stt_provider() # 没有使用时返回 None
+provider_tts = self.context.get_using_tts_provider() # 没有使用时返回 None
+```
+
+### 通过提供商 ID 获取提供商
+
+```py
+self.context.get_provider_by_id(id_str)
+```
+
+### 获取当前载入的所有插件
+
+```py
+plugins = self.context.get_all_stars() # 返回 StarMetadata 包含了插件类实例、配置等等
+```
+
+### 获取函数调用管理器
+
+```py
+self.context.get_llm_tool_manager() # 返回 FuncCall
+
+# self.context.get_using_provider().text_chat(
+#     prompt="你好",
+#     session_id=None,
+#     contexts=[],
+#     image_urls=[],
+#     func_tool=self.context.get_llm_tool_manager(),
+#     system_prompt=""
+# )
+```
+
+### 注册一个异步任务
+
+直接在 __init__() 中使用 `asyncio.create_task()` 即可。
+
+```py
+import asyncio
+
+@register("task", "Soulter", "一个异步任务示例", "1.0.0")
+class TaskPlugin(Star):
+    def __init__(self, context: Context):
+        super().__init__(context)
+        asyncio.create_task(self.my_task())
+
+    async def my_task(self):
+        await asyncio.sleep(1)
+        print("Hello")
+```
+
+### 获取载入的所有人格(Persona)
+
+```py
+from astrbot.api.provider import Personality
+personas = self.context.provider_manager.personas # List[Personality]
+```
+
+### 获取会话正在使用的对话
+
+```py
+from astrbot.core.conversation_mgr import Conversation
+uid = event.unified_msg_origin
+curr_cid = self.context.conversation_manager.get_curr_conversation_id(uid)
+conversation = await self.context.conversation_manager.get_conversation(uid, curr_cid) # Conversation
+# context = json.loads(conversation.history) # 获取上下文
+# persona_id = conversation.persona_id # 获取对话使用的人格
+```
+
+### 获取会话的所有对话
+
+```py
+from astrbot.core.conversation_mgr import Conversation
+uid = event.unified_msg_origin
+conversations = await self.context.conversation_manager.get_conversations(uid) # List[Conversation]
+```
+
+### 获取加载的所有平台
+
+```py
+from astrbot.api.platform import Platform
+platforms = self.context.platform_manager.get_insts() # List[Platform]
+```
