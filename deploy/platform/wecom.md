@@ -68,14 +68,14 @@ AstrBot 支持接入企业微信。
 
 并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处。
 
+现在应该已经填完 AstrBot 连接到企业微信的所有配置项。点击 AstrBot 配置页右下角保存，等待 AstrBot 重启。
+
 接下来配置企业可信 IP。
 
 ![](../../source/images/wecom/image-10.png)
 
 将你的 公网 IP 地址填写到此处，点击确定。
 
-
-现在应该已经填完 AstrBot 连接到企业微信的所有配置项。点击 AstrBot 配置页右下角保存，等待 AstrBot 重启。
 
 重启成功后，回到API 接收页面，点击下面的保存，看是否能\够保存成功。如果出现 `openapi 请求回调地址不通过` 说明配置有问题，请检查四个配置项是否填写正确。
 
