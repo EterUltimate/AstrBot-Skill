@@ -8,8 +8,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '主页', link: '/' },
-      { text: '简介', link: '/what-is-astrbot' },
-      { text: '快速开始', link: '/get-started' }
+      { text: '开始', link: '/what-is-astrbot' },
     ],
 
     sidebar: [
