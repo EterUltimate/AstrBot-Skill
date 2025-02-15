@@ -21,11 +21,11 @@ export default defineConfig({
         ]
       },
       {
-        text: '恰饭',
+        text: 'Supporters',
         base: '/ad',
         items: [
           {
-            text: "土豆云 4C16G 9.9/首月",
+            text: "ToodouCloud 4C16G 9.9/首月",
             link: '/ad-toodou'
           }
         ]
