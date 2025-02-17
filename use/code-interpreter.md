@@ -2,18 +2,7 @@
 
 在 `v3.4.2` 版本及之后，AstrBot 支持代码执行器以强化 LLM 的能力，并实现一些自动化的操作。
 
-> [!TIP]
-> 如果您使用 Docker 部署 AstrBot，将无法使用文件输入/输出功能，因为 Docker 无法直接访问宿主机的文件系统。
-
-推荐使用 
-
-## Linux Docker 启动 AstrBot
-
-如果您使用 Docker 部署了 AstrBot，您需要在启动 Docker 容器时，请将 `/var/run/docker.sock` 挂载到容器内部。这样 AstrBot 才能够启动沙箱容器。
-
-```bash
-sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
-```
+已知问题： Docker 运行  AstrBot 无法使用此功能，请静候更新
 
 ## Linux 手动源码 启动 AstrBot
 
