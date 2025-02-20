@@ -349,6 +349,9 @@ async def helloworld(self, event: AstrMessageEvent):
 
 ### 事件钩子【New】
 
+> [!TIP]
+> 事件钩子不支持与上面的 @command, @command_group, @event_message_type, @platform_adapter_type, @permission_type 一起使用。
+
 #### 收到 LLM 请求时
 
 在 AstrBot 默认的执行流程中，在调用 LLM 前，会触发 `on_llm_request` 钩子。
