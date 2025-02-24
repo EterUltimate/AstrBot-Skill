@@ -21,16 +21,6 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Supporters',
-        base: '/ad',
-        items: [
-          {
-            text: "ToodouCloud 4C16G 9.9/首月",
-            link: '/ad-toodou'
-          }
-        ]
-      },
-      {
         text: '部署',
         base: '/deploy',
         collapsed: false,
@@ -194,6 +184,16 @@ export default defineConfig({
           }
         ]
       },
+      {
+        text: 'Supporters',
+        base: '/ad',
+        items: [
+          {
+            text: "ToodouCloud 4C16G 9.9/首月",
+            link: '/ad-toodou'
+          }
+        ]
+      }
     ],
 
     socialLinks: [
