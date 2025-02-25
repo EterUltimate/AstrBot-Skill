@@ -888,7 +888,7 @@ personas = self.context.provider_manager.personas # List[Personality]
 ```py
 from astrbot.core.conversation_mgr import Conversation
 uid = event.unified_msg_origin
-curr_cid = self.context.conversation_manager.get_curr_conversation_id(uid)
+curr_cid = await self.context.conversation_manager.get_curr_conversation_id(uid)
 conversation = await self.context.conversation_manager.get_conversation(uid, curr_cid) # Conversation
 # context = json.loads(conversation.history) # 获取上下文
 # persona_id = conversation.persona_id # 获取对话使用的人格
