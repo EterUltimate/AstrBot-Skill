@@ -16,7 +16,7 @@
 
 进入 AstrBot 管理面板->服务提供商->新增服务提供商->Dashscope，进入配置页面。
 
-![](../source/images/dashscope/image.png)
+![](../../source/images/dashscope/image.png)
 
 根据阿里云百炼应用，一共有四种应用类型，分别是
 
