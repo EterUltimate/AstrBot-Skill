@@ -69,7 +69,7 @@ AstrBot 默认配置如下：
 
 一个列表，存储了 AstrBot 的消息平台适配器配置。当前，AstrBot 默认支持的消息平台适配器有 `aiocqhttp`、`qqofficial`、`vchat`。如果你想通过修改配置文件的方式新增消息平台适配器，可以根据需要复制下面的配置并添加到这个列表中。
 
-由于配置较多，具体配置请参考 [消息平台适配器](/config/platform)。
+由于配置较多，具体配置请参考 [消息平台适配器](/others/platform)。
 
 > [!TIP]
 > 如果你不会 Json 语法，可以使用在线的 [Json 编辑器](https://jsoneditoronline.org/) 来编辑配置文件。当有语法错误，会有提示。
@@ -131,7 +131,7 @@ AstrBot Docker 在启动时，将 `data` 目录映射到了宿主机的 `<AstrBo
 
 和 `platform` 一样也是一个列表，存储了大语言模型提供商的配置。
 
-由于配置较多，具体配置请参考 [大语言模型提供商](/config/provider)。
+由于配置较多，具体配置请参考 [大语言模型提供商](/others/provider)。
 
 > [!TIP]
 > 使用 `/provider` 指令可以查看、切换大语言模型提供商。

@@ -187,7 +187,7 @@ AstrBot 支持加载使用 `LlamaFactory` 微调的模型。
 
 AstrBot 支持接入 Dify。
 
-请参考 [接入 Dify](/others/dify)。
+请参考 [接入 Dify](/config/providers/dify)。
 
 
 ## Whisper 语音转文字
