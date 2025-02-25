@@ -892,6 +892,9 @@ curr_cid = await self.context.conversation_manager.get_curr_conversation_id(uid)
 conversation = await self.context.conversation_manager.get_conversation(uid, curr_cid) # Conversation
 # context = json.loads(conversation.history) # 获取上下文
 # persona_id = conversation.persona_id # 获取对话使用的人格
+
+# 当 persona_id 为 None 时，这个对话为默认人格，即 self.context.provider_manager.selected_default_persona['name']
+# 当 persona_id 为 "[%None]" 时，为用户主动在这个对话取消了人格（通过 /persona unset 设置）。
 ```
 
 ### 获取会话的所有对话
