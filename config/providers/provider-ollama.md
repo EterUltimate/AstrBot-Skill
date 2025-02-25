@@ -1,4 +1,4 @@
-## 接入 Ollama 使用 DeepSeek-R1 等模型
+# 接入 Ollama 使用 DeepSeek-R1 等模型
 
 Ollama 允许在本地电脑上部署模型（需要电脑硬件配置符合要求）
 

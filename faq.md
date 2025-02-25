@@ -8,7 +8,10 @@
 
 1. 群聊情况下，由于防止消息泛滥，不会对每条监听到的消息都回复，请尝试 @ 机器人或者使用唤醒词来聊天，比如默认的 `/`，输入 `/你好`。 
 
-
 ### 没有权限操作管理员指令
 
 1. /reset, /persona, /dashboard_update, /op, /deop, /wl, /dewl 是默认的管理员指令。可以通过 /sid 指令得到用户的ID，然后在配置->其他配置中添加到管理员ID名单中。
+
+### 当管理面板打开时遇到 404 错误
+
+在 [release](https://github.com/Soulter/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）

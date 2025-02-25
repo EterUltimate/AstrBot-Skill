@@ -50,4 +50,6 @@
 
 当然，可以使用 `/unset` 指令来取消设置的变量。
 
-变量在 AstrBot 重启之后会被清空。
+变量在当前会话永久有效。
+
+> 变量存储在 data/shared_preferences.json 下。

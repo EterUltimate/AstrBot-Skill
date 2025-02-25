@@ -70,10 +70,6 @@ export default defineConfig({
             text: '部署好后...', 
             link: '/when-deployed'
           },
-          {
-            text: '管理面板 404 Not found', 
-            link: '/dashboard-404'
-          },
         ]
       },
       {
@@ -82,28 +78,40 @@ export default defineConfig({
         collapsed: false,
         items: [
           {
+            text: '接入大模型服务', 
+            base: '/config/providers',
+            collapsed: true,
+            items: [
+              { text: '接入 OpenAI、DeepSeek 等各种模型', link: '/llm' },
+              {
+                text: '接入 Dify',
+                link: '/dify'
+              },
+              {
+                text: '接入 阿里云百炼应用',
+                link: '/dashscope'
+              },
+              {
+                text: '接入 Ollama 使用 DeepSeek-R1 等模型',
+                link: '/provider-ollama'
+              },
+              {
+                text: '接入 LMStudio 使用 DeepSeek-R1 等模型',
+                link: '/provider-lmstudio'
+              },
+              {
+                text: '接入 OneAPI', 
+                link: '/oneapi'
+              },
+            ]
+          },
+          {
             text: 'AstrBot 配置文件', 
             link: '/astrbot-config'
           },
           {
-            text: '大语言模型提供商', 
-            link: '/provider'
-          },
-          {
             text: '自定义温度等模型参数',
             link: '/model-config'
-          },
-          {
-            text: '接入 Ollama 使用 DeepSeek-R1 等模型',
-            link: '/provider-ollama'
-          },
-          {
-            text: '接入 LMStudio 使用 DeepSeek-R1 等模型',
-            link: '/provider-lmstudio'
-          },
-          {
-            text: '消息平台适配器', 
-            link: '/platform'
           },
         ]
       },
@@ -171,12 +179,12 @@ export default defineConfig({
         collapsed: false,
         items: [
           {
-            text: '接入 OneAPI', 
-            link: '/oneapi'
+            text: '配置文件-大语言模型提供商', 
+            link: '/provider'
           },
           {
-            text: '接入 Dify',
-            link: '/dify'
+            text: '配置文件-消息平台适配器', 
+            link: '/platform'
           },
           {
             text: "自部署文转图",

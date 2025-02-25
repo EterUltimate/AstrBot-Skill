@@ -290,6 +290,18 @@ def calc_help(self, event: AstrMessageEvent):
     yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
 ```
 
+#### 指令和指令组的别名(alias)
+
+> v3.4.28 后
+
+可以为指令或指令组添加不同的别名：
+
+```python
+@command("help", alias=['帮助', 'helpme'])
+def help(self, event: AstrMessageEvent):
+    yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
+```
+
 #### 群/私聊事件监听器
 
 ```python
