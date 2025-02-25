@@ -582,7 +582,7 @@ Lagrange API 文档：https://lagrange-onebot.apifox.cn/
 async def helloworld(self, event: AstrMessageEvent):
     if event.get_platform_name() == "gewechat":
         from astrbot.core.platform.sources.gewechat.gewechat_platform_adapter import GewechatPlatformAdapter
-        assert isinstance(event, GewechatPlatformAdapter)
+        assert isinstance(event, GewechatPlatformEvent)
         client = event.client
         to_wxid = self.message_obj.raw_message.get('to_wxid', None)
         # await client.post_text()
