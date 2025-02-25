@@ -24,7 +24,7 @@ model_name 格式：`<model_name>:<model_version>`。如 `deepseek-r1:8b`。
 
 在 AstrBot 上：
 
-![](../source/images/provider-ollama/image.png)
+![](../../source/images/provider-ollama/image.png)
 
 保存配置即可。
 

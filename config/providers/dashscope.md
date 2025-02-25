@@ -8,11 +8,11 @@
 
 记录应用ID：
 
-![](../source/images/dashscope/image-1.png)
+![](../../source/images/dashscope/image-1.png)
 
 点击进入应用，点击发布渠道->API 调用->API KEY，创建并且复制 API KEY：
 
-![alt text](../source/images/dashscope/image-2.png)
+![alt text](../../source/images/dashscope/image-2.png)
 
 进入 AstrBot 管理面板->服务提供商->新增服务提供商->Dashscope，进入配置页面。
 
@@ -36,7 +36,7 @@
 
 可以在聊天页进行测试：
 
-![](../source/images/dashscope/image-3.png)
+![](../../source/images/dashscope/image-3.png)
 
 ## 在聊天时动态设置输入变量
 
@@ -44,7 +44,7 @@
 
 使用 `/set` 指令可以动态设置输入变量，如下图所示：
 
-![alt text](../source/images/dify/image-5.png)
+![alt text](../../source/images/dify/image-5.png)
 
 当设置变量后，AstrBot 会在下次向阿里云百炼应用请求时附上您设置的变量，以灵活适配您的 Workflow。
 
