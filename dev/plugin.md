@@ -320,7 +320,7 @@ async def on_private_message(self, event: AstrMessageEvent):
 
 ```python
 @event_message_type(EventMessageType.ALL)
-async def on_private_message(self, event: AstrMessageEvent):
+async def on_all_message(self, event: AstrMessageEvent):
     yield event.plain_result("收到了一条消息。")
 ```
 
