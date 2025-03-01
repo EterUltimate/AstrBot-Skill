@@ -1,4 +1,4 @@
-# Integrating Ollama**
+# Integrating Ollama
 
 🦙 Ollama is a free, open-source tool that lets you run large language models (LLMs) on your own computer. (hardwares must meet requirements).
 
