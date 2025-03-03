@@ -153,6 +153,8 @@ ComponentTypes = {
     "reply": Reply, # 回复消息
     "forward": Forward, # 转发消息
     "node": Node, # 转发消息中的节点
+    "nodes": Nodes, # Node 的列表，用于支持一个转发消息中的多个节点
+    "poke": Poke, # 戳一戳
     "xml": Xml,
     "json": Json,
     "cardimage": CardImage,
@@ -166,7 +168,6 @@ ComponentTypes = {
     "contact": Contact,
     "location": Location,
     "redbag": RedBag,
-    "poke": Poke,
 }
 ```
 
@@ -178,7 +179,6 @@ async def on_message(self, event: AstrMessageEvent):
     print(event.message_obj.raw_message) # 平台下发的原始消息在这里
     print(event.message_obj.message) # AstrBot 解析出来的消息链内容
 ```
-
 
 ## 开发指南
 
@@ -363,6 +363,20 @@ async def helloworld(self, event: AstrMessageEvent):
 
 > [!TIP]
 > 事件钩子不支持与上面的 @command, @command_group, @event_message_type, @platform_adapter_type, @permission_type 一起使用。
+
+
+#### AstrBot 初始化完成时
+
+> v3.4.34 后
+
+```python
+from astrbot.api.provider import ProviderRequest
+
+@filter.on_astrbot_loaded()
+async def on_astrbot_loaded(self):
+    print("AstrBot 初始化完成")
+
+```
 
 #### 收到 LLM 请求时
 
@@ -562,6 +576,19 @@ async def test(self, event: AstrMessageEvent):
 ```
 
 ![发送 QQ 表情](../source/images/plugin/image-5.png)
+
+### 获取平台适配器/客户端
+
+> v3.4.34 后
+
+```python
+@filter.command("test")
+async def test_(self, event: AstrMessageEvent):
+    from astrbot.api.platform import AiocqhttpAdapter # 其他平台同理
+    platform = self.context.get_platform(filter.PlatformAdapterType.AIOCQHTTP)
+    assert isinstance(platform, AiocqhttpAdapter)
+    # platform.get_client().api.call_action()
+```
 
 ### [aiocqhttp] 直接调用协议端 API
 

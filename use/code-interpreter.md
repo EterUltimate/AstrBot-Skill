@@ -26,7 +26,7 @@ sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot
 
 ## Linux 手动源码 启动 AstrBot
 
-如果你的 Docker 指令需要 sudo 权限来执行，那么你需要在启动 AstrBot 时，使用 `sudo` 来启动，否则代码执行器会因为权限不足而无法调用 Docker。
+**如果你的 Docker 指令需要 sudo 权限来执行**，那么你需要在启动 AstrBot 时，使用 `sudo` 来启动，否则代码执行器会因为权限不足而无法调用 Docker。
 
 ```bash
 sudo —E python3 main.py
@@ -72,12 +72,15 @@ sudo —E python3 main.py
 
 ![](../source/images/code-interpreter/image-3.png)
 
-## 文件输入/输出
+## 图片和文件的输入
 
-代码执行器除了能够识别和处理图片、文字任务，还能够识别您发送的文件，并且能够发送文件。但是，目前来说有一些环境上的限制。
+代码执行器除了能够识别和处理图片、文字任务，还能够识别您发送的文件，并且能够发送文件。
 
-文件输入/输出只支持 `QQ` 平台，并且使用 `napcat`，并且非 Docker 部署 napcat。
+v3.4.34 后，使用 `/pi file` 指令开始上传文件。上传文件后，您可以使用 `/pi list` 查看您上传的文件，使用 `/pi clean` 清空您上传的文件。
 
+上传的文件将会用于代码执行器的输入。
+
+比如您希望对一张图片添加圆角，您可以使用 `/pi file` 上传图片，然后再提问：`请运行代码，对这张图片添加圆角`。
 
 ## Demo
 
