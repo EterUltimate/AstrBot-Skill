@@ -60,6 +60,9 @@ class MyPlugin(Star):
         user_name = event.get_sender_name()
         message_str = event.message_str # 获取消息的纯文本内容
         yield event.plain_result(f"Hello, {user_name}!") # 发送一条纯文本消息
+
+    async def terminate(self):
+        '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
 ```
 
 一个插件就是一个类，这个类继承自 `Star`。`Star` 是 AstrBot 插件的基类，还额外提供了一些基础的功能。请务必使用 `@register` 装饰器注册插件，否则 AstrBot 无法识别。
