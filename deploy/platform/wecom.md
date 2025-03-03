@@ -6,37 +6,7 @@ AstrBot 支持接入企业微信。
 > 
 > 请等待后续更新。
 
-## 下载 astrbot_plugin_wecom
-
-### 通过插件市场安装（推荐）
-在插件页-插件市场安装好 `astrbot_plugin_wecom` 插件。
-
-![](../../source/images/wecom/image-1.png)
-
-### 通过链接安装
-
-![](../../source/images/wecom/image-2.png)
-
-链接输入 `https://github.com/Soulter/astrbot_plugin_wecom`
-
-### 通过上传压缩包的方式安装
-
-如果插件市场显示不了任何插件，请前往 `https://github.com/Soulter/astrbot_plugin_wecom` 手动下载插件压缩包来安装
-
-![](../../source/images/wecom/image.png)
-
-然后上传即可：
-
-![](../../source/images/wecom/image-3.png)
-
-
-> [!TIP]
-> 如果控制台提示未安装 `wechat` `pydub` `cryptography` 库，请先点击管理面板->控制台页右上角的 `安装 Pip 库` 按钮安装此库。
-
-
-## 配置插件
-
-点击配置页->消息平台适配器，点击加号，选择 `wecom`，会出现 `wecom` 的相关配置项，如下图所示：
+点击管理面板左边栏 `消息平台适配器`，点击加号，选择 `wecom`，会出现 `wecom` 的相关配置项，如下图所示：
 
 ![](../../source/images/wecom/image-8.png)
 

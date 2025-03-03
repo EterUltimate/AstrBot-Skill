@@ -45,7 +45,7 @@
 ![alt text](../../source/images/dify/image-5.png)
 
 当设置变量后，AstrBot 会在下次向 Dify 请求时附上您设置的变量，以灵活适配您的 Workflow。
-
+    
 ![alt text](../../source/images/dify/image-4.png)
 
 当然，可以使用 `/unset` 指令来取消设置的变量。
