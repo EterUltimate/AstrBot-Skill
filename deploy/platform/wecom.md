@@ -18,6 +18,9 @@ AstrBot 支持接入企业微信。
 
 点击 `我的企业`，查看并得到企业 ID（`Corpid`），复制到 AstrBot 配置的 `corpid` 处。
 
+> [!TIP]
+> 根据 https://github.com/Soulter/AstrBot/issues/571 的反馈，对于新注册的企业，`corp_id` 要注册一段时间后才生效（前后大概过了半个小时）。
+
 ![](../../source/images/wecom/image-5.png)
 
 点击下面的 `自建应用`，然后点击 `创建应用`，填写好应用名称、头像、应用可见范围等信息。
