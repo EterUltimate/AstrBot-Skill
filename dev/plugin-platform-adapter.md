@@ -155,6 +155,8 @@ class FakePlatformEvent(AstrMessageEvent):
                 # 请善于 Debug！
                     
                 await self.client.send_image(to=self.get_sender_id(), image_path=img_path)
+
+        await super().send(message) # 需要最后加上这一段，执行父类的 send 方法。
 ```
 
 最后，main.py 只需这样，在初始化的时候导入 fake_platform_adapter 模块。装饰器会自动注册。
