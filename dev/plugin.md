@@ -710,12 +710,17 @@ AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户
 AstrBot 在载入插件时会检测插件目录下是否有 `_conf_schema.json` 文件，如果有，会自动解析配置并保存在 `data/config/<plugin_name>_config.json` 下（依照 Schema 创建的配置文件实体），并在实例化插件类时传入给 `__init__()`。
 
 ```py
+from astrbot.api import AstrBotConfig
+
 @register("config", "Soulter", "一个配置示例", "1.0.0")
 class ConfigPlugin(Star):
-    def __init__(self, context: Context, config: dict):
+    def __init__(self, context: Context, config: AstrBotConfig): # AstrBotConfig 继承自 Dict，拥有字典的所有方法
         super().__init__(context)
         self.config = config
         print(self.config)
+
+        # 支持直接保存配置
+        # self.config.save_config() # 保存配置
 ```
 
 **配置版本管理**
