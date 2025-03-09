@@ -63,6 +63,7 @@ export default defineConfig({
               { text: '企业微信', link: '/wecom' },
               { text: '微信个人号(gewechat)', link: '/gewechat' },
               { text: '飞书', link: '/lark'},
+              { text: '钉钉', link: '/dingtalk'},
               { text: 'Telegram', link: '/telegram'},
             ]
           },
