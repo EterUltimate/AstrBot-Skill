@@ -11,6 +11,10 @@ export default defineConfig({
       { text: '开始', link: '/what-is-astrbot' },
     ],
 
+    search: {
+      provider: 'local',
+    },
+
     sidebar: [
       {
         text: '简介',
