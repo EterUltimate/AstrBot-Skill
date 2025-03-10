@@ -16,7 +16,40 @@
 
 ## 部署 Gewechat
 
-Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github.com/Devo919/Gewechat?tab=readme-ov-file#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1) 部署 Gewechat。
+Gewechat 只能使用 Docker 部署，如果您没有安装 Docker，请自行安装。Windows/Mac 用户请安装 `Docker Desktop`，Linux 用户请安装 `Docker`。
+
+最新信息请参考 [Gewechat 仓库](https://github.com/Devo919/Gewechat?tab=readme-ov-file) 部署 Gewechat。
+
+### 拉取 Gewechat 镜像
+
+```bash
+docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest
+docker tag registry.cn-hangzhou.aliyuncs.com/gewe/gewe gewe
+```
+
+### 运行 Gewechat 容器
+
+```bash
+mkdir gewechat
+docker run -itd -v ./gewechat:/root/temp -p 2531:2531 -p 2532:2532 --privileged=true --name=gewe gewe /usr/sbin/init
+```
+
+如果需要开机自启，可以：
+
+```bash
+docker update --restart=always gewe
+```
+
+可以通过日志查看启动情况：
+
+```bash
+docker logs gewe -f
+```
+
+- 启动可能会花费较长时间，大概在 10-30 秒。
+- 如果出现 `[!!!!!!] Failed to allocate manager object, freezing.`，请参考 [AstrBot#340](https://github.com/Soulter/AstrBot/issues/340)
+
+启动好后，可以通过浏览器访问 `http://localhost:2531` 查看是否正常启动。
 
 ## 在 AstrBot 中配置 Gewechat 适配器
 
@@ -63,7 +96,7 @@ Gewechat 需要使用 Docker 部署。请参考 [启动 Gewechat](https://github
 
 ## 常见问题
 
-1. Cannot connect to host xxxx:2531。请通过 `docker logs gewe` 检查 Gewechat 容器是否正常运行。如果没有正常运行且 `[!!!!!!] Failed to allocate manager object, freezing.`，请参考 https://github.com/Soulter/AstrBot/issues/340
+1. Cannot connect to host xxxx:2531。请通过 `docker logs gewe` 检查 Gewechat 容器是否正常运行。
 2. host 回调地址异常。请参考 https://github.com/Soulter/AstrBot/issues/327
 3. 创建设备失败。请重启 gewe 容器几次再看情况。如果还不行就等一段时间之后再尝试。
 4. 设备 id 不存在。请修改 AstrBot 配置，将 gewechat 的配置中的 username 随便改一个名字后保存重启。
