@@ -39,10 +39,27 @@ sudo docker compose up -d
 
 ```bash
 mkdir astrbot
-sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data --name astrbot soulter/astrbot:latest
+sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name astrbot soulter/astrbot:latest
 ```
 
+关于端口映射，如果您不想映射上面这么多端口，可以参考下表：
+
+| Port    | Description | Type
+| -------- | ------- | ------- |
+| 6185 |  AstrBot WebUI `默认` 端口  | 需要 |
+| 6195 | 企业微信 `默认` 端口    | 可选 |
+| 6199 | OneBot(aiocqhttp) `默认` 端口    | 可选 |
+| 6196    | QQ 官方 API(Webhook) HTTP callback server `默认` 端口   | 可选 |
+| 11451    | Gewechat callback HTTP server `默认` 端口   | 可选 |
+
+
 > Windows 下不需要加 sudo，下同
+> Windows 同步 Host Time（需要WSL2）
+
+```
+-v \\wsl.localhost\(your-wsl-os)\etc\timezone:/etc/timezone:ro
+-v \\wsl.localhost\(your-wsl-os)\etc\localtime:/etc/localtime:ro
+```
 
 通过以下命令查看 AstrBot 的日志：
 
@@ -53,7 +70,7 @@ sudo docker logs -f astrbot
 > [!TIP]
 > AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请额外添加 `-v /var/run/docker.sock:/var/run/docker.sock` 参数。即:
 > ```bash
-> sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock --name astrbot soulter/astrbot:latest
+> sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /var/run/docker.sock:/var/run/docker.sock -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name astrbot soulter/astrbot:latest
 > ```
 
 
