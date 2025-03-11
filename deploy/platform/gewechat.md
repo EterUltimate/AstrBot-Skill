@@ -76,6 +76,7 @@ docker logs gewe -f
 - 如果出现报错 "Cannot Connect to xxxxxx:2531"，请使用 `docker logs gewe` 查看 Gewechat 的日志，是否正常启动。
 - 如果出现报错 "创建设备失败......unexpect EOF"，请关闭代理软件后重试。
 - 如果出现报错 "设备不存在 / 无法创建设备"，请更换 AstrBot gewechat 配置里的 username 后重试。
+- 请确保部署 Gewechat 的机器和手机微信处于同一城市，否则可能需要验证码登录，而 Gewechat 项目目前的验证码登录功能存在异常
 
 ## 扫码登录
 
