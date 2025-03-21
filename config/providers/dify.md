@@ -2,6 +2,10 @@
 
 在 v3.4.2 及之后，AstrBot 支持接入 Dify LLMOps 平台以增强本项目的功能。
 
+## 安装 Dify
+
+如果您还没有安装 Dify，请参考 [Dify 安装文档](https://docs.dify.ai/zh-hans/getting-started/install-self-hosted) 安装。
+
 ## 使用
 
 如下图，点击 `dify`，即可创建一个适用于 Dify 的 Provider。

@@ -34,9 +34,11 @@ export default defineConfig({
             base: '/deploy/astrbot',
             collapsed: true,
             items: [
-              { text: 'Docker部署', link: '/docker' },
-              { text: 'Windows一键安装', link: '/windows' },
+              { text: 'Docker 部署', link: '/docker' },
+              { text: 'Windows 一键部署', link: '/windows' },
               { text: '手动部署', link: '/cli' },
+              { text: '宝塔面板部署', link: '/btpanel' },
+              { text: 'CasaOS 部署', link: '/casaos' },
               { text: '一键脚本(Linux, 社区提供)', link: '/linux-one' }
             ]
           },
