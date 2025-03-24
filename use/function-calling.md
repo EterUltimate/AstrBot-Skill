@@ -1,15 +1,18 @@
-# 关于函数调用（Function-calling）
+---
+outline: deep
+---
 
-又名 Tool Use 等。
+# 函数调用（Function-calling）
 
-这个是目前大部分大模型都有的功能，旨在提供大模型一种调用外部工具的能力，以此实现 Agentic 的一些功能。
+## 简介
 
-比如，问大模型：帮我搜索一下关于“猫”的信息，大模型就会调用用于搜索的外部工具，比如搜索引擎，然后返回搜索结果。
+函数调用旨在提供大模型**调用外部工具的能力**，以此实现 Agentic 的一些功能。
+
+比如，问大模型：帮我搜索一下关于“猫”的信息，大模型会调用用于搜索的外部工具，比如搜索引擎，然后返回搜索结果。
 
 目前，支持的模型包括但不限于
 
 - gpt-4 系列（效果最好）
-- gemini 1.5 系列（效果最好）
 - gemini 2.0 系列（不包含 thinking 类的模型）（效果最好）
 - deepseek v3(deepseek-chat)
 - llama3 系列（本地部署参数量较小时效果不好）
@@ -26,9 +29,14 @@
 
 等在提供传统的指令调用的基础上，也提供了函数调用的功能。
 
-你可以使用 `/tool ls` 命令查看当前具有工具列表。 可以使用 `/tool on` 或者 `/tool off` 命令开启或关闭某个工具。 可以使用 `/tool off_all` 命令关闭所有工具。
+相关指令:
 
-某些模型可能不支持函数调用，会返回诸如 `tool call is not supported`, `function calling is not supported`, `tool use is not supported` 等错误。在大多数情况下，AstrBot 能够检测到这种错误并自动帮您去除函数调用工具，但服务提供商太多，难免会有疏漏。如果你发现某个模型不支持函数调用，可以使用 `/tool off_all` 命令关闭所有工具，然后再次尝试。或者更换为支持函数调用的模型。
+- `/tool ls` 查看当前具有的工具列表
+- `/tool on` 开启某个工具
+- `/tool off` 关闭某个工具
+- `/tool off_all` 关闭所有工具
+
+某些模型可能不支持函数调用，会返回诸如 `tool call is not supported`, `function calling is not supported`, `tool use is not supported` 等错误。在大多数情况下，AstrBot 能够检测到这种错误并自动帮您去除函数调用工具。如果你发现某个模型不支持函数调用，也可使用 `/tool off_all` 命令关闭所有工具，然后再次尝试。或者更换为支持函数调用的模型。
 
 
 下面是一些常见的工具调用 Demo：
@@ -37,3 +45,9 @@
 
 ![](../source/images/function-calling/image-1.png)
 
+
+## MCP
+
+MCP(Model Context Protocol，模型上下文协议) 是一种新的开放标准协议，用来在大模型和数据源之间建立安全双向的链接。简单来说，它将函数工具单独抽离出来作为一个独立的服务，AstrBot 通过 MCP 协议远程调用函数工具，函数工具返回结果给 AstrBot。
+
+AstrBot (v3.5.0) 将支持 MCP 协议，可以添加多个 MCP 服务器、使用 MCP 服务器的函数工具。

@@ -17,38 +17,48 @@ outline: deep
 
 ### 获取插件模板
 
-打开 [helloworld](https://github.com/Soulter/helloworld)。点击右上角的 `Use this template`，然后点击 `Create new repository`。在 `Repository name` 处输入你的插件名字，不要中文。建议以 `astrbot_plugin_` 开头，如 `astrbot_plugin_genshin`。
+1. 打开 AstrBot 插件模板: [helloworld](https://github.com/Soulter/helloworld)
+2. 点击右上角的 `Use this template`
+3. 然后点击 `Create new repository`。
+4. 在 `Repository name` 处填写您的插件名。插件名格式:
+    - 推荐以 `astrbot_plugin_` 开头；
+    - 不能包含空格；
+    - 保持全部字母小写；
+    - 尽量简短。
 
 ![](../source/images/plugin/image.png)
 
-然后点击右下角的 `Create repository`。
+5. 点击右下角的 `Create repository`。
 
 ### Clone 插件和 AstrBot 项目
 
-首先 Clone AstrBot 项目本体到本地。
+首先，Clone AstrBot 项目本体到本地。
 
 ```bash
 git clone https://github.com/Soulter/AstrBot
 mkdir -p AstrBot/data/plugins
 cd AstrBot/data/plugins
-git clone <你的插件仓库地址>
+git clone 插件仓库地址
 ```
 
-然后，使用 VSCode 打开 AstrBot 项目。找到 `data/plugins/<你的插件名字>` 目录。
+然后，使用 `VSCode` 打开 `AstrBot` 项目。找到 `data/plugins/<你的插件名字>` 目录。
 
-开发环境准备完毕！
+开发环境准备完毕。
+
+- AstrBot 采用在运行时注入插件的机制。因此，在调试插件时，需要启动 AstrBot 本体。
+- 插件的代码修改后，可以在 AstrBot WebUI 的插件管理处找到自己的插件，点击 `管理`，点击 `重载插件` 即可。
 
 ## 提要
 
 ### 最小实例
 
-打开 `main.py`，这是一个最小的插件实例。
+插件模版中的 `main.py` 是一个最小的插件实例。
 
 ```python
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 
-@register("helloworld", "Your Name", "一个简单的 Hello World 插件", "1.0.0", "repo url")
+@register("helloworld", "author", "一个简单的 Hello World 插件", "1.0.0", "repo url")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -65,15 +75,17 @@ class MyPlugin(Star):
         '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
 ```
 
-一个插件就是一个类，这个类继承自 `Star`。`Star` 是 AstrBot 插件的基类，还额外提供了一些基础的功能。请务必使用 `@register` 装饰器注册插件，否则 AstrBot 无法识别。
+解释如下：
 
-在 `__init__` 中会传入 `Context` 对象，这个对象包含了 AstrBot 的大多数组件
+1. 插件是继承自 `Star` 基类的类实现。
+2. 开发者必须使用 `@register` 装饰器来注册插件，这是 AstrBot 识别和加载插件的必要条件。
+3. 该装饰器提供了插件的元数据信息，包括名称、作者、描述、版本和仓库地址等信息。（该信息的优先级低于 `metadata.yaml` 文件）
+4. 在 `__init__` 方法中会传入 `Context` 对象，这个对象包含了 AstrBot 的大多数组件
+5. 具体的处理函数 `Handler` 在插件类中定义，如这里的 `helloworld` 函数。
 
-具体的处理函数 `Handler` 在插件类中定义，如这里的 `helloworld` 函数。
-
-> [!WARNING]
+> [!TIP]
 >
-> `Handler` 需要在插件类中注册，前两个参数必须为 `self` 和 `event`。如果文件行数过长，可以将真正的服务函数写在外部，然后在 `Handler` 中调用。
+> `Handler` 一定需要在插件类中注册，前两个参数必须为 `self` 和 `event`。如果文件行数过长，可以将服务写在外部，然后在 `Handler` 中调用。
 >
 > 插件类所在的文件名需要命名为 `main.py`。
 > 
@@ -96,7 +108,7 @@ api
 
 ### AstrMessageEvent
 
-`AstrMessageEvent` 是 AstrBot 的消息事件对象。你可以通过 `AstrMessageEvent` 来获取消息发送者、消息内容等信息。里面的方法都有足够的注释。
+`AstrMessageEvent` 是 AstrBot 的消息事件对象。你可以通过 `AstrMessageEvent` 来获取消息发送者、消息内容等信息。
 
 ### AstrBotMessage
 
@@ -177,6 +189,25 @@ async def on_message(self, event: AstrMessageEvent):
     print(event.message_obj.message) # AstrBot 解析出来的消息链内容
 ```
 
+### 平台适配矩阵
+
+不是所有的平台都支持所有的消息类型。下方的表格展示了 AstrBot 支持的平台和消息类型的对应关系。
+
+| 平台 | At | Plain | Image | Record | Video | Reply | 主动消息 |
+| ---- | -- | ----- | ----- | ------ | ----- | ----- | -------- |
+| QQ 个人号(aiocqhttp) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Telegram | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 微信个人号(gewechat) | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| QQ 官方接口 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| 飞书 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |❌ |
+| 企业微信 | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| 钉钉 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+- QQ 个人号(aiocqhttp) 支持所有消息类型，包括 `Poke`（戳一戳）、`Node(s)`(合并转发)。
+- QQ 官方接口、钉钉在发送消息时平台强制带 `At`。
+- 钉钉的图片仅支持 http 链接的图片。
+- 主动消息指的是机器人主动发送的消息。见下文: [发送消息](#发送消息)
+
 ## 开发指南
 
 > [!CAUTION]
@@ -194,7 +225,7 @@ from astrbot.api.event import filter, AstrMessageEvent
 ```
 
 
-#### 注册一个指令
+#### 注册指令
 
 ```python
 from astrbot.api.event import filter, AstrMessageEvent
@@ -214,10 +245,10 @@ class MyPlugin(Star):
 ```
 
 > [!TIP]
-> 指令不能带空格。类似的，可以使用下面的指令组功能。或者也使用监听器自己解析消息内容。
+> 指令不能带空格，否则 AstrBot 会将其解析到第二个参数。可以使用下面的指令组功能，或者也使用监听器自己解析消息内容。
 
 
-#### 注册一个带参数的指令
+#### 注册带参数的指令
 
 AstrBot 会自动帮你解析指令的参数。
 
@@ -232,7 +263,7 @@ def add(self, event: AstrMessageEvent, a: int, b: int):
     yield event.plain_result(f"结果是: {a + b}")
 ```
 
-#### 注册一个指令组
+#### 注册指令组
 
 指令组可以帮助你组织指令。
 
@@ -295,14 +326,14 @@ def calc_help(self, event: AstrMessageEvent):
     yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
 ```
 
-#### 指令和指令组的别名(alias)
+#### 指令和指令组别名(alias)
 
 > v3.4.28 后
 
 可以为指令或指令组添加不同的别名：
 
 ```python
-@filter.command("help", alias=['帮助', 'helpme'])
+@filter.command("help", alias={'帮助', 'helpme'})
 def help(self, event: AstrMessageEvent):
     yield event.plain_result("这是一个计算器插件，拥有 add, sub 指令。")
 ```
@@ -456,9 +487,9 @@ async def after_message_sent(self, event: AstrMessageEvent):
 
 ### 优先级
 
-> 大于等于 v3.4.21 版本才有这个功能，低于这个版本的 AstrBot 会报错。
+> 大于等于 v3.4.21。
 
-指令、事件监听器可以设置优先级，先于其他指令、监听器执行。默认优先级都是 0。
+指令、事件监听器可以设置优先级，先于其他指令、监听器执行。默认优先级是 `0`。
 
 ```python
 @filter.command("helloworld", priority=1)
@@ -583,6 +614,8 @@ async def helloworld(self, event: AstrMessageEvent):
     yield event.image_result("https://example.com/image.jpg") # 发送 URL 图片，务必以 http 或 https 开头
 ```
 
+**主动消息**
+
 如果是一些定时任务或者不想立即发送消息，可以使用 `event.unified_msg_origin` 得到一个字符串并将其存储，然后在想发送消息的时候使用 `self.context.send_message(unified_msg_origin, chains)` 来发送消息。
 
 
@@ -607,29 +640,21 @@ async def helloworld(self, event: AstrMessageEvent):
 AstrBot 支持发送富媒体消息，比如图片、语音、视频等。使用 `MessageChain` 来构建消息。
 
 ```python
-from astrbot.api.message_components import *
+import astrbot.api.message_components as Comp
 
 @filter.command("helloworld")
 async def helloworld(self, event: AstrMessageEvent):
     chain = [
-        At(qq=event.get_sender_id()), # At 消息发送者
-        Plain("来看这个图："), 
-        Image.fromURL("https://example.com/image.jpg"), # 从 URL 发送图片
-        Image.fromFileSystem("path/to/image.jpg"), # 从本地文件目录发送图片
-        Plain("这是一个图片。")
+        Comp.At(qq=event.get_sender_id()), # At 消息发送者
+        Comp.Plain("来看这个图："), 
+        Comp.Image.fromURL("https://example.com/image.jpg"), # 从 URL 发送图片
+        Comp.Image.fromFileSystem("path/to/image.jpg"), # 从本地文件目录发送图片
+        Comp.Plain("这是一个图片。")
     ]
     yield event.chain_result(chain)
 ```
 
 上面构建了一个 `message chain`，也就是消息链，最终会发送一条包含了图片和文字的消息，并且保留顺序。
-
-你也可以快捷发送图文而不用显式构建 `message chain`。
-
-```python
-yield event.make_result().message("文本消息")
-                        .url_image("https://example.com/image.jpg")
-                        .file_image("path/to/image.jpg")
-```
 
 ### 发送群合并转发消息
 
