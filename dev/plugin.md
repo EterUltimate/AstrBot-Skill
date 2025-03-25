@@ -43,6 +43,11 @@ git clone 插件仓库地址
 
 然后，使用 `VSCode` 打开 `AstrBot` 项目。找到 `data/plugins/<你的插件名字>` 目录。
 
+更新 `metadata.yaml` 文件，填写插件的元数据信息。
+
+> [!NOTE]
+> AstrBot 插件市场的信息展示依赖于 `metadata.yaml` 文件。
+
 开发环境准备完毕。
 
 - AstrBot 采用在运行时注入插件的机制。因此，在调试插件时，需要启动 AstrBot 本体。
