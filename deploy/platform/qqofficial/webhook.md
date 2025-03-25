@@ -39,16 +39,17 @@
 
 ## 在 AstrBot 配置
 
-在 AstrBot 的管理面板中，选择左边栏的 `配置`，然后在右边的界面中，点击 `消息平台` 选项卡。点击 `+` 号，选择 `qq_official_webhook`，会出现 `qq_official_webhook` 的相关配置项，如下图所示：
+1. 进入 AstrBot 的管理面板
+2. 点击左边栏 `消息平台`
+3. 然后在右边的界面中，点击 `+ 新增适配器` 
+4. 选择 `qq_official_webhook`
 
-![](../../../source/images/webhook/image-1.png)
+弹出的配置项填写：
 
-配置项填写：
-
-- ID(id)：随意填写，用于区分不同的消息平台实例。系统会自动填充。
+- ID(id)：随意填写，用于区分不同的消息平台实例。
 - 启用(enable): 勾选。
-- appid: 你在 QQ 官方机器人中获取的 appid。
-- secret: 你在 QQ 官方机器人中获取的 secret。
+- appid: QQ 官方机器人中获取的 appid。
+- secret: QQ 官方机器人中获取的 secret。
 
 点击 `保存`。
 

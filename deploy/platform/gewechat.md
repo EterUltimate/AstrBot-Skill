@@ -53,25 +53,32 @@ docker logs gewe -f
 
 ## 在 AstrBot 中配置 Gewechat 适配器
 
-在 AstrBot 的管理面板中，选择左边栏的 `配置`，然后在右边的界面中，点击 `消息平台` 选项卡。点击 `+` 号，选择 `gewechat`，会出现 `gewechat` 的相关配置项，如下图所示：
+1. 进入 AstrBot 的管理面板
+2. 点击左边栏 `消息平台`
+3. 然后在右边的界面中，点击 `+ 新增适配器` 
+4. 选择 `gewechat`
 
-![](../../source/images/gewechat/image.png)
+弹出的配置项填写：
 
+- `ID(id)`：随意填写，用于区分不同的消息平台实例。
+- `启用(enable)`: 勾选。
 - `nickname` 请随便填一个具有辨识度的英文名,不需要是微信用户名。
 - `base_url` 是连接到 Gewechat 后端的 API 地址。
 - `host` 为回调地址主机，即 gewechat 下发事件到 AstrBot 的地址。**请填写宿主机局域网地址(windows 用 ipconfig 看，linux 用 ip -a 看) 或者服务器公网地址（如果在用服务器）**
 - `port` 为回调地址端口，可不修改。
 
+> [!NOTE]
 > 对于 Mac/Windows 使用 Docker Desktop 部署 AstrBot 部署的用户，base_url 请填写为 `http://host.docker.internal:2531`。并且回调地址端口不要修改。如果还不行，请通过 `docker inspect gewe` 查看 gewechat 容器网络的 IP 地址，然后 `http://ip地址:2531`。
-> 对于 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect gewe` 查看 gewechat 容器网络的 IP 地址，然后 `http://ip地址:2531`。如果有 公网ip，也可以是公网 ip，但是需要放行 2531 端口。
-
-对于 host，如果使用 Docker Desktop 部署 AstrBot 部署的用户，请填写为 `host.docker.internal`。如果使用 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect astrbot` 查看 astrbot 容器网络的 IP 地址，然后填进去。
-
+> 
+> 对于 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect gewe` 查看 gewechat 容器网络的 IP 地址，然后 `http://ip地址:2531`。如果有公网ip，也可填写公网 ip，需要在系统和服务器云厂商安全组(如有)放行 2531 端口。
+> 
+> 对于 host，如果使用 Docker Desktop 部署 AstrBot 部署的用户，请填写为 `host.docker.internal`。如果使用 Linux 使用 Docker 部署 AstrBot 部署的用户，请通过 `docker inspect astrbot` 查看 astrbot 容器网络的 IP 地址，然后填进去。
+>
 > docker inspert:
 >
 > ![](../../source/images/gewechat/image-1.png)
 
-勾选 `启用`，然后点击 `保存`。
+点击 `保存`。
 
 - 如果出现报错 "Cannot Connect to xxxxxx:2531"，请使用 `docker logs gewe` 查看 Gewechat 的日志，是否正常启动。
 - 如果出现报错 "创建设备失败......unexpect EOF"，请关闭代理软件后重试。
@@ -80,7 +87,7 @@ docker logs gewe -f
 
 ## 扫码登录
 
-接下来需要查看日志。请在管理面板的控制台查看或者切终端查看。
+接下来需要查看日志。请在管理面板的 `控制台` 查看或者切终端查看。
 
 查看 AstrBot 的终端日志输出，会出现相关引导提示。打开提示的二维码链接扫码登录即可。
 
