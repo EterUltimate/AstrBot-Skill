@@ -669,6 +669,30 @@ async def helloworld(self, event: AstrMessageEvent):
 
 上面构建了一个 `message chain`，也就是消息链，最终会发送一条包含了图片和文字的消息，并且保留顺序。
 
+
+类似地，
+
+**文件 File**
+
+```py
+Comp.File(file="path/to/file.txt", name="file.txt") # 部分平台不支持 
+```
+
+**语音 Record**
+
+```py
+path = "path/to/record.wav" # 暂时只接受 wav 格式，其他格式请自行转换
+Comp.Record(file=path, url=path)
+```
+
+**视频 Video**
+
+```py
+path = "path/to/video.mp4"
+Comp.Video.fromFileSystem(path=path)
+Comp.Video.fromURL(url="https://example.com/video.mp4")
+```
+
 ### 发送群合并转发消息
 
 > 当前适配情况：aiocqhttp
