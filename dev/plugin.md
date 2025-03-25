@@ -1075,6 +1075,13 @@ from astrbot.api.provider import Personality
 personas = self.context.provider_manager.personas # List[Personality]
 ```
 
+### 获取默认人格
+
+```py
+self.context.provider_manager.selected_default_persona["name"] # 默认的 persona_id
+```
+
+
 ### 获取会话正在使用的对话
 
 ```py
@@ -1084,10 +1091,18 @@ curr_cid = await self.context.conversation_manager.get_curr_conversation_id(uid)
 conversation = await self.context.conversation_manager.get_conversation(uid, curr_cid) # Conversation
 # context = json.loads(conversation.history) # 获取上下文
 # persona_id = conversation.persona_id # 获取对话使用的人格
-
-# 当 persona_id 为 None 时，这个对话为默认人格，即 self.context.provider_manager.selected_default_persona['name']
-# 当 persona_id 为 "[%None]" 时，为用户主动在这个对话取消了人格（通过 /persona unset 设置）。
 ```
+
+> 
+> 目前来说，当用户新建一个对话时，`persona_id` 是 None，当用户使用 `/persona unset` 显式取消人格时，`persona_id` 会置为 `[%None]` 字符串（这是为了防止与 `persona_id` 为 None 时使用默认人格 冲突）。
+> 
+> 可以使用如下方法获得默认人格 `id`
+> 
+> ```py
+> if not conversation.persona_id and not conversation.persona_id == "[%None]":
+>     curr_persona_name = self.context.provider_manager.selected_default_persona["name"] # 默认的 persona_id
+> ```
+> 
 
 ### 获取会话的所有对话
 
