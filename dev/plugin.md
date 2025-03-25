@@ -388,7 +388,7 @@ async def on_aiocqhttp(self, event: AstrMessageEvent):
 ### 限制管理员才能使用指令
 
 ```python
-@permission_type(PermissionType.ADMIN)
+@filter.permission_type(PermissionType.ADMIN)
 @filter.command("test")
 async def test(self, event: AstrMessageEvent):
     pass
@@ -411,7 +411,7 @@ async def helloworld(self, event: AstrMessageEvent):
 ### 事件钩子【New】
 
 > [!TIP]
-> 事件钩子不支持与上面的 @command, @command_group, @event_message_type, @platform_adapter_type, @permission_type 一起使用。
+> 事件钩子不支持与上面的 @filter.command, @filter.command_group, @filter.event_message_type, @filter.platform_adapter_type, @filter.permission_type 一起使用。
 
 
 #### AstrBot 初始化完成时
