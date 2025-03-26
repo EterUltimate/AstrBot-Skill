@@ -4,7 +4,7 @@ outline: deep
 
 # Astrbot 整体架构
 
-![](../source/images/dev/overall_structure.png)
+![](../../source/images/dev/overall_structure.png)
 
 # 目录结构
 
