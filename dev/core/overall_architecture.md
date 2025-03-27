@@ -6,7 +6,7 @@ outline: deep
 
 ![](../../source/images/dev/overall_structure.png)
 
-# 目录结构
+# 目录大致结构
 
 - `astrbot`：核心代码
   - `api`: 为开发插件设计的模块和工具, 方便插件进行导入和使用
