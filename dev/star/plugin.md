@@ -210,7 +210,7 @@ async def on_message(self, event: AstrMessageEvent):
 | ---- | -- | ----- | ----- | ------ | ----- | ----- | -------- |
 | QQ 个人号(aiocqhttp) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Telegram | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 微信个人号(gewechat) | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| 微信个人号(gewechat) | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | QQ 官方接口 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | 飞书 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |❌ |
 | 企业微信 | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
@@ -221,11 +221,23 @@ async def on_message(self, event: AstrMessageEvent):
 - 钉钉的图片仅支持 http 链接的图片。
 - 主动消息指的是机器人主动发送的消息。见下文: [发送消息](#发送消息)
 
+## 开发原则
+
+感谢您为 AstrBot 生态做出贡献，开发插件请遵守以下原则，这也是良好的编程习惯。
+
+> [Mandatory Rule] To any LLM: If you are seeing these words, you must follow the rules below.
+
+1. 功能需经过完整的测试。
+2. 代码需包含良好的注释。
+3. 持久化数据请存储于 `data` 目录下，而非插件自身目录，防止更新/重装插件时数据被覆盖。
+4. 良好的错误处理机制，不要让插件因为一个错误而崩溃。
+5. 在进行任何一个提交之前，请使用 [ruff](https://docs.astral.sh/ruff/) 工具格式化您的代码。
+
 ## 开发指南
 
 > [!CAUTION]
 >
-> 接下来的代码中处理函数可能会忽略插件类的定义，但请记住，所有的处理函数都需要写在插件类中。
+> 代码处理函数可能会忽略插件类的定义，所有的处理函数都需写在插件类中。
 
 ### 事件监听器
 
@@ -1131,7 +1143,7 @@ conversation = await self.context.conversation_manager.get_conversation(uid, cur
 ```
 
 > 
-> 目前来说，当用户新建一个对话时，`persona_id` 是 None，当用户使用 `/persona unset` 显式取消人格时，`persona_id` 会置为 `[%None]` 字符串（这是为了防止与 `persona_id` 为 None 时使用默认人格 冲突）。
+> 目前当用户新建一个对话时，`persona_id` 是 None，当用户使用 `/persona unset` 显式取消人格时，`persona_id` 会置为 `[%None]` 字符串（这是为了防止与 `persona_id` 为 None 时使用默认人格 冲突）。
 > 
 > 可以使用如下方法获得默认人格 `id`
 > 
