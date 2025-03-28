@@ -174,8 +174,10 @@ export default defineConfig({
             text: "核心代码解释",
             base: "/dev/core",
             collapsed: true,
-            items: [{ text: "整体架构", link: "/overall_architecture" }],
-            items: [{ text: "运行流程", link: "/overall_operation_process" }],
+            items: [
+              { text: "整体架构", link: "/overall_architecture" },
+              { text: "运行流程", link: "/overall_operation_process" }
+            ],
           },
           {
             text: "插件开发",
