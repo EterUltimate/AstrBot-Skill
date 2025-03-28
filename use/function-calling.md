@@ -48,15 +48,4 @@ outline: deep
 
 ## MCP
 
-MCP(Model Context Protocol，模型上下文协议) 是一种新的开放标准协议，用来在大模型和数据源之间建立安全双向的链接。简单来说，它将函数工具单独抽离出来作为一个独立的服务，AstrBot 通过 MCP 协议远程调用函数工具，函数工具返回结果给 AstrBot。
-
-![](../source/images/function-calling/image3.png)
-
-AstrBot v3.5.0 支持 MCP 协议，可以添加多个 MCP 服务器、使用 MCP 服务器的函数工具。
-
-![](../source/images/function-calling/image2.png)
-
-参考链接：
-
-1. 在这里了解如何使用 MCP: [Model Context Protocol](https://modelcontextprotocol.io/introduction)
-2. 在这里获取常用的 MCP 服务器: [awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers/blob/main/README-zh.md#what-is-mcp)
+请前往此文档 [AstrBot - MCP](/use/mcp) 查看。

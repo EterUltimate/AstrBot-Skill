@@ -6,13 +6,10 @@ outline: deep
 
 ## 启动 AstrBot
 
-启动 AstrBot 后, 会从 main.py 开始执行, 启动阶段的主要流程如下：
+启动 AstrBot 后, 会从 `main.py` 开始执行, 启动阶段的主要流程如下：
 
-1. 检查环境
-2. 加载日志代理器, 开始打印日志
-3. 运行仪表盘的检查
-4. 启动 SQLite 数据库
-5. 启动核心生命周期
+1. 检查环境、检查 WebUI 文件，如缺失将自动下载；
+2. 加载 WebUI 后端异步任务、加载核心(Core)相关组件
 
 ## 核心生命周期
 
@@ -20,9 +17,9 @@ outline: deep
 
 在核心生命周期初始化时, 会按顺序初始化以下组件:
 
-1. 供应商管理器(ProviderManager): 用于接入不同的大模型供应商, 提供 llm 请求接口。
+1. 供应商管理器(ProviderManager): 用于接入不同的大模型供应商, 提供 LLM 请求接口。
 2. 平台管理器(PlatformManager): 用于接入不同的平台, 提供平台请求接口。
-3. 知识库管理器(KnowledgeDBManager): 用于接入知识库, 提供聊天增强功能(Beta)。
+3. 知识库管理器(KnowledgeDBManager): 用于内建知识库而不依赖外部的 LLMOps 平台。(这个功能在 v3.5.0 及之前的版本都没有被实装)
 4. 会话-对话管理器(ConversationManager): 用于管理不同会话窗口和对话的映射关系。
 5. 插件管理器(PluginManager): 用于接入插件。
 6. 消息管道调度器(PipelineScheduler): 用于调度消息管道, 处理消息的流转。
@@ -30,7 +27,7 @@ outline: deep
 
 ### 运行
 
-AstrBot 的运行基于事件驱动, 所有任务都运行在事件总线(EventBus)上, 事件总线的核心结构如下:
+AstrBot 的运行基于事件驱动, 平台适配器上报事件后，事件总线将会将事件交给流水线(PipelineScheduler)进行进一步处理。事件总线的核心结构如下:
 
 ```Python
 class EventBus:

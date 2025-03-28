@@ -144,8 +144,12 @@ export default defineConfig({
             link: "/function-calling",
           },
           {
-            text: "网页搜索",
-            link: "/websearch",
+            text: 'MCP', 
+            link: '/mcp'
+          },
+          {
+            text: '网页搜索',
+            link: '/websearch'
           },
           {
             text: "沙箱化代码执行器(beta)",
@@ -174,18 +178,16 @@ export default defineConfig({
             text: "核心代码解释",
             base: "/dev/core",
             collapsed: true,
-            items: [{ text: "整体架构", link: "/overall_architecture" }],
-            items: [{ text: "运行流程", link: "/overall_operation_process" }],
+            items: [
+              { text: "整体架构", link: "/overall_architecture" },
+              { text: "运行流程", link: "/overall_operation_process" }
+            ],
           },
           {
             text: "插件开发",
             base: "/dev/star",
             collapsed: true,
             items: [{ text: "插件基础开发", link: "/plugin" }],
-          },
-          {
-            text: "插件基础开发",
-            link: "/plugin",
           },
           {
             text: "接入平台适配器",

@@ -26,7 +26,7 @@ outline: deep
     - 保持全部字母小写；
     - 尽量简短。
 
-![](../source/images/plugin/image.png)
+![](../../source/images/plugin/image.png)
 
 5. 点击右下角的 `Create repository`。
 
@@ -312,11 +312,11 @@ async def sub(self, event: AstrMessageEvent, a: int, b: int):
 
 当用户没有输入子指令时，会报错并，并渲染出该指令组的树形结构。
 
-![](../source/images/plugin/image-1.png)
+![](../../source/images/plugin/image-1.png)
 
-![](../source/images/plugin/898a169ae7ed0478f41c0a7d14cb4d64.png)
+![](../../source/images/plugin/898a169ae7ed0478f41c0a7d14cb4d64.png)
 
-![](../source/images/plugin/image-2.png)
+![](../../source/images/plugin/image-2.png)
 
 理论上，指令组可以无限嵌套！
 
@@ -728,7 +728,7 @@ async def test(self, event: AstrMessageEvent):
     yield event.chain_result([node])
 ```
 
-![发送群合并转发消息](../source/images/plugin/image-4.png)
+![发送群合并转发消息](../../source/images/plugin/image-4.png)
 
 
 ### 发送视频消息
@@ -751,7 +751,7 @@ async def test(self, event: AstrMessageEvent):
     )
     yield event.chain_result([music])
 ```
-![发送视频消息](../source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
+![发送视频消息](../../source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
 
 ### 发送 QQ 表情
 
@@ -768,7 +768,7 @@ async def test(self, event: AstrMessageEvent):
     yield event.chain_result([Face(id=21), Plain("你好呀")])
 ```
 
-![发送 QQ 表情](../source/images/plugin/image-5.png)
+![发送 QQ 表情](../../source/images/plugin/image-5.png)
 
 ### 获取平台适配器/客户端
 
@@ -846,7 +846,7 @@ async def check_ok(self, event: AstrMessageEvent):
 
 AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户在管理面板上直接配置插件，而不需要修改代码。
 
-![](../source/images/plugin/QQ_1738149538737.png)
+![](../../source/images/plugin/QQ_1738149538737.png)
 
 **Schema 介绍**
 
@@ -933,7 +933,7 @@ async def on_aiocqhttp(self, event: AstrMessageEvent, text: str):
     
 ```
 
-![](../source/images/plugin/image-3.png)
+![](../../source/images/plugin/image-3.png)
 
 ### 自定义 HTML 渲染成图片
 
@@ -962,7 +962,7 @@ async def custom_t2i_tmpl(self, event: AstrMessageEvent):
 
 返回的结果:
 
-![](../source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
+![](../../source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
 
 > 这只是一个简单的例子。得益于 HTML 和 DOM 渲染器的强大性，你可以进行更复杂和更美观的的设计。除此之外，Jinja2 支持循环、条件等语法以适应列表、字典等数据结构。你可以从网上了解更多关于 Jinja2 的知识。
 
