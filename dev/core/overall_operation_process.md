@@ -99,11 +99,6 @@ async def _process_stages(self, event: AstrMessageEvent, from_stage=0):
             if event.is_stopped():
                 logger.debug(f"阶段 {stage.__class__.__name__} 已终止事件传播。")
                 break
-
-        # 检查整个阶段是否完成后事件是否被停止
-        if event.is_stopped():
-            logger.debug(f"阶段 {stage.__class__.__name__} 已终止事件传播。")
-            break
 ```
 
 这似乎很难理解, 这里提供一个示例进行解释:
