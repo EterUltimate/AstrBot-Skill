@@ -190,10 +190,6 @@ export default defineConfig({
             items: [{ text: "插件基础开发", link: "/plugin" }],
           },
           {
-            text: "插件基础开发",
-            link: "/plugin",
-          },
-          {
             text: "接入平台适配器",
             link: "/plugin-platform-adapter",
           },
