@@ -14,8 +14,7 @@ outline: deep
 2. `author(str)`: 插件作者
 3. `desc(str)`: 插件简介
 4. `version(str)`: 插件版本
-5. `repp(str)`: 插件仓库地址
-
+5. `repo(str)`: 插件仓库地址
 #### 插件类, 模块属性
 
 6. `star_cls_type(type)`: 插件类对象类型, 例如你的插件类名为`HelloWorld`, 该属性就是`<type 'HelloWorld'>`
