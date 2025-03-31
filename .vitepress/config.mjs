@@ -144,12 +144,12 @@ export default defineConfig({
             link: "/function-calling",
           },
           {
-            text: 'MCP', 
-            link: '/mcp'
+            text: "MCP",
+            link: "/mcp",
           },
           {
-            text: '网页搜索',
-            link: '/websearch'
+            text: "网页搜索",
+            link: "/websearch",
           },
           {
             text: "沙箱化代码执行器(beta)",
@@ -180,14 +180,28 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: "整体架构", link: "/overall_architecture" },
-              { text: "运行流程", link: "/overall_operation_process" }
+              { text: "运行流程", link: "/overall_operation_process" },
             ],
           },
           {
             text: "插件开发",
             base: "/dev/star",
             collapsed: true,
-            items: [{ text: "插件基础开发", link: "/plugin" }],
+            items: [
+              { text: "插件基础开发", link: "/plugin" },
+              { text: "插件数据目录", link: "/all_resources" },
+              {
+                text: "插件开发数据",
+                link: "/resources",
+                collasped: true,
+                items: [
+                  { text: "AstrMessageEvent", link: "/astr_message_event" },
+                  { text: "Context", link: "/context" },
+                  { text: "Star", link: "/star" },
+                  { text: "StarMetadata", link: "/star_metadata" },
+                ],
+              },
+            ],
           },
           {
             text: "接入平台适配器",
