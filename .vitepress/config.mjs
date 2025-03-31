@@ -193,7 +193,7 @@ export default defineConfig({
               {
                 text: "插件开发数据",
                 link: "/resources",
-                collasped: true,
+                collapsed: true,
                 items: [
                   { text: "AstrMessageEvent", link: "/astr_message_event" },
                   { text: "Context", link: "/context" },
