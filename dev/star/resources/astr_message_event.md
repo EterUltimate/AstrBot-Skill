@@ -20,20 +20,20 @@ async def helloworld(self, event: AstrMessageEvent):
 #### 消息
 
 1. `message_str(str)`: 纯文本消息, 例如收到消息事件"你好", `event.message_str`将会是`"你好"`
-2. `message_obj(AstrBotMessage)`: 消息对象, 参考: [AstrBotMessage(施工中)]()
+2. `message_obj(AstrBotMessage)`: 消息对象, 参考: [AstrBotMessage(施工中)]
 3. `is_at_or_wake_command(bool)`: 是否@了机器人/消息带有唤醒词/为私聊(插件注册的事件监听器会让 is_wake 设为 True, 但是不会让这个属性置为 True)
 
 #### 消息来源
 
 4. `role(str)`: 用户是否为管理员, 两个可选选项:`"member" of "admin"`
-5. `platform_meta(PlatformMetadata)`: 消息平台的信息, 参考: [PlatformMetadata(施工中)]()
+5. `platform_meta(PlatformMetadata)`: 消息平台的信息, 参考: [PlatformMetadata(施工中)]
 6. `session_id(str)`: 会话 id, 格式为 `platform_name:message_type:session_id`, 建议直接使用 9 中的`unified_msg_origin`作为代替
 7. `session(MessageSesion)`: 会话 id, 用于唯一识别一个会话, `session_id`与`unified_msg_origin`是它的字符串表示
 8. `unified_msg_origin(str)`: 会话 id, 等同于 6 中的`session_id`, 建议使用
 
 #### 事件控制
 
-9. `is_wake(bool)`: 机器人是否唤醒(通过 WakingStage, 详见: [WakingStage(施工中)]()), 如果机器人未唤醒, 将不会触发后面的阶段
+9. `is_wake(bool)`: 机器人是否唤醒(通过 WakingStage, 详见: [WakingStage(施工中)]), 如果机器人未唤醒, 将不会触发后面的阶段
 10. `call_llm(bool)`: 是否在此消息事件中禁止默认的 LLM 请求, 对于每个消息事件, AstrBot 会默认调用一次 LLM 进行回复
 
 ### 方法
@@ -63,7 +63,7 @@ get_message_outline() -> str
 get_messages() -> List[BaseMessageComponent]
 ```
 
-该方法返回一个消息列表，包含该事件中的所有消息组件。该列表中的每个组件都可以是文本、图片或其他类型的消息。组件参考: [BaseMessageComponent(施工中)]()
+该方法返回一个消息列表，包含该事件中的所有消息组件。该列表中的每个组件都可以是文本、图片或其他类型的消息。组件参考: [BaseMessageComponent(施工中)]
 
 4. get_message_type
 
@@ -71,7 +71,7 @@ get_messages() -> List[BaseMessageComponent]
 get_message_type() -> MessageType
 ```
 
-该方法用于获取消息类型, 消息类型参考: [MessageType(施工中)]()
+该方法用于获取消息类型, 消息类型参考: [MessageType(施工中)]
 
 5. is_private_chat
 
@@ -203,7 +203,7 @@ set_result(result: Union[MessageEventResult, str])
 该方法用于设置该消息事件的结果, 该结果是 Bot 发送的内容
 它接受一个参数:
 
-- result: MessageEventResult(参考:[MessageEventResult(施工中)]()) 或字符串, 若为字符串, Bot 会发送该字符串消息
+- result: MessageEventResult(参考:[MessageEventResult(施工中)]) 或字符串, 若为字符串, Bot 会发送该字符串消息
 
 19. get_result
 
@@ -211,7 +211,7 @@ set_result(result: Union[MessageEventResult, str])
 get_result() -> MessageEventResult
 ```
 
-该方法用于获取消息事件的结果, 该结果类型参考: [MessageEventResult(施工中)]()
+该方法用于获取消息事件的结果, 该结果类型参考: [MessageEventResult(施工中)]
 
 20. clear_result
 
@@ -250,7 +250,7 @@ request_llm(prompt: str,
 接受 7 个参数:
 
 - prompt(str): 提示词
-- func_tool_manager(FuncCall): 函数工具管理器, 参考: [FuncCall(施工中)]()
+- func_tool_manager(FuncCall): 函数工具管理器, 参考: [FuncCall(施工中)]
 - session_id(str): 已经过时, 留空即可
 - image_urls(List(str)): 发送给 LLM 的图片, 可以为 base64 格式/网络链接/本地图片路径
 - contexts(List): 当指定 contexts 时, 将使用其中的内容作为该次请求的上下文(而不是聊天记录)
@@ -295,7 +295,7 @@ image_result(url_or_path: str) -> MessageEventResult
 chain_result(chain: List[BaseMessageComponent]) -> MessageEventResult
 ```
 
-该方法用于创建一个空的消息事件结果, 包含整个消息链, 消息链是一个列表, 按顺序包含各个消息组件, 消息组件参考: [BaseMessageComponent(施工中)]()
+该方法用于创建一个空的消息事件结果, 包含整个消息链, 消息链是一个列表, 按顺序包含各个消息组件, 消息组件参考: [BaseMessageComponent(施工中)]
 
 27. send
 
@@ -308,7 +308,7 @@ send(message: MessageChain)
 
 接受 1 个参数:
 
-- message(MessageChain): 消息链, 参考: [MessageChain(施工中)]()
+- message(MessageChain): 消息链, 参考: [MessageChain(施工中)]
 
 #### 其他
 
