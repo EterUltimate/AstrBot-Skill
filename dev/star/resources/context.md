@@ -173,7 +173,7 @@ send_message(session: Union[str, MessageSesion], message_chain: MessageChain) ->
 
 它接受两个参数：
 
-- session: 会话的唯一标识符, 可以是字符串或 MessageSesion 对象， 获取该标识符参考：[获取会话的 session]()。
+- session: 会话的唯一标识符, 可以是字符串或 MessageSesion 对象， 获取该标识符参考：[获取会话的 session]。
 - message_chain: 消息链对象, 该对象包含了要发送的消息内容, 该对象是 MessageChain 类的实例。
 
 该方法返回一个布尔值, 表示是否找到对应的消息平台。
