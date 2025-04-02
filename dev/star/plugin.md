@@ -514,7 +514,7 @@ async def after_message_sent(self, event: AstrMessageEvent):
 
 > 大于等于 v3.4.21。
 
-指令、事件监听器可以设置优先级，先于其他指令、监听器执行。默认优先级是 `0`。
+指令、事件监听器、事件钩子可以设置优先级，先于其他指令、监听器、钩子执行。默认优先级是 `0`。
 
 ```python
 @filter.command("helloworld", priority=1)
