@@ -14,11 +14,11 @@
 
 ### 当管理面板打开时遇到 404 错误
 
-在 [release](https://github.com/Soulter/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
+在 [release](https://github.com/AstrBotDevs/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
 
 ### 本地渲染 Markdown 图片(t2i)时中文乱码
 
-可以自定义字体。详见 -> [#957](https://github.com/Soulter/AstrBot/issues/957#issuecomment-2749981802)
+可以自定义字体。详见 -> [#957](https://github.com/AstrBotDevs/AstrBot/issues/957#issuecomment-2749981802)
 
 推荐 [Maple Mono](https://github.com/subframe7536/maple-font) 字体。
 

@@ -1,6 +1,6 @@
 # 前言
 
-部署好后...当然是给[AstrBot](https://github.com/Soulter/AstrBot)一个 Star 啦！我在这个项目上花费了超过 800 个小时，希望你能喜欢它...
+部署好后...当然是给[AstrBot](https://github.com/AstrBotDevs/AstrBot)一个 Star 啦！我在这个项目上花费了超过 800 个小时，希望你能喜欢它...
 
 AstrBot 主仓库：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e.svg)](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e)
 

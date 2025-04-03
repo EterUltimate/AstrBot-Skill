@@ -11,7 +11,7 @@
 
 ## 下载安装器
 
-打开 https://github.com/Soulter/AstrBotLauncher/releases/latest 
+打开 https://github.com/AstrBotDevs/AstrBotLauncher/releases/latest 
 
 下载 `Source code (zip)` 并解压到您的电脑。
 
@@ -35,7 +35,7 @@
 
 如果没有检测到 Python 环境，脚本将会提示并退出。
 
-脚本将自动检测目录下是否有 `AstrBot` 文件夹，如果没有，将会从 [GitHub](https://github.com/Soulter/AstrBot/releases/latest) 自动下载最新的 AstrBot 源码。下载好后，会自动安装 AstrBot 的依赖并运行。
+脚本将自动检测目录下是否有 `AstrBot` 文件夹，如果没有，将会从 [GitHub](https://github.com/AstrBotDevs/AstrBot/releases/latest) 自动下载最新的 AstrBot 源码。下载好后，会自动安装 AstrBot 的依赖并运行。
 
 ## 🎉 大功告成！
 
@@ -47,7 +47,7 @@
 > 默认用户名和密码是 `astrbot` 和 `astrbot`。
 >
 > **当管理面板打开时遇到 404 错误：**
-> 在 [release](https://github.com/Soulter/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
+> 在 [release](https://github.com/AstrBotDevs/AstrBot/releases) 页面下载dist.zip，解压拖到 AstrBot/data 下。还不行请重启电脑（来自群里的反馈）
 
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
 

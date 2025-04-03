@@ -23,6 +23,6 @@
 
 欢迎提交 Issue 或 Pull Request：
 
-[Soulter/AstrBot](https://github.com/Soulter/AstrBot)
+[Soulter/AstrBot](https://github.com/AstrBotDevs/AstrBot)
 
-[Soulter/AstrBot-Docs](https://github.com/Soulter/AstrBot-docs)
+[Soulter/AstrBot-Docs](https://github.com/AstrBotDevs/AstrBot-docs)
