@@ -16,7 +16,7 @@
 首先，需要 Clone AstrBot 仓库到本地：
 
 ```bash
-git clone https://github.com/Soulter/AstrBot
+git clone https://github.com/AstrBotDevs/AstrBot
 cd AstrBot
 ```
 

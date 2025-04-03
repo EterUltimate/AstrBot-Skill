@@ -47,7 +47,7 @@ docker logs gewe -f
 ```
 
 - 启动可能会花费较长时间，大概在 10-30 秒。
-- 如果出现 `[!!!!!!] Failed to allocate manager object, freezing.`，请参考 [AstrBot#340](https://github.com/Soulter/AstrBot/issues/340)
+- 如果出现 `[!!!!!!] Failed to allocate manager object, freezing.`，请参考 [AstrBot#340](https://github.com/AstrBotDevs/AstrBot/issues/340)
 
 启动好后，可以通过浏览器访问 `http://localhost:2531` 查看是否正常启动。
 
@@ -109,6 +109,6 @@ docker logs gewe -f
 ## 常见问题
 
 1. Cannot connect to host xxxx:2531。请通过 `docker logs gewe` 检查 Gewechat 容器是否正常运行。
-2. host 回调地址异常。请参考 https://github.com/Soulter/AstrBot/issues/327
+2. host 回调地址异常。请参考 https://github.com/AstrBotDevs/AstrBot/issues/327
 3. 创建设备失败。请重启 gewe 容器几次再看情况。如果还不行就等一段时间之后再尝试。
 4. 设备 id 不存在。请修改 AstrBot 配置，将 gewechat 的配置中的 username 随便改一个名字后保存重启。

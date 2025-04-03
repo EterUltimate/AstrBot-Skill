@@ -15,7 +15,7 @@ hero:
       link: /what-is-astrbot
     - theme: alt
       text: GitHub 仓库
-      link: https://github.com/Soulter/AstrBot
+      link: https://github.com/AstrBotDevs/AstrBot
 
 features:
   - icon: ✨

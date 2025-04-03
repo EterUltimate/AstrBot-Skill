@@ -35,7 +35,7 @@ outline: deep
 首先，Clone AstrBot 项目本体到本地。
 
 ```bash
-git clone https://github.com/Soulter/AstrBot
+git clone https://github.com/AstrBotDevs/AstrBot
 mkdir -p AstrBot/data/plugins
 cd AstrBot/data/plugins
 git clone 插件仓库地址

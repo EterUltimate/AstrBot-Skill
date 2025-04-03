@@ -15,9 +15,9 @@
 
 欢迎提交 Issue 或 Pull Request：
 
-- [Soulter/AstrBot](https://github.com/Soulter/AstrBot)
+- [AstrBotDevs/AstrBot](https://github.com/AstrBotDevs/AstrBot)
 
-- [Soulter/AstrBot-Docs](https://github.com/Soulter/AstrBot-docs)
+- [AstrBotDevs/AstrBot-Docs](https://github.com/AstrBotDevs/AstrBot-docs)
 
 ## 成为 AstrBot 组织成员
 
