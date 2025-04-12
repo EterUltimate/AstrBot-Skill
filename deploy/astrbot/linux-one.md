@@ -1,6 +1,8 @@
 # 通过 Linux 一键脚本安装
 
-> 该脚本由社区 **@小馒头** 提供，感谢！❤
+> [!WARNING]
+> 1. 该脚本由社区 **@小馒头** 提供（感谢❤）。
+> 2. AstrBot 团队不保证该脚本的可用性，并且不参与该脚本的维护工作。我们推荐 Linux 用户手动部署或者通过 Docker 部署 AstrBot。
 
 ![](../../source/images/linux-one/5bae97bb68f367923f63dd3f1607a7df.png)
 

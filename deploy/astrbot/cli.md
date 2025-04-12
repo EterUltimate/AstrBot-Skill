@@ -6,7 +6,7 @@
 > 以下教程默认您的设备上已经安装 Python，并且版本 `>=3.10`
 
 
-## 下载源码
+## 下载/克隆仓库
 
 如果你的电脑上安装了 `git`，你可以通过以下命令来下载源码：
 
@@ -21,7 +21,20 @@ cd AstrBot
 
 ![](../../source/images/cli/image.png)
 
-## 运行源码
+## 安装依赖并运行
+
+::: details 【🥳推荐】使用 `uv` 管理依赖
+
+> 如果没安装 `uv`，请参考 [Installing uv](https://docs.astral.sh/uv/getting-started/installation/) 安装。
+
+2. 在终端执行(AstrBot 目录下)
+```bash
+uv sync
+uv run main.py
+```
+:::
+
+::: details Python 内置 venv 安装依赖
 
 在 AstrBot 源码目录下，使用终端运行以下命令：
 
@@ -34,9 +47,9 @@ python3 -m venv ./venv
 
 > 也可能是 `python` 而不是 `python3`
  
-以上步骤会创建一个虚拟环境并激活（以免打乱你电脑本地的 Python 环境），并使用清华大学的镜像源来安装 AstrBot 的依赖。依赖的安装需要花费一些时间。
+以上步骤会创建一个虚拟环境并激活（以免打乱您设备本地的 Python 环境）。
 
-接下来，通过以下命令安装依赖文件：
+接下来，通过以下命令安装依赖文件，这可能需要花费一些时间：
 
 Mac/Linux/WSL 执行：
 
@@ -46,13 +59,6 @@ python -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.c
 python main.py
 ```
 
-> [!TIP]
-> AstrBot 支持基于 Docker 的沙箱代码执行器。如果你需要使用沙箱代码执行器，请使用 `sudo` 以便 AstrBot 能够正常操作 Docker。
-> ```bash
-> sudo -E venv/bin/python3 main.py
-> ```
-
-
 Windows 执行:
 
 ```bash
@@ -60,6 +66,7 @@ venv\Scripts\activate
 python -m pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 python main.py
 ```
+:::
 
 
 ## 🎉 大功告成！
