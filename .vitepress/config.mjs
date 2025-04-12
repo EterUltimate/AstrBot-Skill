@@ -196,9 +196,13 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { text: "AstrMessageEvent", link: "/astr_message_event" },
+                  { text: "AstrBotMessage", link: "/astrbot_message" },
+                  { text: "MessageType", link: "/message_type" },
+                  { text: "MessageMember", link: "/message_member" },
                   { text: "Context", link: "/context" },
                   { text: "Star", link: "/star" },
                   { text: "StarMetadata", link: "/star_metadata" },
+                  { text: "PlatformMetadata", link: "/platform_metadata" },
                 ],
               },
             ],
