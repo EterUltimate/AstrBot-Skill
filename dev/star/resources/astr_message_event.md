@@ -20,16 +20,16 @@ async def helloworld(self, event: AstrMessageEvent):
 #### 消息
 
 1. `message_str(str)`: 纯文本消息, 例如收到消息事件"你好", `event.message_str`将会是`"你好"`
-2. `message_obj(AstrBotMessage)`: 消息对象, 参考: [AstrBotMessage(施工中)]
+2. `message_obj(AstrBotMessage)`: 消息对象, 参考: [AstrBotMessage](./astrbot_message.md)
 3. `is_at_or_wake_command(bool)`: 是否@了机器人/消息带有唤醒词/为私聊(插件注册的事件监听器会让 is_wake 设为 True, 但是不会让这个属性置为 True)
 
 #### 消息来源
 
-4. `role(str)`: 用户是否为管理员, 两个可选选项:`"member" of "admin"`
-5. `platform_meta(PlatformMetadata)`: 消息平台的信息, 参考: [PlatformMetadata(施工中)]
-6. `session_id(str)`: 会话 id, 格式为 `platform_name:message_type:session_id`, 建议直接使用 9 中的`unified_msg_origin`作为代替
-7. `session(MessageSesion)`: 会话 id, 用于唯一识别一个会话, `session_id`与`unified_msg_origin`是它的字符串表示
-8. `unified_msg_origin(str)`: 会话 id, 等同于 6 中的`session_id`, 建议使用
+4. `role(str)`: 用户是否为管理员, 两个可选选项:`"member" or "admin"`
+5. `platform_meta(PlatformMetadata)`: 消息平台的信息, 参考: [PlatformMetadata](./platform_metadata.md)
+6. `session_id(str)`: 不包含平台的会话 id, 以 qq 平台为例, 在私聊中它是对方 qq 号, 在群聊中它是群号, 它无法标记具体平台, 建议直接使用 9 中的`unified_msg_origin`作为代替
+7. `session(MessageSession)`: 会话对象, 用于唯一识别一个会话, `unified_msg_origin`是它的字符串表示, `session_id`等价于`session.session_id`
+8. `unified_msg_origin(str)`: 会话 id, 格式为: `platform_name:message_type:session_id`, 建议使用
 
 #### 事件控制
 
@@ -71,7 +71,7 @@ get_messages() -> List[BaseMessageComponent]
 get_message_type() -> MessageType
 ```
 
-该方法用于获取消息类型, 消息类型参考: [MessageType(施工中)]
+该方法用于获取消息类型, 消息类型参考: [MessageType](./message_type.md)
 
 5. is_private_chat
 
@@ -142,7 +142,7 @@ get_group_id() -> str
 
 ```Python
 get_session_id() -> str
-# 等同于self.session_id或self.unified_msg_origin
+# 等同于self.session_id或self.session.session_id
 ```
 
 该方法用于获取当前会话 id, 格式为 `platform_name:message_type:session_id`
