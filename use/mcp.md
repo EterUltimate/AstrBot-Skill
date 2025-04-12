@@ -47,6 +47,8 @@ npm -v
 npx -v
 ```
 
+安装好 `node` 之后，需要重启 `AstrBot` 以应用新的环境变量。
+
 ## 安装 MCP 服务器
 
 如果您使用 Docker 部署 AstrBot，请将 MCP 服务器安装在 data 目录下。
