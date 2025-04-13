@@ -9,7 +9,23 @@
 
 ### QQ 群
 
-欢迎加群讨论：[322154837](https://qm.qq.com/cgi-bin/qm/qr?k=EYGsuUTfe00_iOu9JTXS7_TEpMkXOvwv&jump_from=webapi&authKey=uUEMKCROfsseS+8IzqPjzV3y1tzy4AkykwTib2jNkOFdzezF9s9XknqnIaf3CDft)
+1. 1 群: 322154837 (2000 人群, 已满)
+2. 2 群: 945041621 (用于 Bot 测试)
+3. 3 群: 630166526 (2000 人群, 已满)
+4. 4 群: 775869627 (1000 人群)
+5. Core / 插件开发测试群: 975206796
+
+### Discord
+
+> 这个社区群组主要用于备用，并高度遵守国家法律法规，请不要发布或转发任何违反国家法律法规的信息。
+
+https://discord.gg/PxgzhmxJ
+
+### Telegram
+
+> 这个社区群组主要用于备用，并高度遵守国家法律法规，请不要发布或转发任何违反国家法律法规的信息。
+
+https://t.me/+hAsD2Ebl5as3NmY1
 
 ### GitHub
 
