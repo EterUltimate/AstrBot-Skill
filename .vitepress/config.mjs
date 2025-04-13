@@ -230,6 +230,10 @@ export default defineConfig({
             text: "自部署文转图",
             link: "/self-host-t2i",
           },
+          {
+            text: "插件下载不了?试试自建 GitHub 加速服务",
+            link: "/github-proxy",
+          },
         ],
       },
     ],
