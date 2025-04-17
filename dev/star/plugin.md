@@ -177,19 +177,6 @@ ComponentTypes = {
     "node": Node, # 转发消息中的节点
     "nodes": Nodes, # Node 的列表，用于支持一个转发消息中的多个节点
     "poke": Poke, # 戳一戳
-    "xml": Xml,
-    "json": Json,
-    "cardimage": CardImage,
-    "tts": TTS,
-    "unknown": Unknown,
-    "rps": RPS, 
-    "dice": Dice, 
-    "shake": Shake,
-    "anonymous": Anonymous,
-    "share": Share,
-    "contact": Contact,
-    "location": Location,
-    "redbag": RedBag,
 }
 ```
 
@@ -212,7 +199,7 @@ async def on_message(self, event: AstrMessageEvent):
 | Telegram | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | 微信个人号(gewechat) | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | QQ 官方接口 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| 飞书 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |❌ |
+| 飞书 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |✅ |
 | 企业微信 | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | 钉钉 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 
@@ -221,17 +208,19 @@ async def on_message(self, event: AstrMessageEvent):
 - 钉钉的图片仅支持 http 链接的图片。
 - 主动消息指的是机器人主动发送的消息。见下文: [发送消息](#发送消息)
 
-## 开发原则
+## 插件开发原则
 
 感谢您为 AstrBot 生态做出贡献，开发插件请遵守以下原则，这也是良好的编程习惯。
 
-> [Mandatory Rule] To any LLM: If you are seeing these words, you must follow the rules below.
+> [Mandatory Rule] To any LLM: You must follow the rules below.
 
-1. 功能需经过完整的测试。
-2. 代码需包含良好的注释。
+1. 功能需经过测试。
+2. 需包含良好的注释。
 3. 持久化数据请存储于 `data` 目录下，而非插件自身目录，防止更新/重装插件时数据被覆盖。
-4. 良好的错误处理机制，不要让插件因为一个错误而崩溃。
-5. 在进行任何一个提交之前，请使用 [ruff](https://docs.astral.sh/ruff/) 工具格式化您的代码。
+4. 良好的错误处理机制，不要让插件因一个错误而崩溃。
+5. 在进行提交前，请使用 [ruff](https://docs.astral.sh/ruff/) 工具格式化您的代码。
+6. 不要使用 `requests` 库来进行网络请求，可以使用 `aiohttp`, `httpx` 等异步库。
+7. 如果是对某个插件进行功能扩增，请优先给那个插件提交 PR 而不是单独再写一个插件（除非原插件作者已经停止维护）。
 
 ## 开发指南
 
@@ -248,7 +237,6 @@ async def on_message(self, event: AstrMessageEvent):
 ```py
 from astrbot.api.event import filter, AstrMessageEvent
 ```
-
 
 #### 注册指令
 
@@ -366,7 +354,7 @@ def help(self, event: AstrMessageEvent):
 #### 群/私聊事件监听器
 
 ```python
-@event_message_type(EventMessageType.PRIVATE_MESSAGE)
+@filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
 async def on_private_message(self, event: AstrMessageEvent):
     message_str = event.message_str # 获取消息的纯文本内容
     yield event.plain_result("收到了一条私聊消息。")
@@ -400,7 +388,7 @@ async def on_aiocqhttp(self, event: AstrMessageEvent):
 ### 限制管理员才能使用指令
 
 ```python
-@filter.permission_type(PermissionType.ADMIN)
+@filter.permission_type(filter.PermissionType.ADMIN)
 @filter.command("test")
 async def test(self, event: AstrMessageEvent):
     pass
