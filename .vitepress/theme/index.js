@@ -2,6 +2,8 @@
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
+import Sponsors from './Sponsors.vue'
+import HomeFeaturesAfter from './HomeFeaturesAfter.vue'
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -9,6 +11,8 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      "aside-ads-after": () => h(Sponsors),
+      "home-features-after": () => h(HomeFeaturesAfter),
     })
   },
   enhanceApp({ app, router, siteData }) {
