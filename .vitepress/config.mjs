@@ -35,8 +35,8 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: "🦈 Docker 部署", link: "/docker" },
-              { text: "💻 Windows 一键部署", link: "/windows" },
               { text: "✨ 雨云一键云部署(NEW)", link: "/rainyun" },
+              { text: "💻 Windows 一键部署", link: "/windows" },
               { text: "👍 手动部署", link: "/cli" },
               { text: "😁 宝塔面板部署", link: "/btpanel" },
               { text: "😊 CasaOS 部署", link: "/casaos" },
