@@ -2,9 +2,9 @@
 
 AstrBot 支持接入企业微信。
 
-> 当前只能作为企业微信应用来私聊，无法在群聊中使用。
-> 
-> 请等待后续更新。
+## 准备接入
+
+步骤：
 
 1. 进入 AstrBot 的管理面板
 2. 点击左边栏 `消息平台`
@@ -13,14 +13,57 @@ AstrBot 支持接入企业微信。
 
 这将弹出一个对话框。接下来，不要关闭页面，转移到下一步。
 
-## 配置企业微信
+## 接入方式一：微信客服
+
+> 需要 >= v3.5.7
+
+> [!NOTE]
+> 以这种方式接入，支持在微信内使用。
+
+进入 [微信客服后台](https://kf.weixin.qq.com/)，使用企业微信扫码登录。
+
+在 `客服账号` 中创建一个客服账号，记录下名称，填入 AstrBot 配置的 `微信客服账号名` 中（不是账号 ID）。
+
+在 `开发配置` 中得到企业 ID、Secret，分别复制到 AstrBot 配置的 `corpid` 和 `secret` 处。
+
+
+> [!TIP]
+> 根据 [#571](https://github.com/Soulter/AstrBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
+
+
+在 `开发配置` 中找到 `回调配置`，点击修改。
+
+回调 URL 填写： `http://你的带公网地址的服务器ip:6195/callback/command`
+
+> 请注意放行端口
+
+并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处，然后点击保存配置，等待一会。
+
+回到微信客服 `回调配置`，点击 `完成`。如果一切无误，将会显示 `已完成`。
+
+接下来，请重启刚刚配置好的平台适配器，先关后开：
+
+![](../../source/images/wecom/image-12.png)
+
+然后，打开 `控制台` 页，你应该会看到如下日志：
+
+```txt
+请打开以下链接，在微信扫码以获取客服微信 ...
+```
+
+![](../../source/images/wecom/image-13.png)
+
+打开链接，用微信扫码，然后即可打开微信客服聊天页，输入 `help` 测试是否正常连通。
+
+
+## 接入方式二：企业微信应用
 
 进入 https://work.weixin.qq.com/wework_admin/frame#apps
 
 点击 `我的企业`，查看并得到企业 ID（`Corpid`），复制到 AstrBot 配置的 `corpid` 处。
 
 > [!TIP]
-> 根据 https://github.com/AstrBotDevs/AstrBot/issues/571 的反馈，对于新注册的企业，`corp_id` 要注册一段时间后才生效（前后大概过了半个小时）。
+> 根据 [#571](https://github.com/Soulter/AstrBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
 
 ![](../../source/images/wecom/image-5.png)
 
