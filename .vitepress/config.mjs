@@ -25,6 +25,14 @@ export default defineConfig({
         ],
       },
       {
+        text: "开源之夏",
+        base: "/ospp",
+        collapsed: false,
+        items: [
+          { text: "OSPP 2025", link: "/2025" },
+        ],
+      },
+      {
         text: "部署",
         base: "/deploy",
         collapsed: false,
