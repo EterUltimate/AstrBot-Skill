@@ -84,9 +84,7 @@ docker logs napcat
 
 ## 连接到 AstrBot
 
-### 配置 aiocqhttp
-
-## 在 AstrBot 配置
+## 在 AstrBot 配置 aiocqhttp
 
 1. 进入 AstrBot 的管理面板
 2. 点击左边栏 `消息平台`

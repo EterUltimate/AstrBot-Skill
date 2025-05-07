@@ -57,7 +57,7 @@ export default defineConfig({
             collapsed: true,
             items: [
               {
-                text: "QQ 官方接口(qqofficial)",
+                text: "QQ 官方接口",
                 base: "/deploy/platform/qqofficial",
                 collapsed: true,
                 items: [
@@ -66,7 +66,7 @@ export default defineConfig({
                 ],
               },
               {
-                text: "QQ 个人号(aiocqhttp)",
+                text: "QQ 个人号",
                 base: "/deploy/platform/aiocqhttp",
                 collapsed: true,
                 items: [
@@ -76,7 +76,8 @@ export default defineConfig({
                 ],
               },
               { text: "企业微信", link: "/wecom" },
-              { text: "微信个人号(gewechat)", link: "/gewechat" },
+              { text: "微信公众平台", link: "/weixin-official-account" },
+              { text: "微信个人号", link: "/gewechat" },
               { text: "飞书", link: "/lark" },
               { text: "钉钉", link: "/dingtalk" },
               { text: "Telegram", link: "/telegram" },
