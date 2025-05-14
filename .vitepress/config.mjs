@@ -99,6 +99,7 @@ export default defineConfig({
             base: "/config/providers",
             collapsed: true,
             items: [
+              { text: "接入 PPIO 派欧云模型服务", link: "/ppio" },
               { text: "接入 OpenAI、DeepSeek 等各种模型", link: "/llm" },
               {
                 text: "接入 Dify",
