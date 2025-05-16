@@ -68,7 +68,7 @@ docker logs gewe -f
 >
 > docker inspert:
 >
-> ![](../../source/images/gewechat/image-1.png)
+> ![](../../../source/images/gewechat/image-1.png)
 
 点击 `保存`。
 
