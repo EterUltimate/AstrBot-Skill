@@ -869,7 +869,7 @@ AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户
 }
 ```
 
-- `type`: **此项必填**。配置的类型。支持 `string`, `int`, `float`, `bool`, `object`, `list`。
+- `type`: **此项必填**。配置的类型。支持 `string`, `text`, `int`, `float`, `bool`, `object`, `list`。当类型为 `text` 时，将会可视化为一个更大的可拖拽宽高的 textarea 组件，以适应大文本。
 - `description`: 可选。配置的描述。建议一句话描述配置的行为。
 - `hint`: 可选。配置的提示信息，表现在上图中右边的问号按钮，当鼠标悬浮在问号按钮上时显示。
 - `obvious_hint`: 可选。配置的 hint 是否醒目显示。如上图的 `token`。
@@ -877,6 +877,15 @@ AstrBot 提供了”强大“的配置解析和可视化功能。能够让用户
 - `items`: 可选。如果配置的类型是 `object`，需要添加 `items` 字段。`items` 的内容是这个配置项的子 Schema。理论上可以无限嵌套，但是不建议过多嵌套。
 - `invisible`: 可选。配置是否隐藏。默认是 `false`。如果设置为 `true`，则不会在管理面板上显示。
 - `options`: 可选。一个列表，如 `"options": ["chat", "agent", "workflow"]`。提供下拉列表可选项。
+- `editor_mode`: 可选。是否启用代码编辑器模式。需要 AstrBot >= `v3.5.10`, 低于这个版本不会报错，但不会生效。默认是 false。
+- `editor_language`: 可选。代码编辑器的代码语言，默认为 `json`。
+- `editor_theme`: 可选。代码编辑器的主题，可选值有 `vs-light`（默认）， `vs-dark`。
+
+其中，如果启用了代码编辑器，效果如下图所示:
+
+![editor_mode](../../source/images/plugin/image-6.png)
+
+![editor_mode_fullscreen](../../source/images/plugin/image-7.png)
 
 **使用配置**
 
