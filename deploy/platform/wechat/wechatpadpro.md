@@ -117,7 +117,7 @@ docker restart wechatpadpro
 
 ![](../../../source/images/wechatpadpro/image-5.png)
 
-> [!WARN]
+> [!WARNING]
 > **在第一次掉线之后请务必执行以下工作流程，否则将会严重提高风控风险。**
 > 1. 进入 WechatPadPro 的 API 接口界面，将你刚刚扫码登录的账号的 token 填入 “TOKEN_KEY”，在 ADMIN_KEY 处输入自己设置的密钥。然后点击“连接”。
 > 2. 然后往下翻找到“登录”——>”唤醒登录（只限扫码登陆）“，点击 ”Try it out“，再点击 ”Execute“。此时，您扫码的那台机器会弹出登录界面。这个时候就能实现老设备登录不会触发风控。
