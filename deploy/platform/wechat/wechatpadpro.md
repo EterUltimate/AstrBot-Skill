@@ -26,7 +26,7 @@
 - Redis
 - WeChatPadPro
 
-并且可以通过 `http://ip:port`（ip 是 localhost 或你的公网 IP；port 是 `asset/setting.json` 中你定义的 `port` 中的端口号）打开如下页面：
+并且可以通过 `http://ip:port`（ip 是 localhost 或你的公网 IP；port 是 `asset/setting.json` 中你定义的 `port` 中的端口号）打开 WeChatPadPro 的如下 API 接口页面：
 
 ![](../../../source/images/wechatpadpro/image.png)
 
@@ -116,6 +116,17 @@ docker restart wechatpadpro
 请打开微信扫码即可，如果超出了 30 秒，重新关开这个平台适配器即可：
 
 ![](../../../source/images/wechatpadpro/image-5.png)
+
+> [!WARN]
+> **在第一次掉线之后请务必执行以下工作流程，否则将会严重提高风控风险。**
+> 1. 进入 WechatPadPro 的 API 接口界面，将你刚刚扫码登录的账号的 token 填入 “TOKEN_KEY”，在 ADMIN_KEY 处输入自己设置的密钥。然后点击“连接”。
+> 2. 然后往下翻找到“登录”——>”唤醒登录（只限扫码登陆）“，点击 ”Try it out“，再点击 ”Execute“。此时，您扫码的那台机器会弹出登录界面。这个时候就能实现老设备登录不会触发风控。
+>
+> Token Key 即授权码，获取方式如下：
+>
+> 打开 AstrBot 数据目录（AstrBot/data 目录），找到 `wechatpadpro_credentials.json` 文件，打开之后，其中的 `auth_key` 即为对应 `wxid` 的授权码。 
+>
+> 如果有任何疑问，请在 [#1586](https://github.com/AstrBotDevs/AstrBot/issues/1586#issuecomment-2889426078) 下提问和得到解答。
 
 ## 常见问题
 
