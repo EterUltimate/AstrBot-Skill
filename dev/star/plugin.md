@@ -376,7 +376,7 @@ async def on_all_message(self, event: AstrMessageEvent):
 #### 只接收某个消息平台的事件
 
 ```python
-@platform_adapter_type(PlatformAdapterType.AIOCQHTTP | PlatformAdapterType.QQOFFICIAL)
+@filter.platform_adapter_type(filter.PlatformAdapterType.AIOCQHTTP | filter.PlatformAdapterType.QQOFFICIAL)
 async def on_aiocqhttp(self, event: AstrMessageEvent):
     '''只接收 AIOCQHTTP 和 QQOFFICIAL 的消息'''
     yield event.plain_result("收到了一条信息")
@@ -401,7 +401,7 @@ async def test(self, event: AstrMessageEvent):
 
 ```python
 @filter.command("helloworld")
-@event_message_type(EventMessageType.PRIVATE_MESSAGE)
+@filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
 async def helloworld(self, event: AstrMessageEvent):
     yield event.plain_result("你好！")
 ```
@@ -1018,7 +1018,7 @@ async def test(self, event: AstrMessageEvent):
 请务必按照以下格式编写一个工具（包括**函数注释**，AstrBot 会尝试解析该函数注释）
 
 ```py{3,4,5,6,7}
-@llm_tool(name="get_weather") # 如果 name 不填，将使用函数名
+@filter.llm_tool(name="get_weather") # 如果 name 不填，将使用函数名
 async def get_weather(self, event: AstrMessageEvent, location: str) -> MessageEventResult:
     '''获取天气信息。
 
