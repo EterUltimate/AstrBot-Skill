@@ -5,10 +5,6 @@
 >
 > 以下教程默认您的环境已安装 Docker。如果没有安装，请参考 [Docker 官方文档](https://docs.docker.com/get-docker/) 进行安装。
 
-> 如果网络环境在国内，可能无法正常拉取 Docker 镜像，请挂代理（需要额外在 Docker 设置中配置），或者使用国内镜像源。
-> 镜像源可参考：[目前国内可用Docker镜像源汇总（截至2025年1月）](https://www.coderjia.cn/archives/dba3f94c-a021-468a-8ac6-e840f85867ea)
-> 如果仍不会配置，请加群询问~
-
 ## 通过 Docker Compose 部署
 
 ::: details 和 NapCatQQ 一起部署
@@ -38,6 +34,8 @@ cd AstrBot
 sudo docker compose up -d
 ```
 
+> [!TIP]
+> 如果您的网络环境在中国大陆境内，上述命令将无法正常拉取。您可能需要修改 compose.yml 文件，将其中的 `image: soulter/astrbot:latest` 替换为 `image: m.daocloud.io/docker.io/soulter/astrbot:latest`。
 :::
 
 ## 通过 Docker 部署
@@ -46,6 +44,15 @@ sudo docker compose up -d
 mkdir astrbot
 sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name astrbot soulter/astrbot:latest
 ```
+
+> [!TIP]
+> 如果您的网络环境在中国大陆境内，上述命令将无法正常拉取。请使用以下命令拉取镜像：
+>
+> ```bash
+> sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name astrbot m.daocloud.io/docker.io/soulter/astrbot:latest
+> ```
+>
+> (感谢 DaoCloud ❤️)
 
 关于端口映射，如果您不想映射上面这么多端口，可以参考下表：
 
