@@ -527,7 +527,7 @@ AstrBot 提供了开箱即用的会话控制功能：
 导入：
 
 ```py
-from import astrbot.api.message_components as Comp
+import astrbot.api.message_components as Comp
 from astrbot.core.utils.session_waiter import (
     session_waiter,
     SessionController,
@@ -552,8 +552,8 @@ async def handle_empty_mention(self, event: AstrMessageEvent):
 
             # ...
             message_result = event.make_result()
-            message_result.chain = [Comp.Plain("先见之明")] # from import astrbot.api.message_components as Comp
-            await event.send(bot_reply) # 发送回复，不能使用 yield
+            message_result.chain = [Comp.Plain("先见之明")] # import astrbot.api.message_components as Comp
+            await event.send(message_result) # 发送回复，不能使用 yield
 
             controller.keep(timeout=60, reset_timeout=True) # 重置超时时间为 60s，如果不重置，则会继续之前的超时时间计时。
 
@@ -589,7 +589,7 @@ async def handle_empty_mention(self, event: AstrMessageEvent):
 默认情况下，AstrBot 会话控制器会将基于 `sender_id` （发送人的 ID）作为识别不同会话的标识，如果想将一整个群作为一个会话，则需要自定义会话 ID 算子。
 
 ```py
-from import astrbot.api.message_components as Comp
+import astrbot.api.message_components as Comp
 from astrbot.core.utils.session_waiter import (
     session_waiter,
     SessionFilter,
