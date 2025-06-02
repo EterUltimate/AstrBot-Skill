@@ -18,9 +18,9 @@ AstrBot 是一个易于上手的多平台聊天机器人及开发框架。通过
 
 ## 它是如何实现的？
 
-下面的拓扑图简述了 AstrBot 与插件、消息平台适配器、语言模型提供商、消息协议实现端的关系。
+下面的拓扑图基本简述了 AstrBot 的架构。
 
-![alt text](source/images/what-is-astrbot/image-1.png)
+![Architecture](source/images/what-is-astrbot/image.png)
 
 ## 说明
 
