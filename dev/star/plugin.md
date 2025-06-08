@@ -550,14 +550,15 @@ async def handle_empty_mention(self, event: AstrMessageEvent):
         async def empty_mention_waiter(controller: SessionController, event: AstrMessageEvent):
             idiom = event.message_str # 用户发来的成语，假设是 "一马当先"
 
-            if len(idiom) != 4:   # 假设用户输入的不是4字成语
-                await event.send(message_result.plain_result("成语必须是四个字的呢~"))  # 发送回复，不能使用 yield
-                return
-                # 退出当前方法，不执行后续逻辑，但此会话并未中断，后续的用户输入仍然会进入当前会话
-
             if idiom == "退出":   # 假设用户想主动退出成语接龙，输入了 "退出"
+                await event.send(event.plain_result("已退出成语接龙~"))
                 controller.stop()    # 停止会话控制器，会立即结束。
                 return
+
+            if len(idiom) != 4:   # 假设用户输入的不是4字成语
+                await event.send(event.plain_result("成语必须是四个字的呢~"))  # 发送回复，不能使用 yield
+                return
+                # 退出当前方法，不执行后续逻辑，但此会话并未中断，后续的用户输入仍然会进入当前会话
 
             # ...
             message_result = event.make_result()
