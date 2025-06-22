@@ -83,12 +83,16 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { text: "使用 WeChatPadPro", link: "/wechatpadpro" },
-                  { text: "使用 Gewechat", link: "/gewechat" },
+                  { text: "使用 Gewechat [失效]", link: "/gewechat" },
                 ],
               },
               { text: "飞书", link: "/lark" },
               { text: "钉钉", link: "/dingtalk" },
               { text: "Telegram", link: "/telegram" },
+              { text: "Slack", link: "/slack" },
+              { text: "Discord", link: "/discord" },
+              { text: "KOOK", link: "/kook" },
+              { text: "VoceChat", link: "/vocechat" },
             ],
           },
           {
