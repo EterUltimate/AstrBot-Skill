@@ -1,4 +1,4 @@
-# 接入 Slack
+# 接入 Discord
 
 AstrBot v3.5.16 及之后，支持接入 [Discord](https://discord.com/) 消息平台。
 
