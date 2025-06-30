@@ -47,7 +47,7 @@ git clone https://github.com/luolin-ai/WeChatPadPro --depth 1
 mv WeChatPadPro/* . # 需要将 WeChatPadPro 内所有文件放到 main 文件夹下
 unzip 859_service_linux.zip # 这一步会释出 stay 可执行文件
 cd .. # 回到 WeChatPadPro-Docker 目录
-mv setting.json main/assets/setting.json # 覆盖 WeChatPadPro 原来的 setting.json 文件。
+cp setting.json main/assets/setting.json # 覆盖 WeChatPadPro 原来的 setting.json 文件。
 ```
 
 你可以根据你的需要，编辑 `main/assets/setting.json` 文件，也可以不编辑。建议将 `adminKey` 修改为更安全的密码。
