@@ -33,6 +33,11 @@ PPIO 派欧云是中国领先的独立分布式云计算服务商，您可以在
 
 ## 常见问题
 
-#### Error code: 400 - {'code': 400, 'message': '"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set', 'type': 'BadRequestError'}
+#### 显示 `400` 错误
+
+```log
+Error code: 400 - {'code': 400, 'message': '"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set', 'type': 'BadRequestError'}
+```
+
 
 请暂时使用 `/tool off_all` 禁用所有的函数调用工具即可使用，或者换用其他模型。
