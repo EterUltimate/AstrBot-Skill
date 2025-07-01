@@ -41,13 +41,6 @@ AstrBot 的成功接入依赖于您是否能够打开这个页面。
 
 ```bash
 git clone https://github.com/bclz-wyz/WeChatPadPro-Docker --depth 1
-cd WeChatPadPro-Docker
-mkdir main && mkdir mysql && cd main
-git clone https://github.com/luolin-ai/WeChatPadPro --depth 1
-mv WeChatPadPro/* . # 需要将 WeChatPadPro 内所有文件放到 main 文件夹下
-unzip 859_service_linux.zip # 这一步会释出 stay 可执行文件
-cd .. # 回到 WeChatPadPro-Docker 目录
-cp setting.json main/assets/setting.json # 覆盖 WeChatPadPro 原来的 setting.json 文件。
 ```
 
 你可以根据你的需要，编辑 `main/assets/setting.json` 文件，也可以不编辑。建议将 `adminKey` 修改为更安全的密码。
@@ -60,7 +53,7 @@ docker compose up -d && docker logs wechatpadpro
 
 正常情况下，会出现如下日志：
 
-```
+```txt
 版本号: v20250515.00
 WeChatPadPro
 🚀 基于 WeChat Pad 协议的高级微信管理工具 🚀
@@ -127,6 +120,12 @@ docker restart wechatpadpro
 > 打开 AstrBot 数据目录（AstrBot/data 目录），找到 `wechatpadpro_credentials.json` 文件，打开之后，其中的 `auth_key` 即为对应 `wxid` 的授权码。 
 >
 > 如果有任何疑问，请在 [#1586](https://github.com/AstrBotDevs/AstrBot/issues/1586#issuecomment-2889426078) 下提问和得到解答。
+
+## 社区教程
+
+如果上面的教程不够详细，您可以参考以下社区教程：
+
+- [用 AstrBot 框架，实现微信个人号机器人和 QQ 个人号机器人](https://www.robin.xin/archives/astrbot%26wechat%26qq)
 
 ## 常见问题
 
