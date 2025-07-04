@@ -32,20 +32,35 @@ text_to_image(text: str, return_url=True) -> str
 2. html_render
 
 ```Python
-html_render(tmpl: str, data: dict, return_url=True) -> str
+async def html_render(self, tmpl: str, data: dict, return_url: bool = True, options: dict = None) -> str:
 ```
 
-该方法用于**渲染 HTML 代码**, 如果你的插件想实现类似功能, 优先考虑使用该方法。
+该方法用于将 Jinja2 模板渲染为图片。
 
-它接受三个参数:
+**参数说明:**
 
-- tmpl: HTML Jinja2 模板
-- data: jinja2 模板数据
-- return_url: 返回渲染后的图片 URL(True)或文件路径(False)。
--
+- `tmpl: str` (必选)
+  - 描述：HTML Jinja2 模板的文件路径。
+- `data: dict` (必选)
+  - 描述：用于渲染模板的数据字典。
+- `return_url: bool` (可选, 默认为 `True`)
+  - 描述：决定返回值是图片的 URL (`True`) 还是本地文件路径 (`False`)。
+- `options: dict` (可选)
+  - 描述：一个包含截图详细选项的字典。
+    - `timeout: float`: 截图超时时间（秒）。
+    - `type: str`: 图片类型，`"jpeg"` 或 `"png"`。
+    - `quality: int`: 图片质量 (0-100)，仅用于 jpeg。
+    - `omit_background: bool`: 是否使用透明背景，仅用于 png。
+    - `full_page: bool`: 是否截取整个页面，默认为 `True`。
+    - `clip: dict`: 裁剪区域，包含 `x`, `y`, `width`, `height`。
+    - `animations: str`: CSS 动画，`"allow"` 或 `"disabled"`。
+    - `caret: str`: 文本光标，`"hide"` 或 `"initial"`。
+    - `scale: str`: 页面缩放，`"css"` 或 `"device"`。
+    - `mask: list`: 需要遮盖的 Playwright Locator 列表。
 
 如果你不知道如何构造模板, 请参考: [Jinja2 文档](https://docs.jinkan.org/docs/jinja2/)
 
+该功能由 [CampuxUtility](https://github.com/idoknow/CampuxUtility) 提供支持
 #### 终止
 
 3. terminate(Abstract)
