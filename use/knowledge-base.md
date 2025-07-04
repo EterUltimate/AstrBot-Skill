@@ -25,7 +25,7 @@ AstrBot 提供了开箱即用的知识库功能。
 
 ![](../source/images/knowledge-base/QQ_1748619486233.png)
 
-目前 AstrBot 仅支持兼容 OpenAI API 的嵌入向量服务，如 OpenAI、Ollama 等。您可以参考此页 [附录-2 免费的嵌入模型申请](#附录-2免费的嵌入模型申请) 申请免费的嵌入模型。
+目前 AstrBot 仅支持兼容 OpenAI API 的嵌入向量服务，如 OpenAI、Ollama 等。您可以参考此页后文 `附录-2 免费的嵌入模型申请` 章节申请免费的嵌入模型。
 
 点击上面的提供商卡片进入配置页面，填写配置。
 
