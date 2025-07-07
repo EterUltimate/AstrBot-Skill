@@ -7,6 +7,8 @@
 
 创建成功后，`BotFather` 会给你一个 `token`，请妥善保存。
 
+如果需要在群聊中使用，需要关闭Bot的 [Privacy mode](https://core.telegram.org/bots/features#privacy-mode)，对 `BotFather` 发送  `/setprivacy` 命令，然后选择bot， 再选择 `Disable`。
+
 ## 2. 配置 AstrBot
 
 1. 进入 AstrBot 的管理面板
