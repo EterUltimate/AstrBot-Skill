@@ -13,6 +13,7 @@
 
 ```bash
 mkdir astrbot
+cd astrbot
 wget https://raw.githubusercontent.com/NapNeko/NapCat-Docker/main/compose/astrbot.yml
 sudo docker compose -f astrbot.yml up -d
 ```
@@ -42,6 +43,7 @@ sudo docker compose up -d
 
 ```bash
 mkdir astrbot
+cd astrbot
 sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot/data -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name astrbot soulter/astrbot:latest
 ```
 
