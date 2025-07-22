@@ -1,9 +1,13 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import './style.css'
-import Sponsors from './Sponsors.vue'
-import HomeFeaturesAfter from './HomeFeaturesAfter.vue'
+import './styles/style.css'
+import './styles/custom-block.css'
+import './styles/font.css'
+import './styles/doc-fade-in.css'
+import Sponsors from './components/Sponsors.vue'
+import ArticleShare from "./components/ArticleShare.vue";
+// import HomeFeaturesAfter from './components/HomeFeaturesAfter.vue'
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -11,8 +15,9 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      "aside-outline-after": () => h(ArticleShare),
       "aside-ads-after": () => h(Sponsors),
-      "home-features-after": () => h(HomeFeaturesAfter),
+      // "home-features-after": () => h(HomeFeaturesAfter),
     })
   },
   enhanceApp({ app, router, siteData }) {
