@@ -22,7 +22,7 @@ Ubuntu安装脚本：
 wget -O - https://gitee.com/mc_cloud/mccloud_bot/raw/master/mccloud_install_u.sh | bash
 ```
 
-支持 QQ 微信 一键管理。命令：bot
+支持 QQ 一键管理。命令：bot
 
 
 ## 备注

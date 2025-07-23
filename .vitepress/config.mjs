@@ -48,7 +48,7 @@ export default defineConfig({
               { text: "👍 手动部署", link: "/cli" },
               { text: "😁 宝塔面板部署", link: "/btpanel" },
               { text: "😊 CasaOS 部署", link: "/casaos" },
-              { text: "😌 社区提供的部署脚本", link: "/linux-one" },
+              // { text: "😌 社区提供的部署脚本", link: "/linux-one" },
             ],
           },
           {
