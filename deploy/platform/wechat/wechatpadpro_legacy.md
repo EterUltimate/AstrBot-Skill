@@ -125,7 +125,7 @@ docker restart wechatpadpro
 
 如果上面的教程不够详细，您可以参考以下社区教程：
 
-- [用 AstrBot 框架，实现微信个人号机器人和 QQ 个人号机器人](https://www.robin.xin/archives/astrbot%26wechat%26qq)
+- [用 AstrBot 框架，实现 QQ 个人号机器人](https://www.robin.xin/archives/astrbot%26wechat%26qq)
 
 ## 常见问题
 
