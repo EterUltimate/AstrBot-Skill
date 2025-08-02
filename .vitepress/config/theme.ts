@@ -9,7 +9,7 @@ export const themeConfig: DefaultTheme.Config = {
     ],
     sidebar,
 
-    logo: 'source/images/logo.png',
+    logo: '/logo.png',
     outline: {
         level: 'deep',
         label: '目录',
