@@ -63,15 +63,13 @@ proot-distro login ubuntu
  ### 使用`apt`安装`software-properties-common` (添加PPA前置)
 
 ```bash
-apt update
-apt install software-properties-common
+apt update && apt install software-properties-common
 ```
 
 ### 添加`deadsnakes`PPA(Python官方维护)
 
 ```bash
-add-apt-repository ppa:deadsnakes/ppa
-apt update
+add-apt-repository ppa:deadsnakes/ppa && apt update
 ```
 添加时你可能会看到:`Press [ENTER] to continue or Ctrl-c to cancel.` ，此时按下回车(换行)即可
 
