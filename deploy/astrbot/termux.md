@@ -3,7 +3,6 @@
 > [!WARNING]
 > 本教程所使用的方法仅可在安卓机上使用，苹果设备并没有真正意义的`Termux`
 
-
 >[!TIP]
 >本教程中若未说明，`Do you want to continue?[Y/n]`(或类似)一律填`Y`或`y`
 # 准备步骤
@@ -125,5 +124,7 @@ proot-distro login ubuntu
 cd AstrBot
 uv run main.py
 ```
+
+如需让服务端在后台存活，可以在`设置`->`应用和服务`->`应用启动管理`->`Termux`改为`手动管理`并`允许后台活动`(或类似选项)
 
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
