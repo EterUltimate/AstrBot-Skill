@@ -73,7 +73,7 @@ apt install software-properties-common
 add-apt-repository ppa:deadsnakes/ppa
 apt update
 ```
-添加时你可能会看到:`Press [ENTER] to continue or Ctrl-c to cancel.` ，此时点击回车(换行)即可
+添加时你可能会看到:`Press [ENTER] to continue or Ctrl-c to cancel.` ，此时按下回车(换行)即可
 
 ## 安装 `Python`
 
