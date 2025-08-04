@@ -21,9 +21,9 @@
 ```bash
 termux-change-repo
 ```
-选择第一个`Mirror grouRotate between several mirrors`
+选择第一个`Mirror group Rotate between several mirrors`
 
-随后选择第三个`Mirrors in ChinAll in Chinese Mainland`等待跑完即可
+随后选择第三个`Mirrors in Chinese Mainland    All in Chinese Mainland`等待跑完即可
 
 # 正式部署
 
