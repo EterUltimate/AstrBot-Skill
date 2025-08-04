@@ -11,7 +11,7 @@
 
 在[Termux 官网](https://termux.dev/cn) 可选择在[GitHub](https://github.com/termux/termux-app/releases)或[F-Droid](https://f-droid.org/en/packages/com.termux/)下载Termux
 
-## 换源(可选)
+## 换源 (可选)
 
 >[!TIP]
 >建议更换源以获得更好的安装体验
@@ -61,6 +61,8 @@ proot-distro login ubuntu
 
  ### 使用`apt`安装`software-properties-common` (添加PPA前置)
 
+<!--这里不直接放termux基础环境里运行是因为他会报错，而且proot-distro也不大，性能损耗也很小-->
+
 ```bash
 apt update && apt install software-properties-common
 ```
@@ -92,11 +94,9 @@ git clone https://github.com/AstrBotDevs/AstrBot.git && cd AstrBot
 uv run main.py
 ```
 
-如果一切正常，那么你可以看到`uv`在安装所需的包后出现类似的输出：
+## 🎉 大功告成！
 
-```bash
-[Core] [DBUG] [platform.register:45]:  平台适配器 webchat 已注册
-```
+如果没有报错，那么你可以看到`uv`在安装所需的包后出现类似 `WebUI 已启动，可访问` 并附带了几条链接。
 
 如果有，那么恭喜你，你已经部署好了`AstrBot`并且运行了
 
@@ -109,11 +109,15 @@ uv run main.py
 
 # 后记
 
+## 退出
+
 如需退出`proot-distro`，可以使用
 
 ```bash
 exit
 ```
+
+## 重新启动
 
 每次重新进入`Termux`时需重新打开 `proot` 环境并启动 `AstrBot`
 
@@ -121,9 +125,51 @@ exit
 
 ```bash
 proot-distro login ubuntu
-cd AstrBot
-uv run main.py
+cd AstrBot && uv run main.py
 ```
+
+## 挂后台
+
+### 开启
+
+如需在一个session里面同时运行多个进程(eg. `AstrBot` 和 `Napcat`)，可以使用
+
+```bash
+uv run main.py &
+......
+```
+
+### 关闭
+
+上文运行后会有类似`[1] 1145`的输出，如需关闭进程，则可使用
+
+```bash
+kill -9 1145
+```
+
+或
+
+```bash
+pkill -9  -f "uv run main.py"
+```
+
+<!--↑这东西不咋靠谱捏-->
+
+>[!TIP]
+>也可以使用`screen`命令，较`&`更易操控
+>```bash
+>apt install screen         #安装screen
+>screen -S <name>           #创建新的会话
+>screen -r <name>           #重新连接会话
+>screen -ls                 #列举会话
+>screen -X -S <name>        #关闭会话
+>Ctrl + a + d               #退出当前窗口
+>```
+
+>[!WARNING]
+> 在退出时，请注意保存自己的任务，以防数据丢失
+
+## 后台存活
 
 如需让服务端在后台存活，可以在`设置`->`应用和服务`->`应用启动管理`->`Termux`改为`手动管理`并`允许后台活动`(或类似选项)
 
