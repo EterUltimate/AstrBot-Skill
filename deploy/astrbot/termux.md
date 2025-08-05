@@ -162,7 +162,7 @@ pkill -9  -f "uv run main.py"
 >screen -S <name>           #创建新的会话
 >screen -r <name>           #重新连接会话
 >screen -ls                 #列举会话
->screen -X -S <name>        #关闭会话
+>screen -X -S <name> quit   #关闭会话
 >Ctrl + a + d               #退出当前窗口
 >```
 
