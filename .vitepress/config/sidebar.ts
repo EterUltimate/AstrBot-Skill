@@ -101,6 +101,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "🥇 1Panel 部署", link: "/1panel" },
                 { text: "😊 CasaOS 部署", link: "/casaos" },
                 { text: "😌 社区提供的部署脚本", link: "/linux-one" },
+                { text: "🤗 安卓Termux 部署", link: "/termux" }
             ],
         },
         {
