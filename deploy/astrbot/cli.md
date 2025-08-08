@@ -11,7 +11,7 @@
 如果你的电脑上安装了 `git`，你可以通过以下命令来下载源码：
 
 ```bash
-git clone http://github.com/Soulter/AstrBot
+git clone https://github.com/AstrBotDevs/AstrBot.git
 cd AstrBot
 ```
 
