@@ -30,7 +30,7 @@
 - ID(id)：随意填写，用于区分不同的消息平台实例。
 - 启用(enable): 勾选。
 - app_id: 获取的 app_id
-- app_secret: QQ 官方机器人中获取的 app_secret
+- app_secret: 获取的 app_secret
 - 飞书机器人的名字
 
 如果您正在用国际版飞书，请将 `domain` 设置为 `https://open.larksuite.com`。
