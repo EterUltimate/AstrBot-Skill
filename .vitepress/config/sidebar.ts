@@ -102,6 +102,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "😊 CasaOS 部署", link: "/casaos" },
                 // { text: "😌 社区提供的部署脚本", link: "/linux-one" },
                 { text: "🤗 安卓 Termux 部署", link: "/termux" },
+                { text: "🍉 优云智算 GPU 部署", link: "/compshare" },
             ],
         },
         {
