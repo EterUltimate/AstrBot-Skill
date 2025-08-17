@@ -122,10 +122,13 @@ git clone https://github.com/AstrBotDevs/AstrBot.git && cd AstrBot
 
 >[!NOTE]
 >如果 `git clone` 失败，那么其后的 `cd` 命令也不会生效，故在运行命令时请注意路径是否正确
+>
 >如果需要再次执行如上命令，建议先执行
+>
 >```bash
 >rm -r AstrBot
 >```
+>
 >之后再运行上述命令
 
 ## 运行 `AstrBot`
