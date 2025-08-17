@@ -7,6 +7,32 @@
 >本教程中若未说明，`Do you want to continue?[Y/n]`(或类似)一律填`Y`或`y`
 # 准备步骤
 
+## Bash 基础
+
+### 进入目录
+
+```bash
+cd /path/to/dir
+```
+
+### 列举目录
+
+```bash
+ls
+```
+
+### 删除文件或目录
+
+```bash
+rm -r /path/to/dir/or/file
+```
+
+### 运行 `.sh` (`Shell`) 文件
+
+```bash
+bash xxx.sh
+```
+
 ## 安装 `Termux`
 
 在[Termux 官网](https://termux.dev/cn) 可选择在[GitHub](https://github.com/termux/termux-app/releases)或[F-Droid](https://f-droid.org/en/packages/com.termux/)下载Termux
@@ -63,6 +89,8 @@ proot-distro login ubuntu
 
 <!--这里不直接放termux基础环境里运行是因为他会报错，而且proot-distro也不大，性能损耗也很小-->
 
+<!--这里如果安装 miniconda 或者 anaconda 都会有报错，不知道为什么-->
+
 ```bash
 apt update && apt install software-properties-common
 ```
@@ -84,15 +112,36 @@ apt install python3.10
 
 ## 克隆 `AstrBot` 仓库
 
+直到这里，您所处的路径应为 `~#` 而不是其他次级目录，以防找不到项目目录
+
 ```bash
 git clone https://github.com/AstrBotDevs/AstrBot.git && cd AstrBot
 ```
+
+如果一切顺利的话，您应该进入到了 `~/AstrBot#` 下，可以进入到下一步了
+
+>[!NOTE]
+>如果 `git clone` 失败，那么其后的 `cd` 命令也不会生效，故在运行命令时请注意路径是否正确
+>
+>如果需要再次执行如上命令，建议先执行
+>
+>```bash
+>rm -r AstrBot
+>```
+>
+>之后再运行上述命令
 
 ## 运行 `AstrBot`
 
 ```bash
 uv run main.py
 ```
+
+>[!TIP]
+>如果使用 `uv` 下载软件包时速度慢，可以更换源 (以 `清华源` 为例)
+>```bash
+>export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple"
+>```
 
 ## 🎉 大功告成！
 
