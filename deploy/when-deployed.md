@@ -1,6 +1,6 @@
 # 前言
 
-部署好后...当然是给[AstrBot](https://github.com/AstrBotDevs/AstrBot)一个 Star 啦！我在这个项目上花费了超过 800 个小时，希望你能喜欢它...
+部署好后...当然是给[AstrBot](https://github.com/AstrBotDevs/AstrBot)一个 Star 啦！
 
 AstrBot 主仓库：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e.svg)](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e)
 
@@ -15,4 +15,4 @@ AstrBot 文档：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4563
 
 ## 正文
 
-当你看到这，说明已经成功部署好消息平台并且实现了第一条指令的收发。接下来，你可以配置大语言模型，或者添加插件。请参看 `配置-接入大模型服务` 一节。
+当你看到这里，说明已经成功部署好消息平台并且实现了第一条指令的收发。接下来，你可以配置大语言模型，或者添加插件。请参看 `配置-接入大模型服务` 一节。

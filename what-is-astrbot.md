@@ -24,4 +24,4 @@ AstrBot 是一个易于上手的多平台聊天机器人及开发框架。通过
 
 ## 说明
 
-AstrBot 受 [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) 开源许可证保护。如果您对 AstrBot 进行了修改并将其用于提供具有商业性质的网络服务，您必须开源所做的修改，否则将构成对许可证的违反，我们将保留对违反许可证条款的行为追究法律责任的权利。如您希望在闭源情况下进行商业使用，可联系 [community@astrbot.app](mailto:community@astrbot.app) 申请商业授权。
+AstrBot 受 [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) 开源许可证保护。如果您对 AstrBot 进行了修改并将其用于提供具有商业盈利性质的网络服务，您必须开源所做的修改，否则将构成对许可证的违反，我们将保留对违反许可证条款的行为追究法律责任的权利。详细联系 [community@astrbot.app](mailto:community@astrbot.app) 。

@@ -11,17 +11,13 @@ AstrBot 提供了开箱即用的知识库功能。
 
 为了保证主线依赖的精简性，AstrBot 的知识库能力采用插件的形式提供，您需要先安装插件。
 
-前往 WebUI，点击 `Alkaid`，进入到 Alkaid 页面，您将看到知识库的选项。
+前往 WebUI，点击 `知识库` 即可进入到知识库页面。
 
-如果显示未安装知识库，请先安装知识库插件。点击安装按钮即可，或者前往插件市场安装 `astrbot_plugin_knowledge_base` 插件。由于依赖较大，可能需要安装数分钟，请耐心等待，如果安装过程中发生了错误，请提交 Issue 至 [AstrBot Issues](https://github.com/AstrBotDevs/AstrBot/issues)。
-
-安装成功后，您将看到如下界面：
-
-![](../source/images/knowledge-base/QQ_1748619436297.png)
+如果显示未安装知识库，请先安装知识库插件。点击安装按钮即可，或者前往插件市场安装 `astrbot_plugin_knowledge_base` 插件。可能需要安装数分钟，请耐心等待，如果安装过程中发生了错误，请提交 Issue 至 [AstrBot Issues](https://github.com/AstrBotDevs/AstrBot/issues)。
 
 ## 配置嵌入模型
 
-打开服务提供商，点击新增服务提供商，选择 Embedding，如下图所示：
+打开服务提供商页面，点击新增服务提供商，选择 Embedding，如下图所示：
 
 ![](../source/images/knowledge-base/QQ_1748619486233.png)
 
@@ -34,70 +30,57 @@ AstrBot 提供了开箱即用的知识库功能。
 
 配置完成后，点击保存。
 
+## 配置重排序模型（可选）
+
+重排序模型可以一定程度上提高最终召回结果的精度。和嵌入模型的配置类似，打开服务提供商页面，点击新增服务提供商，选择重排序。有关重排序模型的更多信息请参考网络。
+
 ## 创建知识库
 
 AstrBot 支持多知识库管理。在聊天时，您可以**自由指定知识库**。
 
-前往 WebUI，点击 `Alkaid`，进入到 Alkaid 页面，点击创建知识库，如下图所示：
+进入知识库页面，点击创建知识库，如下图所示：
 
-![](../source/images/knowledge-base/QQ_1748619867978.png)
+![](../source/images/knowledge-base/image.png)
 
-填写相关信息。在嵌入模型下拉菜单中您将看到刚刚创建好的嵌入模型提供商。
+填写相关信息。在嵌入模型下拉菜单中您将看到刚刚创建好的嵌入模型和重排序模型（重排序模型可选）。
 
 > [!TIP]
 > 一旦选择了一个知识库的嵌入模型，请不要再修改该提供商的**模型**或者**向量维度信息**，否则将**严重影响**该知识库的召回率甚至**报错**。
 
-创建好后，如下图所示：
-
-![](../source/images/knowledge-base/QQ_1748619964591.png)
-
 ## 上传文件
 
-点击要上传文件的知识库，拖拽或者点击上传您想要导入的文件。**最大的单个上传文件大小暂时为 128 MB。**
+点击创建完成的知识库，如下图所示：
+
+![](../source/images/knowledge-base/image-1.png)
+
+您可以上传文件或者通过 URL 来将信息导入到知识库。
+
+### 从文件
+
+数据源选择上传文件，拖拽或者点击上传您想要导入的文件。**最大的单个上传文件大小暂时为 128 MB。**
 
 > [!TIP]
 > AstrBot 知识库使用 Markitdown 来将非文本文件转换成大模型友好的 Markdown 格式。
-> 您可以上传的文件格式如下：md, txt, docx, xlsx, pptx 等等。其中，最兼容的是 md 和 txt。
+> 您可以上传的文件格式如下：md, txt, docx, xlsx, pptx 等等。其中，兼容性最好的方案是 md 和 txt。
 
-点击上传到知识库即可开始上传。对于大文件，这可能需要一些时间。您可以开一个新的 WebUI 标签页，在控制台处查看进度。如果有报错并且无法解决，请提交 Issue 至 [AstrBot Issues](https://github.com/AstrBotDevs/AstrBot/issues)。
+点击上传到知识库即可开始上传。对于大文件，这可能需要一些时间。如果有报错并且无法解决，请提交 Issue 至 [AstrBot Issues](https://github.com/AstrBotDevs/AstrBot/issues)。
 
-![](../source/images/knowledge-base/QQ_1748620019676.png)
+上传成功后，下方会弹出绿色的提示。
 
-上传成功时，下方会弹出绿色的提示。
+### 从 URL
+
+> [!TIP]
+> 您需要先前往插件市场安装 astrbot_plugin_url_2_knowledge_base 并根据插件文档内的指示完成 playwright 安装后才可使用本功能。
+
+输入网页 URL，即可导入。如果有报错并且无法解决，请提交 Issue 至 [AstrBot Issues](https://github.com/AstrBotDevs/AstrBot/issues)。
+
+上传成功后，下方会弹出绿色的提示。
 
 ## 测试和使用
 
-您可以点击 `搜索内容` 立刻开始测试可用性（不会使用 LLM），如下图所示：
+您可以点击 `搜索内容` 立刻开始测试可用性（不会使用 LLM）。
 
-![](../source/images/knowledge-base/QQ_1748620695533.png)
-
-在聊天页面，请使用 `/kb use 知识库名称` 来切换。详细的操作指令可以参考 `/kb help`
-
-## 更新知识库插件
-
-请定时更新知识库插件，以获得更全面的更新。
-
-进入插件管理页面，找到 `astrbot_plugin_knowledge_base` 插件。如果有更新，将会出现黄色的更新标识，点击 `操作` 按钮 -> `更新到...` 即可。
-
-## 常见问题 FAQ
-
-### 安装知识库时，报错: ImportError: DLL load failed while importing onnxruntime_pybind11_state
-
-类似的有：
-
-- `动态链接库(DLL)初始化例程失败。`
-- `系统找不到指定的模块`
-- `TypeError: unable to load from type '<class 'pathlib windowspath'>'`
-
-系 markitdown 所依赖的 magica 包依赖的 `onnxruntime` 不兼容您的系统版本导致的问题。
-
-解决方案：请更换 `onnxruntime` 版本。在 `控制台->安装 Pip 库` 输入 `onnxruntime==1.16.3`，然后重启 AstrBot。
-
-如果还是报错 `onnxruntime` 相关错误，请进入 `https://pypi.org/project/onnxruntime/#history` 找到所有历史版本自行遍历，如 `onnxruntime==1.20.1`，按上述步骤重试。
-
-### 打开页面 Alkaid 之后，一片空白
-
-如果之前安装过 astrbot_plugin_knowledge_base 插件，需要先更新到 v0.5.2
+您可在配置页选择需要使用的知识库。
 
 ## 反馈
 

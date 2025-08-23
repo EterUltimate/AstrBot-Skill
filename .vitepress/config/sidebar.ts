@@ -137,7 +137,6 @@ function deploy(): DefaultTheme.SidebarItem[] {
                     collapsed: true,
                     items: [
                         { text: "使用 WeChatPadPro", link: "/wechatpadpro" },
-                        { text: "使用 Gewechat [失效]", link: "/gewechat" },
                     ],
                 },
                 { text: "飞书", link: "/lark" },
