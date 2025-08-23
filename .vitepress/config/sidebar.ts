@@ -249,10 +249,9 @@ function use():DefaultTheme.SidebarItem[] {
 
 function dev_star():DefaultTheme.SidebarItem[] {
     return [
-        { text: "插件基础开发", link: "/plugin" },
-        { text: "插件数据目录", link: "/all_resources" },
+        { text: "开发手册", link: "/plugin" },
         {
-            text: "插件开发数据",
+            text: "类",
             base: "/dev/star/resources",
             collapsed: true,
             items: [
