@@ -40,15 +40,15 @@ export const sidebar: DefaultTheme.Config['sidebar'] = [
         base: "/dev",
         collapsed: false,
         items: [
-            {
-                text: "核心代码解释",
-                base: "/dev/core",
-                collapsed: true,
-                items: [
-                    { text: "整体架构", link: "/overall_architecture" },
-                    { text: "运行流程", link: "/overall_operation_process" },
-                ],
-            },
+            // {
+            //     text: "核心代码解释",
+            //     base: "/dev/core",
+            //     collapsed: true,
+            //     items: [
+            //         { text: "整体架构", link: "/overall_architecture" },
+            //         { text: "运行流程", link: "/overall_operation_process" },
+            //     ],
+            // },
             {
                 text: "插件开发",
                 base: "/dev/star",
@@ -66,14 +66,14 @@ export const sidebar: DefaultTheme.Config['sidebar'] = [
         base: "/others",
         collapsed: false,
         items: [
-            {
-                text: "配置文件-大语言模型提供商",
-                link: "/provider",
-            },
-            {
-                text: "配置文件-消息平台适配器",
-                link: "/platform",
-            },
+            // {
+            //     text: "配置文件-大语言模型提供商",
+            //     link: "/provider",
+            // },
+            // {
+            //     text: "配置文件-消息平台适配器",
+            //     link: "/platform",
+            // },
             {
                 text: "自部署文转图",
                 link: "/self-host-t2i",
@@ -201,11 +201,11 @@ function config(): DefaultTheme.SidebarItem[] {
 function use():DefaultTheme.SidebarItem[] {
     return [
         {
-            text: "管理面板",
+            text: "WebUI",
             link: "/webui",
         },
         {
-            text: "AstrBot Star(插件)",
+            text: "插件",
             link: "/plugin",
         },
         {
@@ -240,16 +240,12 @@ function use():DefaultTheme.SidebarItem[] {
             text: "配置文字转语音(TTS)",
             link: "/tts",
         },
-        {
-            text: "更新管理面板",
-            link: "/update-webui",
-        },
     ]
 }
 
 function dev_star():DefaultTheme.SidebarItem[] {
     return [
-        { text: "开发手册", link: "/plugin" },
+        { text: "插件开发指南", link: "/plugin" },
         {
             text: "类",
             base: "/dev/star/resources",

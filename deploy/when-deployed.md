@@ -1,6 +1,6 @@
 # 前言
 
-部署好后...当然是给[AstrBot](https://github.com/AstrBotDevs/AstrBot)一个 Star 啦！
+部署好后...当然是给 [AstrBot](https://github.com/AstrBotDevs/AstrBot) 一个 Star 啦！
 
 AstrBot 主仓库：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e.svg)](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018e705a-a1a7-409a-a849-3013485e6c8e)
 
@@ -9,9 +9,6 @@ AstrBot DashBoard：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4
 AstrBot 文档：[![wakatime](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018c9619-e195-4b94-bd7b-2ca61679145b.svg)](https://wakatime.com/badge/user/915e5316-99c6-4563-a483-ef186cf000c9/project/018c9619-e195-4b94-bd7b-2ca61679145b)
 
 ❤️ 非常欢迎您提交贡献到这个项目中，比如提交 Issue、PR。
-
-> [!TIP]
-> 为了该项目的可持续性，如果遇到问题，请优先提交 ISSUE，其次是在 QQ 群里提问。
 
 ## 正文
 
