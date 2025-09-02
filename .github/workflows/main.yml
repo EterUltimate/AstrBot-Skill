@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    branches: v2
+    branches: ["v4"]
 
 jobs:
   build:
@@ -35,6 +35,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORDNEKO }}
           script: |
-            rm -rf /root/docker_data/caddy/caddy_data/static_site/abv2/*
-            mv /tmp/.vitepress/dist/* /root/docker_data/caddy/caddy_data/static_site/abv2/
+            mkdir -p /root/docker_data/caddy/caddy_data/static_site/abv4/
+            rm -rf /root/docker_data/caddy/caddy_data/static_site/abv4/*
+            mv /tmp/.vitepress/dist/* /root/docker_data/caddy/caddy_data/static_site/abv4/
             rm -rf /tmp/.vitepress/
