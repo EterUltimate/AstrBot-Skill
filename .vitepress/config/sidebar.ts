@@ -152,7 +152,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
                     collapsed: true,
                     items: [
                         { text: "使用 LLOneBot", link: "/llonebot" },
-                        { text: "使用 Server-Satori", link: "/server-satori" },
+                        { text: "使用 server-satori", link: "/server-satori" },
                     ],
                 },
             ],
