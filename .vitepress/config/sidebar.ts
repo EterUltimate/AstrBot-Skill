@@ -146,6 +146,15 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "Discord", link: "/discord" },
                 { text: "KOOK", link: "/kook" },
                 { text: "VoceChat", link: "/vocechat" },
+                {
+                    text: "Satori",
+                    base: "/deploy/platform/satori",
+                    collapsed: true,
+                    items: [
+                        { text: "使用 LLOneBot", link: "/llonebot" },
+                        { text: "使用 server-satori", link: "/server-satori" },
+                    ],
+                },
             ],
         },
         {
