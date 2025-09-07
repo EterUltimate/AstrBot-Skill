@@ -164,7 +164,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
     ]
 }
 
-function config(): DefaultTheme.SidebarItem[] {
+function config():DefaultTheme.SidebarItem[] {
     return [
         {
             text: "接入大模型服务",
@@ -207,7 +207,7 @@ function config(): DefaultTheme.SidebarItem[] {
     ]
 }
 
-function use(): DefaultTheme.SidebarItem[] {
+function use():DefaultTheme.SidebarItem[] {
     return [
         {
             text: "WebUI",
