@@ -137,7 +137,6 @@ function deploy(): DefaultTheme.SidebarItem[] {
                     collapsed: true,
                     items: [
                         { text: "使用 WeChatPadPro", link: "/wechatpadpro" },
-                        { text: "使用 Gewechat [失效]", link: "/gewechat" },
                     ],
                 },
                 { text: "飞书", link: "/lark" },
@@ -147,6 +146,15 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "Discord", link: "/discord" },
                 { text: "KOOK", link: "/kook" },
                 { text: "VoceChat", link: "/vocechat" },
+                {
+                    text: "Satori 协议端",
+                    base: "/deploy/platform/satori",
+                    collapsed: true,
+                    items: [
+                        { text: "使用 LLOneBot", link: "/llonebot" },
+                        { text: "使用 Server-Satori", link: "/server-satori" },
+                    ],
+                },
             ],
         },
         {
@@ -202,11 +210,11 @@ function config(): DefaultTheme.SidebarItem[] {
 function use():DefaultTheme.SidebarItem[] {
     return [
         {
-            text: "管理面板",
+            text: "WebUI",
             link: "/webui",
         },
         {
-            text: "AstrBot Star(插件)",
+            text: "插件",
             link: "/plugin",
         },
         {
@@ -241,19 +249,14 @@ function use():DefaultTheme.SidebarItem[] {
             text: "配置文字转语音(TTS)",
             link: "/tts",
         },
-        {
-            text: "更新管理面板",
-            link: "/update-webui",
-        },
     ]
 }
 
 function dev_star():DefaultTheme.SidebarItem[] {
     return [
-        { text: "插件基础开发", link: "/plugin" },
-        { text: "插件数据目录", link: "/all_resources" },
+        { text: "插件开发指南", link: "/plugin" },
         {
-            text: "插件开发数据",
+            text: "类",
             base: "/dev/star/resources",
             collapsed: true,
             items: [
