@@ -146,6 +146,15 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "Discord", link: "/discord" },
                 { text: "KOOK", link: "/kook" },
                 { text: "VoceChat", link: "/vocechat" },
+                {
+                    text: "Satori 协议端",
+                    base: "/deploy/platform/satori",
+                    collapsed: true,
+                    items: [
+                        { text: "使用 LLOneBot", link: "/llonebot" },
+                        { text: "使用 Server-Satori", link: "/server-satori" },
+                    ],
+                },
             ],
         },
         {
@@ -198,7 +207,7 @@ function config(): DefaultTheme.SidebarItem[] {
     ]
 }
 
-function use():DefaultTheme.SidebarItem[] {
+function use(): DefaultTheme.SidebarItem[] {
     return [
         {
             text: "WebUI",
@@ -243,7 +252,7 @@ function use():DefaultTheme.SidebarItem[] {
     ]
 }
 
-function dev_star():DefaultTheme.SidebarItem[] {
+function dev_star(): DefaultTheme.SidebarItem[] {
     return [
         { text: "插件开发指南", link: "/plugin" },
         {
