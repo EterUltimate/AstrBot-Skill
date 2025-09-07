@@ -30,7 +30,7 @@
 
 - 启用(enable): 勾选。
 - Satori API Base URL (satori_api_base_url)：`http://localhost:5140/satori/v1`
-- Satori WebSocket Endpoint (satori_endpoint)：`ws://127.0.0.1:5140/satori/v1/events`
+- Satori WebSocket Endpoint (satori_endpoint)：`ws://localhost:5140/satori/v1/events`
 - Satori Token (satori_token)：通常留空（除非在 Koishi 中特别配置了 Token）
 
 > [!NOTE]
