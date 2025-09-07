@@ -147,7 +147,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
                 { text: "KOOK", link: "/kook" },
                 { text: "VoceChat", link: "/vocechat" },
                 {
-                    text: "Satori 协议端",
+                    text: "Satori",
                     base: "/deploy/platform/satori",
                     collapsed: true,
                     items: [
