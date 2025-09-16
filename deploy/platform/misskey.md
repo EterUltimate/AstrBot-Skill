@@ -55,7 +55,7 @@
 
 5. 权限配置完成后，单击“完成”以查看账号访问令牌。把获取到的令牌复制并粘贴到 Astrbot 配置页面 Access Token 输入框内。
 
-![查看账号令牌](../../source/images/misskey/pat-3.png)
+![查看账号令牌](../../source/images/misskey/pat-4.png)
 
 ## 测试成功性
 
