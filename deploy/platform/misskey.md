@@ -83,7 +83,7 @@
 
 ## 杂谈
 
-我们建议您为 Bot 账号开启 Misskey `Bot` 标识以尊重 Fediverse 各实例的相关规定和速率限制等。
+我们建议您为 Bot 账号开启 Misskey `Bot` 标识以尊重 Misskey 各实例的相关规定和速率限制等，也能有效帮助 Misskey 实例管理员管理和识别 Bot 的使用情况。
 
 **开启方式**
 
