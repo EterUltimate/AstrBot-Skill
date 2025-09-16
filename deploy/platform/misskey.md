@@ -1,0 +1,74 @@
+# 接入 Misskey 平台
+
+## 创建 Astrbot Misskey 平台适配器
+
+进入消息平台，点击新增适配器，找到 Misskey 并单击进入 Misskey 配置页。
+
+![创建 Misskey 平台适配器](../../source/images/misskey/create.png)
+
+## 配置平台适配器设置
+
+在 Astrbot Misskey 的平台适配器配置页，我们需要填写 Misskey 的接入信息并保存。
+
+::: tip 注意
+别忘了退出保存前先点击`启用`以启用 Misskey 平台配置器！
+:::
+
+获取 Misskey 接入信息的方式见下文介绍。
+
+![Misskey 平台适配器配置](../../source/images/misskey/config.png)
+
+## Misskey 实例 URL
+
+就是你的 Bot 所处账号的 Misskey 实例前端地址，格式为标准域名。例如`https://misskey.example`。
+
+## 获取 Bot 账号 Access Token
+
+1. 首先打开 Misskey Web 前端页面，在前端页面侧边栏找到并打开`设置 > 连接服务`页面。
+
+![打开 Misskey 连接服务页面](../../source/images/misskey/pat-1.png)
+
+2. 单击“生成访问令牌”以生成账号接入访问令牌。
+
+![生成 Misskey 账号令牌](../../source/images/misskey/pat-2.png)
+
+3. 在弹出的访问令牌配置页面，我们为令牌起一个名字，比如`AstrBot`。
+
+4. 然后我们需要为令牌配置相关权限让 Bot 能够与 Misskey 实例交互。
+
+::: tip 注意
+如果你使用的 Astrbot 第三方插件需要额外权限，请参考其文档增加相应权限。若你完全信任 Bot 的部署环境，也可以临时开启全部权限以简化调试，但仍建议您在生产环境使用时限制 Bot 的相关权限。
+:::
+
+![配置访问令牌权限](../../source/images/misskey/pat-3.png)
+
+**默认需要开启的权限**
+
+| 权限名称 | 说明 | 用途 |
+|---|---:|---|
+| 读取账户信息 | 查看账户的基本信息 | 获取 Bot 自身的用户信息和账号 ID |
+| 撰写或删除帖子 | 创建、编辑和删除笔记内容 | 发送消息回复和发布内容 |
+| 撰写或删除消息 | 创建、编辑和删除私信内容 | 处理私信对话 |
+| 查看通知 | 接收系统通知和提醒 | 获取提及、回复等通知信息 |
+| 查看消息 | 读取私信和聊天记录 | 接收和处理用户私信 |
+| 查看回应 | 查看帖子的回复和反应 | 处理用户对 Bot 消息的回应 |
+
+5. 权限配置完成后，单击“完成”以查看账号访问令牌。把获取到的令牌复制并粘贴到 Astrbot 配置页面 Access Token 输入框内。
+
+![查看账号令牌](../../source/images/misskey/pat-3.png)
+
+## 测试成功性
+
+配置完成并启用后，前往 Misskey 新建帖子并在发送中引用 Bot （@mention）测试效果。如果 Bot 账号能够成功触发回复，说明配置成功。
+
+![效果示例](../../source/images/misskey/demo.png)
+
+## 杂谈
+
+我们建议您为 Bot 账号开启 Misskey Bot 标识以尊重 Fediverse 各实例的相关规定和速率限制等。
+
+**开启方式**
+
+在 Bot 账号的个人资料页面的高级设置中开启“这是一个机器人账号”即可。
+
+![这是一个机器人账号](../../source/images/misskey/botset.png)

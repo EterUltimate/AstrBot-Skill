@@ -93,6 +93,7 @@ export default defineConfig({
             { text: "钉钉", link: "/dingtalk" },
             { text: "Telegram", link: "/telegram" },
             { text: "Slack", link: "/slack" },
+            { text: "Misskey", link: "/misskey" },
             { text: "Discord", link: "/discord" },
             { text: "KOOK", link: "/kook" },
             { text: "VoceChat", link: "/vocechat" },
