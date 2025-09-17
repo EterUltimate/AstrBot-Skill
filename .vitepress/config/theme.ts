@@ -59,7 +59,7 @@ export const themeConfig: DefaultTheme.Config = {
     },
 
     socialLinks: [
-        { icon: "github", link: "https://github.com/Soulter/AstrBot" },
+        { icon: "github", link: "https://github.com/AstrBotDevs/AstrBot" },
     ],
 
     footer: {
