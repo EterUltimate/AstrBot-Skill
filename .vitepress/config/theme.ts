@@ -29,7 +29,7 @@ export const themeConfig: DefaultTheme.Config = {
     },
 
     editLink: {
-        pattern: 'https://github.com/AstrBotdevs/AstrBot-docs/edit/v2/:path',
+        pattern: 'https://github.com/AstrBotdevs/AstrBot-docs/edit/v4/:path',
         text: '不妥之处，敬请雅正'
     },
 
