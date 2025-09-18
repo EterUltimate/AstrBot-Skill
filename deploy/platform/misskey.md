@@ -75,6 +75,26 @@
 
 开启后，Bot 发送的所有帖文都不会参与 Fediverse 联合，非常适用于仅想在自己实例使用和传播 Bot 的帖子的需求。
 
+## 启用聊天信息响应
+
+::: tip 注意
+Misskey 的“聊天”组件特性并不受所有 Misskey Fork 版本支持！无法跨实例互联。
+
+Misskey 在`v2025.4.0`及以后的版本中为加入“聊天”组件支持，且仅受其 Web 前端支持，并未受到第三方 App 良好的支持。
+:::
+
+默认开启，开启后 Bot 会响应 Misskey 聊天内用户发送的私聊内容并进行回复。
+
+## 历史记录
+
+聊天和贴文单个用户的对话历史在 AstrBot 的 WebUI 控制台“对话历史”会以`chat:UserID`的 id 记录，传统贴文则是以`note:UserID`的 id 记录。
+
+::: tip Misskey 用户的 UserID 在哪里？
+位于用户个人页面部分的`Raw`页面内可以查询，UserID 是单个实例中 Misskey 用户唯一的关键身份标识。
+:::
+
+![UserID](../../source/images/misskey/userid.png)
+
 ## 测试成功性
 
 配置完成并启用后，前往 Misskey 新建帖文并在发送中引用 Bot （@mention）测试效果。如果 Bot 账号能够成功触发回复，说明配置成功。
