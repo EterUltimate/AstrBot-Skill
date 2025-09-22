@@ -9,7 +9,7 @@ outline: deep
 使用方法如下:
 
 ```Python
-from astrbot.api import MessageType
+from astrbot.api.platform import MessageType
 print(MessageType.GROUP_MESSAGE)
 ```
 
