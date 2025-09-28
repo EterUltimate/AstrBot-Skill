@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { themeConfig } from "./config/theme";
-import {head} from "./config/head";
+import { head } from "./config/head";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -30,9 +30,7 @@ export default defineConfig({
       text: "开源之夏",
       base: "/ospp",
       collapsed: false,
-      items: [
-        { text: "OSPP 2025", link: "/2025" },
-      ],
+      items: [{ text: "OSPP 2025", link: "/2025" }],
     },
     {
       text: "部署",
@@ -122,6 +120,7 @@ export default defineConfig({
               text: "接入 Dify",
               link: "/dify",
             },
+            { text: "接入 Coze", link: "/coze" },
             {
               text: "接入 阿里云百炼应用",
               link: "/dashscope",
@@ -269,4 +268,4 @@ export default defineConfig({
       ],
     },
   ],
-})
+});
