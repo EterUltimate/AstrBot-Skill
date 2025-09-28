@@ -10,7 +10,7 @@ outline: deep
 
 > [!TIP]
 > 使用 `/provider` 指令可以查看、切换大语言模型提供商。
-> 
+>
 > 使用 `/model` 指令可以查看、切换提供商支持的模型。（需要提供商适配）
 
 下面所有的配置都可在管理面板可视化配置：
@@ -23,14 +23,14 @@ outline: deep
 
 ```json
 {
-    "id": "default",
-    "type": "openai_chat_completion",
-    "enable": true,
-    "key": [],
-    "api_base": "",
-    "model_config": {
-        "model": "gpt-4o-mini"
-    }
+  "id": "default",
+  "type": "openai_chat_completion",
+  "enable": true,
+  "key": [],
+  "api_base": "",
+  "model_config": {
+    "model": "gpt-4o-mini"
+  }
 }
 ```
 
@@ -63,6 +63,7 @@ outline: deep
 ollama 的 key 默认是 ollama。
 
 > [!TIP]
+>
 > 1. 部分模型不支持工具调用或者调用效果很差，因此您可能需要手动 /tool ls 得到所有启用的工具，并使用 /tool off 禁用
 
 ### Gemini
@@ -71,7 +72,7 @@ ollama 的 key 默认是 ollama。
 
 在管理面板可视化配置时，第一种为 `gemini(OpenAI兼容)`，第二种为 `gemini(googlegenai原生)`。
 
-如果你正在使用某些反代项目以在中国大陆使用 Gemini，它们可能不会提供 OpenAI 兼容的API，这时候就需要使用 `gemini(googlegenai原生)`。
+如果你正在使用某些反代项目以在中国大陆使用 Gemini，它们可能不会提供 OpenAI 兼容的 API，这时候就需要使用 `gemini(googlegenai原生)`。
 
 以第二种方式为例，
 
@@ -112,14 +113,14 @@ https://dynamic-halva-76bb38.netlify.app/
 
 ```json
 {
-    "id": "deepseek_default",
-    "type": "openai_chat_completion",
-    "enable": true,
-    "key": [],
-    "api_base": "https://api.deepseek.com/v1",
-    "model_config": {
-        "model": "deepseek-chat"
-    }
+  "id": "deepseek_default",
+  "type": "openai_chat_completion",
+  "enable": true,
+  "key": [],
+  "api_base": "https://api.deepseek.com/v1",
+  "model_config": {
+    "model": "deepseek-chat"
+  }
 }
 ```
 
@@ -149,14 +150,14 @@ glm-4-flash 是智谱的免费模型，可以快速接入测试。
 
 ```json
 {
-    "id": "zhipu_default",
-    "type": "openai_chat_completion",
-    "enable": true,
-    "key": [],
-    "api_base": "https://open.bigmodel.cn/api/paas/v4/",
-    "model_config": {
-        "model": "glm-4-flash"
-    }
+  "id": "zhipu_default",
+  "type": "openai_chat_completion",
+  "enable": true,
+  "key": [],
+  "api_base": "https://open.bigmodel.cn/api/paas/v4/",
+  "model_config": {
+    "model": "glm-4-flash"
+  }
 }
 ```
 
@@ -166,14 +167,14 @@ AstrBot 支持加载使用 `LlamaFactory` 微调的模型。
 
 ```json
 {
-    "id": "llmtuner_default",
-    "type": "llm_tuner",
-    "enable": true,
-    "base_model_path": "",
-    "adapter_model_path": "",
-    "llmtuner_template": "",
-    "finetuning_type": "lora",
-    "quantization_bit": 4
+  "id": "llmtuner_default",
+  "type": "llm_tuner",
+  "enable": true,
+  "base_model_path": "",
+  "adapter_model_path": "",
+  "llmtuner_template": "",
+  "finetuning_type": "lora",
+  "quantization_bit": 4
 }
 ```
 
@@ -189,6 +190,11 @@ AstrBot 支持接入 Dify。
 
 请参考 [接入 Dify](/config/providers/dify)。
 
+## Coze
+
+AstrBot 支持接入 [Coze](https://www.coze.cn/) 的 Agent 服务。
+
+使用说明在: [接入 Coze](/config/providers/coze)。
 
 ## Whisper 语音转文字
 
@@ -197,7 +203,6 @@ AstrBot 支持接入 OpenAI 开源的 Whisper 模型，实现语音转文字。
 可以接入 API 版本的，也可以在本地部署 Whisper。
 
 详见 [Whisper 语音转文字](/use/whisper)。
-
 
 ## OpenAI TTS 文字转语音
 
