@@ -1137,6 +1137,7 @@ class STTProvider(AbstractProvider):
 ```py
 from astrbot.api import ToolSet, FunctionTool
 from dataclasses import dataclass, field
+from astrbot.api.event import AstrMessageEvent
 
 @dataclass
 class SearchTool(FunctionTool):
@@ -1157,7 +1158,7 @@ class SearchTool(FunctionTool):
         "required": ["location"]
     }) # tool 的参数定义
 
-    async def run(self, location: str, unit: str):
+    async def run(self, event: AstrMessageEvent, location: str, unit: str):
         # Your implementation here
         ...
 
