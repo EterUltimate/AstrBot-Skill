@@ -29,6 +29,8 @@ http://127.0.0.1:6185
 
 ### 配置对话模型
 
+注册并登录小马算力 [TokenPony](https://www.tokenpony.cn/2baZKJ5m) 。
+
 在小马算力 [API Keys](https://www.tokenpony.cn/#/user/keys) 页面创建一个新的 API Key，留存备用。
 
 在小马算力[模型页面](https://www.tokenpony.cn/#/model)选择需要使用的模型，留存模型名称备用。
