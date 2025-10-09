@@ -37,7 +37,7 @@ http://127.0.0.1:6185
 
 ![配置对话模型_1](../../source/images/tokenpony/image.png)
 
-> 如果没有看到 `小马算力` 选项，请升级 AstrBot 至最新版本，或者直接点击图中的 `接入 OpenAI`，并将 `API Base URL` 修改为 `https://api.tokenpony.cn/v1`。
+> 如果没有看到 `小马算力` 选项，您也可以直接点击图中的 `接入 OpenAI`，并将 `API Base URL` 修改为 `https://api.tokenpony.cn/v1`。
 
 粘贴上面创建和选择的 `API Key` 和 `模型名称`，点击保存，完成创建。您可以点击下方 `服务提供商可用性` 的 `刷新` 按钮测试配置是否成功。
 
