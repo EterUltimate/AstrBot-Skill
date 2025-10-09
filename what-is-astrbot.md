@@ -22,4 +22,24 @@ AstrBot 致力于成为一个开源的一站式 Agentic 聊天机器人平台及
 
 ## 说明
 
-AstrBot 受 [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) 开源许可证保护。如果您对 AstrBot 进行了修改并将其用于提供具有商业盈利性质的网络服务，您必须开源所做的修改，否则将构成对许可证的违反，我们将保留对违反许可证条款的行为追究法律责任的权利。详细联系 [community@astrbot.app](mailto:community@astrbot.app) 。
+AstrBot 目前是一个非盈利项目，位于 AstrBotDevs 非盈利组织下，由全世界热心开源贡献者维护，并受 [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) 开源许可证保护。如果您对 AstrBot 进行了修改并将其用于提供具有商业盈利性质的网络服务，您必须开源所做的修改，否则将构成对许可证的违反，我们将保留对违反许可证条款的行为追究法律责任的权利。详细联系 [community@astrbot.app](mailto:community@astrbot.app) 。
+
+## 视觉形象
+
+### Logo (Nameless)
+
+![Logo](source/images/logo_prod.png)
+
+### Logo (With Name)
+
+![LogoWithName](https://astrbot.app/assets/logo.svg)
+
+### Seio (星绪) Q 版形象
+
+> 敬告: 请不要将此形象用于 AI 训练。
+
+![Seio_q](source/images/what-is-astrbot/seio_q.png)
+
+### Seio (星绪) 10k Star 纪念海报
+
+![Seio_10k_1](source/images/what-is-astrbot/seio_10k_poster.png)

@@ -97,7 +97,7 @@ function deploy(): DefaultTheme.SidebarItem[] {
       ],
     },
     {
-      text: "部署消息平台(协议端)",
+      text: "接入到消息平台",
       base: "/deploy/platform",
       collapsed: true,
       items: [
