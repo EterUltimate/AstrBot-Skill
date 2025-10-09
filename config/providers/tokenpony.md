@@ -45,6 +45,14 @@ http://127.0.0.1:6185
 
 在 AstrBot WebUI，点击左栏 `配置文件`，找到 AI 配置中的 `默认聊天模型`，选择刚刚创建的 `tokenpony`(小马算力) 提供商，点击保存。
 
+![配置对话模型_2](../../source/images/tokenpony/image_1.png)
+
+### 在线聊天测试（可选）
+
+您可在 AstrBot WebUI 左栏 `聊天` 页面来测试您配置的模型。
+
+![聊天测试](../../source/images/tokenpony/image_2.png)
+
 ## 接入消息平台（以飞书为例）
 
 此处以飞书为例。您可前往 [AstrBot 文档](https://docs.astrbot.app/) -> `部署` -> `部署消息平台` 查看其他消息平台的接入方式。
@@ -127,3 +135,7 @@ http://127.0.0.1:6185
 在群内发送一个 `/help` 指令，机器人将做出响应。
 
 ![成功](../../source/images/lark/image-13.png)
+
+## 更多功能
+
+您可以前往 [AstrBot 文档](https://docs.astrbot.app/) 查看更多功能和配置。
