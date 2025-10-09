@@ -10,12 +10,6 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
     ],
   },
   {
-    text: "开源之夏",
-    base: "/ospp",
-    collapsed: false,
-    items: [{ text: "OSPP 2025", link: "/2025" }],
-  },
-  {
     text: "部署",
     base: "/deploy",
     collapsed: false,
@@ -30,13 +24,13 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
   {
     text: "使用",
     base: "/use",
-    collapsed: false,
+    collapsed: true,
     items: use(),
   },
   {
     text: "开发",
     base: "/dev",
-    collapsed: false,
+    collapsed: true,
     items: [
       // {
       //     text: "核心代码解释",
@@ -62,16 +56,8 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
   {
     text: "其他",
     base: "/others",
-    collapsed: false,
+    collapsed: true,
     items: [
-      // {
-      //     text: "配置文件-大语言模型提供商",
-      //     link: "/provider",
-      // },
-      // {
-      //     text: "配置文件-消息平台适配器",
-      //     link: "/platform",
-      // },
       {
         text: "自部署文转图",
         link: "/self-host-t2i",
@@ -81,6 +67,12 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
         link: "/github-proxy",
       },
     ],
+  },
+    {
+    text: "开源之夏",
+    base: "/ospp",
+    collapsed: true,
+    items: [{ text: "OSPP 2025", link: "/2025" }],
   },
 ];
 
@@ -169,28 +161,29 @@ function config(): DefaultTheme.SidebarItem[] {
       base: "/config/providers",
       collapsed: true,
       items: [
-        { text: "接入 302.AI 模型服务", link: "/302ai" },
-        { text: "接入 PPIO 派欧云模型服务", link: "/ppio" },
-        { text: "接入 OpenAI、DeepSeek 等各种模型", link: "/llm" },
+        { text: "PPIO 派欧云", link: "/ppio" },
+        { text: "PPIO 派欧云", link: "/ppio" },
+        { text: "小马算力", link: "/tokenpony" },
+        { text: "302.AI", link: "/302ai" },
         {
-          text: "接入 Dify",
+          text: "Dify",
           link: "/dify",
         },
+        { text: "Coze", link: "/coze" },
         {
-          text: "接入 阿里云百炼应用",
+          text: "阿里云百炼应用",
           link: "/dashscope",
         },
-        { text: "接入 Coze", link: "/coze" },
         {
-          text: "接入 Ollama 使用 DeepSeek-R1 等模型",
+          text: "Ollama",
           link: "/provider-ollama",
         },
         {
-          text: "接入 LMStudio 使用 DeepSeek-R1 等模型",
+          text: "LMStudio",
           link: "/provider-lmstudio",
         },
         {
-          text: "接入 OneAPI",
+          text: "OneAPI",
           link: "/oneapi",
         },
       ],
@@ -198,10 +191,6 @@ function config(): DefaultTheme.SidebarItem[] {
     {
       text: "AstrBot 配置文件",
       link: "/astrbot-config",
-    },
-    {
-      text: "自定义温度等模型参数",
-      link: "/model-config",
     },
   ];
 }

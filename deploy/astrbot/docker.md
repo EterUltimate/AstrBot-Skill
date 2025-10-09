@@ -64,7 +64,6 @@ sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/AstrBot
 | 6195 | 企业微信 `默认` 端口    | 可选 |
 | 6199 | OneBot(aiocqhttp) `默认` 端口    | 可选 |
 | 6196    | QQ 官方 API(Webhook) HTTP callback server `默认` 端口   | 可选 |
-| 11451    | Gewechat callback HTTP server `默认` 端口   | 可选 |
 
 > Windows 下不需要加 sudo，下同
 > Windows 同步 Host Time（需要WSL2）
