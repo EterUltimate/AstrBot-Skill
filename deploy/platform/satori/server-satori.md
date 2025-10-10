@@ -5,7 +5,9 @@
 
 ## 准备工作
 
-确保你已经有一个运行中的 Koishi 实例。如果没有，请先参考 [Koishi 官方文档](https://koishi.chat/zh-CN/manual/starter/windows.html) 完成安装和基础配置。
+确保你已经有一个运行中的 Koishi 实例。
+
+如果没有，请先参考 [Koishi 官方文档](https://koishi.chat/zh-CN/manual/starter/windows.html) 完成安装和基础配置。
 
 > 安装过程中遇到任何问题，欢迎前往 [Koishi 社区](https://koishi.chat/zh-CN/about/contact.html) 社区讨论。
 
@@ -15,9 +17,10 @@
 2. 进入`插件配置` 页面
 3. 启用该插件（通常不需要额外配置，使用默认设置即可）
 
+安装并启用插件后，server-satori 会自动在 Koishi 的 `/satori` 路径下提供 Satori 协议服务。
+
 ![](./../../../source/images/satori/2025-09-07_17-14-55.png)
 
-安装并启用插件后，server-satori 会自动在 Koishi 的 `/satori` 路径下提供 Satori 协议服务。
 
 ## 在 AstrBot 中配置 Satori 适配器
 
@@ -28,9 +31,10 @@
 
 弹出的配置项填写：
 
-- 启用(enable): 勾选。
-- Satori API Base URL (satori_api_base_url)：`http://localhost:5140/satori/v1`
-- Satori WebSocket Endpoint (satori_endpoint)：`ws://localhost:5140/satori/v1/events`
+- 机器人名称 (id): `server-satori`
+- 启用 (enable): 勾选
+- Satori API 终结点 (satori_api_base_url)：`http://localhost:5140/satori/v1`
+- Satori WebSocket 终结点 (satori_endpoint)：`ws://localhost:5140/satori/v1/events`
 - Satori Token (satori_token)：通常留空（除非在 Koishi 中特别配置了 Token）
 
 > [!NOTE]
@@ -38,17 +42,19 @@
 > - server-satori 插件默认在 `/satori` 路径下提供服务
 > - 因此完整的 URL 路径为 `http://localhost:5140/satori/v1`
 > 
-> 如果你的 koishi 运行在其他端口，或者其他路由下，请根据实际情况修改对应的配置！
+> 如果你的 koishi 运行在其他端口或路由下，**请根据实际情况修改对应的配置！**
 
-![](./../../../source/images/satori/2025-09-07_17-17-37.png)
+![](./../../../source/images/satori/2025-10-10_16-16-25.png)
 
-点击 `保存` 完成配置。
+点击右下角 `保存` 完成配置。
 
 ## 🎉 大功告成！
 
-此时，你的 AstrBot 应该已经通过 Satori 协议成功连接到 Koishi 的 server-satori 插件。
+此时，你的 AstrBot 应该已经通过 Satori 协议成功连接到了 Koishi 的 server-satori 插件。
 
-在 Koishi 的沙盒里 向机器人发送 `/help` 进行测试，如果成功回复，则配置成功。
+在 Koishi 的沙盒里 向机器人发送 AstrBot的指令（例如：`/help`）进行测试，
+
+如果成功回复，则配置成功。
 
 ![](./../../../source/images/satori/2025-09-07_17-19-04.png)
 
