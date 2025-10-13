@@ -30,7 +30,7 @@ export const themeConfig: DefaultTheme.Config = {
 
     editLink: {
         pattern: 'https://github.com/AstrBotdevs/AstrBot-docs/edit/v4/:path',
-        text: '不妥之处，敬请雅正'
+        text: '发现文档有问题？在 GitHub 上编辑此页',
     },
 
     search: {
