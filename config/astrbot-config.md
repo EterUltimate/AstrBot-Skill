@@ -74,6 +74,7 @@ AstrBot 默认配置如下：
         "show_tool_use_status": False,
         "streaming_segmented": False,
         "max_agent_step": 30,
+        "tool_call_timeout": 60,
     },
     "provider_stt_settings": {
         "enable": False,
@@ -346,6 +347,12 @@ Tavily 搜索引擎的 API Key 列表。使用 `tavily` 作为网页搜索提供
 #### `provider_settings.max_agent_step`
 
 Agent 最大步骤数限制。默认为 `30`。模型的每次工具调用算作一步。
+
+#### `provider_settings.tool_call_timeout`
+
+Added in `v4.3.5`
+
+工具调用的最大超时时间（秒），默认为 `60` 秒。
 
 #### `provider_stt_settings`
 
