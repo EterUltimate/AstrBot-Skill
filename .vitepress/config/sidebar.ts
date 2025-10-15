@@ -120,7 +120,8 @@ function deploy(): DefaultTheme.SidebarItem[] {
             { text: "使用其他端", link: "/others" },
           ],
         },
-        { text: "企业微信", link: "/wecom" },
+        { text: "企微应用", link: "/wecom" },
+        { text: "企微智能机器人", link: "/wecom_ai_bot" },
         { text: "微信公众平台", link: "/weixin-official-account" },
         {
           text: "微信个人号",
