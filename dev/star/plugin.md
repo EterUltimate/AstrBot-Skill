@@ -1068,9 +1068,10 @@ class LLMResponse:
 
 #### 获取其他类型的提供商
 
+> 嵌入、重排序 没有 “当前使用”。这两个提供商主要用于知识库。
+
 - 获取当前使用的语音识别提供商(STTProvider): `self.context.get_using_stt_provider(umo=event.unified_msg_origin)`。
 - 获取当前使用的语音合成提供商(TTSProvider): `self.context.get_using_tts_provider(umo=event.unified_msg_origin)`。
-- 获取当前使用的嵌入提供商(EmbeddingProvider): `self.context.get_using_embedding_provider(umo=event.unified_msg_origin)`。
 - 获取所有语音识别提供商: `self.context.get_all_stt_providers()`。
 - 获取所有语音合成提供商: `self.context.get_all_tts_providers()`。
 - 获取所有嵌入提供商: `self.context.get_all_embedding_providers()`。
