@@ -1145,41 +1145,56 @@ class STTProvider(AbstractProvider):
 
 函数工具给了大语言模型调用外部工具的能力。在 AstrBot 中，函数工具有多种定义方式。
 
-##### 以类的形式
+##### 以类的形式（推荐）
 
-这是最灵活的定义形式。
+推荐在插件目录下新建 `tools` 文件夹，然后在其中编写工具类：
+
+`tools/search.py`:
 
 ```py
-from astrbot.api import ToolSet, FunctionTool
-from dataclasses import dataclass, field
+from astrbot.api import FunctionTool
 from astrbot.api.event import AstrMessageEvent
+from dataclasses import dataclass, field
 
 @dataclass
-class SearchTool(FunctionTool):
-    name: str = "get_current_weather" # tool 的名称
-    description: str = "Get the current weather in a given location." # tool 的描述
-    parameters: dict = field(default_factory=lambda: {
-        "type": "object",
-        "properties": {
-            "location": {
-                "type": "string",
-                "description": "The city and state, e.g. San Francisco, CA"
+class HelloWorldTool(FunctionTool):
+    name: str = "hello_world"
+    description: str = "Say hello to the world."
+    parameters: dict = field(
+        default_factory=lambda: {
+            "type": "object",
+            "properties": {
+                "greeting": {
+                    "type": "string",
+                    "description": "The greeting message.",
+                },
             },
-            "unit": {
-                "type": "string",
-                "enum": ["celsius", "fahrenheit"]
-            }
-        },
-        "required": ["location"]
-    }) # tool 的参数定义
+            "required": ["greeting"],
+        }
+    )
 
-    async def run(self, event: AstrMessageEvent, location: str, unit: str):
-        # Your implementation here
-        ...
+    async def run(
+        self,
+        event: AstrMessageEvent,
+        greeting: str,
+    ):
+        return f"{greeting}, World!" # 也支持 mcp.types.CallToolResult 类型
+```
 
-tool = SearchTool()
-tool_set = ToolSet([tool])
+要将上述工具注册到 AstrBot，可以在插件主文件的 `__init__.py` 中添加以下代码：
 
+```py
+from .tools.search import SearchTool
+
+class MyPlugin(Star):
+    def __init__(self, context: Context):
+        super().__init__(context)
+        # >= v4.5.1 使用：
+        self.context.add_llm_tools(HelloWorldTool(), SecondTool(), ...)
+
+        # < v4.5.1 之前使用：
+        tool_mgr = self.context.provider_manager.llm_tools
+        tool_mgr.func_list.append(HelloWorldTool())
 ```
 
 ##### 以装饰器的形式
