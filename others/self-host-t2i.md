@@ -1,6 +1,6 @@
 # 自行部署文转图服务
 
-在 AstrBot 中，默认使用的文转图服务接口是
+AstrBot 使用 [AstrBotDevs/astrbot-t2i-service](https://github.com/AstrBotDevs/astrbot-t2i-service) 项目作为默认的文本转图像服务。默认使用的文转图服务接口是
 
 ```plain
 https://t2i.soulter.top/text2img
