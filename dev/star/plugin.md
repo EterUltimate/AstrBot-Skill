@@ -175,9 +175,9 @@ async def on_message(self, event: AstrMessageEvent):
     print(event.message_obj.message) # AstrBot 解析出来的消息链内容
 ```
 
->[!TIP]
+> [!TIP]
 >
->对于`plain`类型的消息，在发送中会自动使用strip()方法去除空格及换行符，可以使用零宽空格'\u200b'解决限制
+> 对于 `plain` 类型的消息，在发送中会自动使用 `strip()` 方法去除空格及换行符，可以使用零宽空格 `\u200b` 解决限制
 
 ### 平台适配矩阵
 
