@@ -6,7 +6,7 @@ export const head: HeadConfig[] = [
     ["link", { rel: "dns-prefetch", href: "https://fonts.googleapis.cn" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.cn", crossorigin: "" }],
     ["link", { rel: "dns-prefetch", href: "https://fonts.gstatic.cn" }],
-    ["link", { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" }],
+    ["link", { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" }],
 
     // --- 基础和SEO元数据 ---
     ["link", { rel: "icon", href: "/logo.png" }],

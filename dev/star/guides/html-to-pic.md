@@ -14,7 +14,7 @@ async def on_aiocqhttp(self, event: AstrMessageEvent, text: str):
 
 ```
 
-![](../../source/images/plugin/image-3.png)
+![](../../../source/images/plugin/image-3.png)
 
 ## 自定义(基于 HTML)
 
