@@ -234,6 +234,7 @@ function dev_star(): DefaultTheme.SidebarItem[] {
     { text: "文转图", link: "/guides/html-to-pic" },
     { text: "会话控制器", link: "/guides/session-control" },
     { text: "杂项", link: "/guides/other" },
+    { text: "发布插件", link: "/plugin-publish" },
     { text: "插件指南（旧）", link: "/plugin" },
   ];
 }
