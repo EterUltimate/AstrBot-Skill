@@ -4,7 +4,6 @@ import DefaultTheme from 'vitepress/theme'
 import './styles/style.css'
 import './styles/custom-block.css'
 import './styles/font.css'
-import './styles/doc-fade-in.css'
 import Sponsors from './components/Sponsors.vue'
 import ArticleShare from "./components/ArticleShare.vue";
 // import HomeFeaturesAfter from './components/HomeFeaturesAfter.vue'

@@ -5,6 +5,7 @@
 
 >[!TIP]
 >本教程中若未说明，`Do you want to continue?[Y/n]`(或类似)一律填`Y`或`y`
+>
 # 准备步骤
 
 ## Bash 基础
@@ -46,6 +47,7 @@ bash xxx.sh
 ```bash
 termux-change-repo
 ```
+
 选择第一个`Mirror group Rotate between several mirrors`
 
 随后选择第三个`Mirrors in Chinese Mainland    All in Chinese Mainland`等待跑完即可
@@ -74,6 +76,7 @@ proot-distro install ubuntu
 下载及配置完成会有提示`Log in with: proot-distro login ubuntu`,输入相同的即可登入
 
 即：
+
 ```bash
 proot-distro login ubuntu
 ```
@@ -85,7 +88,7 @@ proot-distro login ubuntu
 >[!TIP]
 >`Python 3.10`并不在官方的软件源中，而`uv`所要求的Python版本为3.10 ，所以进行此步为必须
 
- ### 使用`apt`安装`software-properties-common` (添加PPA前置)
+### 使用`apt`安装`software-properties-common` (添加PPA前置)
 
 <!--这里不直接放termux基础环境里运行是因为他会报错，而且proot-distro也不大，性能损耗也很小-->
 
@@ -100,6 +103,7 @@ apt update && apt install software-properties-common
 ```bash
 add-apt-repository ppa:deadsnakes/ppa && apt update
 ```
+
 添加时你可能会看到:`Press [ENTER] to continue or Ctrl-c to cancel.` ，此时按下回车(换行)即可
 
 ## 安装 `Python`
@@ -139,6 +143,7 @@ uv run main.py
 
 >[!TIP]
 >如果使用 `uv` 下载软件包时速度慢，可以更换源 (以 `清华源` 为例)
+>
 >```bash
 >export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple"
 >```
@@ -162,11 +167,12 @@ uv run main.py
 >```bash
 >echo 'export UV_LINK_MODE=copy' >> ~/.bashrc 
 >```
+>
 >```bash
 >source ~/.bashrc
 >```
 
-## 🎉 大功告成！
+## 🎉 大功告成
 
 如果没有报错，那么你可以看到`uv`在安装所需的包后出现类似 `WebUI 已启动，可访问` 并附带了几条链接。
 
@@ -229,6 +235,7 @@ pkill -9  -f "uv run main.py"
 
 >[!TIP]
 >也可以使用`screen`命令，较`&`更易操控
+>
 >```bash
 >apt install screen         #安装screen
 >screen -S <name>           #创建新的会话
@@ -246,3 +253,27 @@ pkill -9  -f "uv run main.py"
 如需让服务端在后台存活，可以在`设置`->`应用和服务`->`应用启动管理`->`Termux`改为`手动管理`并`允许后台活动`(或类似选项)
 
 接下来，你需要部署任何一个消息平台，才能够实现在消息平台上使用 AstrBot。
+
+## Termux 部署报错解决方案
+
+如果出现了 `[WARN] uv sync 失败，重试 2/3
+
+```bash
+× Failed to build astrbot @ file:///root/
+├─▶ Failed to install requirements from build-system.requires
+├─▶ Failed to install build dependencies
+├─▶ Failed to install: trove_classifiers-2025.9.11.17-py3-none-any.whl
+│   (trove-classifiers==2025.9.11.17)
+╰─▶ failed to hardlink file from
+    /root/.cache/uv/archive-v0/10gPuxc61Audvy1Eg6SFz/trove_classifiers/.l2s.__init__.py0001
+    to
+    /root/.cache/uv/builds-v0/.tmp2lFVJx/lib/python3.10/site-packages/trove_classifiers/.l2s.__init__.py0001:
+    Operation not permitted (os error 1)
+```
+
+可以先运行以下命令，然后再重新启动
+
+```bash
+echo 'export UV_LINK_MODE=copy' >> ~/.bashrc 
+source ~/.bashrc
+```

@@ -32,15 +32,6 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
     base: "/dev",
     collapsed: true,
     items: [
-      // {
-      //     text: "核心代码解释",
-      //     base: "/dev/core",
-      //     collapsed: true,
-      //     items: [
-      //         { text: "整体架构", link: "/overall_architecture" },
-      //         { text: "运行流程", link: "/overall_operation_process" },
-      //     ],
-      // },
       {
         text: "插件开发",
         base: "/dev/star",
@@ -68,7 +59,7 @@ export const sidebar: DefaultTheme.Config["sidebar"] = [
       },
     ],
   },
-    {
+  {
     text: "开源之夏",
     base: "/ospp",
     collapsed: true,
@@ -90,7 +81,6 @@ function deploy(): DefaultTheme.SidebarItem[] {
         { text: "😁 宝塔面板部署", link: "/btpanel" },
         { text: "🥇 1Panel 部署", link: "/1panel" },
         { text: "😊 CasaOS 部署", link: "/casaos" },
-        // { text: "😌 社区提供的部署脚本", link: "/linux-one" },
         { text: "🤗 安卓 Termux 部署", link: "/termux" },
         { text: "🍉 优云智算 GPU 部署", link: "/compshare" },
         { text: "⭐️ 社区提供的部署方式", link: "/community-deployment" },
@@ -230,34 +220,20 @@ function use(): DefaultTheme.SidebarItem[] {
       text: "沙箱化代码执行器(beta)",
       link: "/code-interpreter",
     },
-    {
-      text: "配置 Whisper 语音转文字",
-      link: "/whisper",
-    },
-    {
-      text: "配置文字转语音(TTS)",
-      link: "/tts",
-    },
   ];
 }
 
 function dev_star(): DefaultTheme.SidebarItem[] {
   return [
-    { text: "插件开发指南", link: "/plugin" },
-    {
-      text: "类",
-      base: "/dev/star/resources",
-      collapsed: true,
-      items: [
-        { text: "AstrMessageEvent", link: "/astr_message_event" },
-        { text: "AstrBotMessage", link: "/astrbot_message" },
-        { text: "MessageType", link: "/message_type" },
-        { text: "MessageMember", link: "/message_member" },
-        { text: "Context", link: "/context" },
-        { text: "Star", link: "/star" },
-        { text: "StarMetadata", link: "/star_metadata" },
-        { text: "PlatformMetadata", link: "/platform_metadata" },
-      ],
-    },
+    { text: "🌠 从这里开始", link: "/plugin-new" },
+    { text: "最小实例", link: "/guides/simple" },
+    { text: "接收消息事件", link: "/guides/listen-message-event" },
+    { text: "发送消息", link: "/guides/send-message" },
+    { text: "插件配置", link: "/guides/plugin-config" },
+    { text: "调用 AI", link: "/guides/ai" },
+    { text: "文转图", link: "/guides/html-to-pic" },
+    { text: "会话控制器", link: "/guides/session-control" },
+    { text: "杂项", link: "/guides/other" },
+    { text: "插件指南（旧）", link: "/plugin" },
   ];
 }

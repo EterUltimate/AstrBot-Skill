@@ -6,11 +6,10 @@ export const themeConfig: DefaultTheme.Config = {
     nav: [
         { text: "主页", link: "/" },
         { text: "开始", link: "/what-is-astrbot" },
-        { text: "v3 版本文档", link: "https://docs-v3.astrbot.app" },
     ],
     sidebar,
 
-    logo: '/logo.png',
+    logo: '/logo_prod.png',
     outline: {
         level: 'deep',
         label: '目录',
