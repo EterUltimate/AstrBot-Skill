@@ -42,4 +42,6 @@ export const head: HeadConfig[] = [
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     ["meta", { name: "twitter:site", content: "@AstrBot" }],*/
 
+    // --- Umami Analytics ---
+    ["script", { defer: "", src: "https://cloud.umami.is/script.js", "data-website-id": "9c3f777e-9f4a-4b79-a5c3-ff94f5dca8f9" }],
 ];
