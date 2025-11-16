@@ -6,7 +6,6 @@ import './styles/custom-block.css'
 import './styles/font.css'
 import Sponsors from './components/Sponsors.vue'
 import ArticleShare from "./components/ArticleShare.vue";
-// import HomeFeaturesAfter from './components/HomeFeaturesAfter.vue'
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -16,10 +15,6 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       "aside-outline-after": () => h(ArticleShare),
       "aside-ads-after": () => h(Sponsors),
-      // "home-features-after": () => h(HomeFeaturesAfter),
     })
-  },
-  enhanceApp({ app, router, siteData }) {
-    // ...
   }
 }

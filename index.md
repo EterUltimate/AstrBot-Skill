@@ -4,8 +4,8 @@ layout: home
 
 hero:
   name: "AstrBot"
-  text: "易用的多平台聊天机器人及开发框架。"
-  tagline: 多平台支持 / 灵活易用的插件系统 / 大语言模型接入 / Agentic 能力
+  text: "聊天智能体基础设施"
+  tagline: 可接入多个消息平台 / 灵活易用的插件系统 / 支持多种大模型 / Agent
   image:
     src: https://cf.s3.soulter.top/astrbot-logo.svg
     alt: AstrBot Logo
