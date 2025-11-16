@@ -11,7 +11,7 @@ import NotFound from './components/NotFound.vue'
 /** @type {import('vitepress').Theme} */
 export default {
   extends: DefaultTheme,
-  Layout: () => {
+  Layout() {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       "aside-outline-after": () => h(ArticleShare),
