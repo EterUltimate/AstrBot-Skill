@@ -17,7 +17,7 @@ export default defineConfig({
 
   lastUpdated: true,
   ignoreDeadLinks: true,
-  cleanUrls: false,
+  cleanUrls: true,
   metaChunk: true,
   
   locales: {
