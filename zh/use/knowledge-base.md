@@ -9,9 +9,7 @@
 
 ## 配置嵌入模型
 
-打开服务提供商页面，点击新增服务提供商，选择 Embedding，如下图所示：
-
-![image](/source/images/knowledge-base/QQ_1748619486233.png)
+打开服务提供商页面，点击新增服务提供商，选择 Embedding。
 
 目前 AstrBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
 

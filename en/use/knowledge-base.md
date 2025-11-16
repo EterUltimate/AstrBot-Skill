@@ -8,9 +8,7 @@
 
 ## Configuring Embedding Model
 
-Open the service provider page, click "Add Service Provider", and select Embedding, as shown below:
-
-![image](/source/images/knowledge-base/QQ_1748619486233.png)
+Open the service provider page, click "Add Service Provider", and select Embedding.
 
 Currently, AstrBot supports embedding vector services compatible with OpenAI API and Gemini API.
 

@@ -1,17 +1,10 @@
 # AstrBot 知识库
 
-> [!TIP]
-> 需要 AstrBot 版本 >= 4.5.0。
->
-> 我们在 4.5.0 版本中重新设计了全新的知识库系统，AstrBot 将原生支持知识库功能。下文介绍的是新版知识库的使用方法。如果您使用的是之前的版本，请参考[旧版知识库使用文档](https://docs.astrbot.app/zh/use/knowledge-base-old), 我们建议您升级到最新版以获得更好的体验。
-
 ![知识库预览](image-3.png)
 
 ## 配置嵌入模型
 
-打开服务提供商页面，点击新增服务提供商，选择 Embedding，如下图所示：
-
-![image](/source/images/knowledge-base/QQ_1748619486233.png)
+打开服务提供商页面，点击新增服务提供商，选择 Embedding。
 
 目前 AstrBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
 
