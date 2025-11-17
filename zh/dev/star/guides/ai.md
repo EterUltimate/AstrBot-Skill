@@ -103,6 +103,13 @@ Multi-Agent（多智能体）系统将复杂应用分解为多个专业化智能
 定义 Tools:
 
 ```py
+from pydantic import Field
+from pydantic.dataclasses import dataclass
+
+from astrbot.core.agent.run_context import ContextWrapper
+from astrbot.core.agent.tool import FunctionTool, ToolExecResult
+from astrbot.core.astr_agent_context import AstrAgentContext
+
 @dataclass
 class AssignAgentTool(FunctionTool[AstrAgentContext]):
     """Main agent uses this tool to decide which sub-agent to delegate a task to."""
@@ -124,7 +131,7 @@ class AssignAgentTool(FunctionTool[AstrAgentContext]):
 
     async def call(
         self, context: ContextWrapper[AstrAgentContext], **kwargs
-    ) -> str | CallToolResult:
+    ) -> ToolExecResult:
         # Here you would implement the actual agent assignment logic.
         # For demonstration purposes, we'll return a dummy response.
         return "Based on the query, you should assign agent 1."
@@ -151,7 +158,7 @@ class WeatherTool(FunctionTool[AstrAgentContext]):
 
     async def call(
         self, context: ContextWrapper[AstrAgentContext], **kwargs
-    ) -> str | CallToolResult:
+    ) -> ToolExecResult:
         city = kwargs["city"]
         # Here you would implement the actual weather fetching logic.
         # For demonstration purposes, we'll return a dummy response.
@@ -179,7 +186,7 @@ class SubAgent1(FunctionTool[AstrAgentContext]):
 
     async def call(
         self, context: ContextWrapper[AstrAgentContext], **kwargs
-    ) -> str | CallToolResult:
+    ) -> ToolExecResult:
         ctx = context.context.context
         event = context.context.event
         logger.info(f"the llm context messages: {context.messages}")
@@ -216,7 +223,7 @@ class SubAgent2(FunctionTool[AstrAgentContext]):
 
     async def call(
         self, context: ContextWrapper[AstrAgentContext], **kwargs
-    ) -> str | CallToolResult:
+    ) -> ToolExecResult:
         return "I am useless :(, you shouldn't call me :("
 ```
 
