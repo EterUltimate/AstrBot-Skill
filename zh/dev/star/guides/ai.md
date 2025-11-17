@@ -22,7 +22,6 @@ provider_id = await self.context.get_current_chat_provider_id(umo=umo)
 > [!TIP]
 > 在 v4.5.7 时加入
 
-
 ```py
 llm_resp = await self.context.llm_generate(
     chat_provider_id=provider_id, # 聊天模型 ID
@@ -72,7 +71,6 @@ class BilibiliTool(FunctionTool[AstrAgentContext]):
 > [!TIP]
 > 在 v4.5.7 时加入
 
-
 Agent 可以被定义为 system_prompt + tools + llm 的结合体，可以实现更复杂的智能体行为。
 
 在上面定义好 Tool 之后，可以通过以下方式调用 Agent：
@@ -95,7 +93,6 @@ llm_resp = await self.context.tool_loop_agent(
 
 > [!TIP]
 > 在 v4.5.7 时加入
-
 
 Multi-Agent（多智能体）系统将复杂应用分解为多个专业化智能体，它们协同解决问题。不同于依赖单个智能体处理每一步，多智能体架构允许将更小、更专注的智能体组合成协调的工作流程。我们使用 `agent-as-tool` 模式来实现多智能体系统。
 
@@ -246,7 +243,7 @@ async def test(self, event: AstrMessageEvent):
 
 ## 对话管理器
 
-### 获取会话当前的 LLM 对话历史
+### 获取会话当前的 LLM 对话历史 `get_conversation`
 
 ```py
 from astrbot.core.conversation_mgr import Conversation
@@ -283,6 +280,30 @@ class Conversation:
 ```
 
 :::
+
+### 快速添加 LLM 记录到对话 `add_message_pair`
+
+```py
+from astrbot.core.agent.message import (
+    AssistantMessageSegment,
+    UserMessageSegment,
+    TextPart,
+)
+
+curr_cid = await conv_mgr.get_curr_conversation_id(event.unified_msg_origin)
+user_msg = UserMessageSegment(content=[TextPart(text="hi")])
+llm_resp = await self.context.llm_generate(
+    chat_provider_id=provider_id, # 聊天模型 ID
+    contexts=[user_msg], # 当未指定 prompt 时，使用 contexts 作为输入；同时指定 prompt 和 contexts 时，prompt 会被添加到 LLM 输入的最后
+)
+await conv_mgr.add_message_pair(
+    cid=curr_cid,
+    user_message=user_msg,
+    assistant_message=AssistantMessageSegment(
+        content=[TextPart(text=llm_resp.completion_text)]
+    ),
+)
+```
 
 ### 主要方法
 
