@@ -29,7 +29,6 @@ Alternatively, download the source code directly from GitHub and extract it:
 
 2. Execute in terminal (in the AstrBot directory)
 ```bash
-uv sync
 uv run main.py
 ```
 :::
