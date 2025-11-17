@@ -29,7 +29,6 @@ cd AstrBot
 
 2. 在终端执行(AstrBot 目录下)
 ```bash
-uv sync
 uv run main.py
 ```
 :::
