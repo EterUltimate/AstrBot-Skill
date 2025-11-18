@@ -26,6 +26,8 @@ export default defineConfig({
         nav: [
           { text: "主页", link: "/" },
           { text: "开始", link: "/what-is-astrbot" },
+          { text: "博客", link: "https://blog.astrbot.app" },
+          { text: "路线图", link: "https://astrbot.featurebase.app/roadmap" },
         ],
         sidebar: [
           {
@@ -111,7 +113,7 @@ export default defineConfig({
                 ],
               },
               {
-                text: "部署好后...",
+                text: "支持我们",
                 link: "/when-deployed",
               },
             ],
