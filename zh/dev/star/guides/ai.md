@@ -66,6 +66,42 @@ class BilibiliTool(FunctionTool[AstrAgentContext]):
         return "1. 视频标题：如何使用AstrBot\n视频链接：xxxxxx"
 ```
 
+## 注册 Tool 到 AstrBot
+
+在上面定义好 Tool 之后，如果你需要实现的功能是让用户在使用 AstrBot 进行对话时自动调用该 Tool，那么你需要在插件的 __init__ 方法中将 Tool 注册到 AstrBot 中：
+
+```py
+class MyPlugin(Star):
+    def __init__(self, context: Context):
+        super().__init__(context)
+        # >= v4.5.1 使用：
+        self.context.add_llm_tools(BilibiliTool(), SecondTool(), ...)
+
+        # < v4.5.1 之前使用：
+        tool_mgr = self.context.provider_manager.llm_tools
+        tool_mgr.func_list.append(BilibiliTool())
+```
+
+### 通过装饰器定义 Tool 和注册 Tool
+
+除了上述的通过 `@dataclass` 定义 Tool 的方式之外，你也可以使用装饰器的方式注册 tool 到 AstrBot。如果请务必按照以下格式编写一个工具（包括函数注释，AstrBot 会解析该函数注释，请务必将注释格式写对）
+
+```py{3,4,5,6,7}
+@filter.llm_tool(name="get_weather") # 如果 name 不填，将使用函数名
+async def get_weather(self, event: AstrMessageEvent, location: str) -> MessageEventResult:
+    '''获取天气信息。
+
+    Args:
+        location(string): 地点
+    '''
+    resp = self.get_weather_from_api(location)
+    yield event.plain_result("天气信息: " + resp)
+```
+
+在 `location(string): 地点` 中，`location` 是参数名，`string` 是参数类型，`地点` 是参数描述。
+
+支持的参数类型有 `string`, `number`, `object`, `boolean`, `array`。在 v4.5.7 之后，支持对 `array` 类型参数指定子类型，例如 `array[string]`。
+
 ## 调用 Agent
 
 > [!TIP]
@@ -316,78 +352,78 @@ await conv_mgr.add_message_pair(
 
 #### `new_conversation`
 
-- **Usage**  
+- __Usage__  
   在当前会话中新建一条对话，并自动切换为该对话。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str` – 形如 `platform_name:message_type:session_id`  
   - `platform_id: str | None` – 平台标识，默认从 `unified_msg_origin` 解析  
   - `content: list[dict] | None` – 初始历史消息  
   - `title: str | None` – 对话标题  
   - `persona_id: str | None` – 绑定的 persona ID
-- **Returns**  
+- __Returns__  
   `str` – 新生成的 UUID 对话 ID
 
 #### `switch_conversation`
 
-- **Usage**  
+- __Usage__  
   将会话切换到指定的对话。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str`  
   - `conversation_id: str`
-- **Returns**  
+- __Returns__  
   `None`
 
 #### `delete_conversation`
 
-- **Usage**  
+- __Usage__  
   删除会话中的某条对话；若 `conversation_id` 为 `None`，则删除当前对话。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str`  
   - `conversation_id: str | None`
-- **Returns**  
+- __Returns__  
   `None`
 
 #### `get_curr_conversation_id`
 
-- **Usage**  
+- __Usage__  
   获取当前会话正在使用的对话 ID。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str`
-- **Returns**  
+- __Returns__  
   `str | None` – 当前对话 ID，不存在时返回 `None`
 
 #### `get_conversation`
 
-- **Usage**  
+- __Usage__  
   获取指定对话的完整对象；若不存在且 `create_if_not_exists=True` 则自动创建。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str`  
   - `conversation_id: str`  
   - `create_if_not_exists: bool = False`
-- **Returns**  
+- __Returns__  
   `Conversation | None`
 
 #### `get_conversations`
 
-- **Usage**  
+- __Usage__  
   拉取用户或平台下的全部对话列表。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str | None` – 为 `None` 时不过滤用户  
   - `platform_id: str | None`
-- **Returns**  
+- __Returns__  
   `List[Conversation]`
 
 #### `update_conversation`
 
-- **Usage**  
+- __Usage__  
   更新对话的标题、历史记录或 persona_id。
-- **Arguments**  
+- __Arguments__  
   - `unified_msg_origin: str`  
   - `conversation_id: str | None` – 为 `None` 时使用当前对话  
   - `history: list[dict] | None`  
   - `title: str | None`  
   - `persona_id: str | None`
-- **Returns**  
+- __Returns__  
   `None`
 
 ## 人格设定管理器
@@ -403,67 +439,67 @@ persona_mgr = self.context.persona_manager
 
 #### `get_persona`
 
-- **Usage**
+- __Usage__
   获取根据人格 ID 获取人格数据。
-- **Arguments**
+- __Arguments__
   - `persona_id: str` – 人格 ID
-- **Returns**
+- __Returns__
   `Persona` – 人格数据，若不存在则返回 None
-- **Raises**
+- __Raises__
   `ValueError` – 当不存在时抛出
 
 #### `get_all_personas`
 
-- **Usage**  
+- __Usage__  
   一次性获取数据库中所有人格。
-- **Returns**  
+- __Returns__  
   `list[Persona]` – 人格列表，可能为空
 
 #### `create_persona`
 
-- **Usage**  
+- __Usage__  
   新建人格并立即写入数据库，成功后自动刷新本地缓存。
-- **Arguments**  
+- __Arguments__  
   - `persona_id: str` – 新人格 ID（唯一）  
   - `system_prompt: str` – 系统提示词  
   - `begin_dialogs: list[str]` – 可选，开场对话（偶数条，user/assistant 交替）  
   - `tools: list[str]` – 可选，允许使用的工具列表；`None`=全部工具，`[]`=禁用全部
-- **Returns**  
+- __Returns__  
   `Persona` – 新建后的人格对象
-- **Raises**  
+- __Raises__  
   `ValueError` – 若 `persona_id` 已存在
 
 #### `update_persona`
 
-- **Usage**  
+- __Usage__  
   更新现有人格的任意字段，并同步到数据库与缓存。
-- **Arguments**  
+- __Arguments__  
   - `persona_id: str` – 待更新的人格 ID  
   - `system_prompt: str` – 可选，新的系统提示词  
   - `begin_dialogs: list[str]` – 可选，新的开场对话  
   - `tools: list[str]` – 可选，新的工具列表；语义同 `create_persona`
-- **Returns**  
+- __Returns__  
   `Persona` – 更新后的人格对象
-- **Raises**  
+- __Raises__  
   `ValueError` – 若 `persona_id` 不存在
 
 #### `delete_persona`
 
-- **Usage**  
+- __Usage__  
   删除指定人格，同时清理数据库与缓存。
-- **Arguments**  
+- __Arguments__  
   - `persona_id: str` – 待删除的人格 ID
-- **Raises**  
+- __Raises__  
   `Valueable` – 若 `persona_id` 不存在
 
 #### `get_default_persona_v3`
 
-- **Usage**  
+- __Usage__  
   根据当前会话配置，获取应使用的默认人格（v3 格式）。  
   若配置未指定或指定的人格不存在，则回退到 `DEFAULT_PERSONALITY`。
-- **Arguments**  
+- __Arguments__  
   - `umo: str | MessageSession | None` – 会话标识，用于读取用户级配置
-- **Returns**  
+- __Returns__  
   `Personality` – v3 格式的默认人格对象
 
 ::: details Persona / Personality 类型定义
