@@ -58,6 +58,9 @@ async def helloworld(self, event: AstrMessageEvent):
 
 The above constructs a `message chain`, which will ultimately send a message containing both images and text while preserving the order.
 
+> [!TIP]
+> In the aiocqhttp message adapter, for messages of type `plain`, the `strip()` method is used during sending to remove spaces and line breaks. You can add zero-width spaces `\u200b` before and after the message to resolve this issue.
+
 Similarly,
 
 **File**

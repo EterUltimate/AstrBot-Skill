@@ -64,10 +64,6 @@ class AstrBotMessage:
 - `Nodes`：合并转发消息中的多个节点
 - `Poke`：戳一戳消息段
 
-> [!TIP]
->
-> 在aiocqhttp消息适配器中，对于 `plain` 类型的消息，在发送中会自动使用 `strip()` 方法去除空格及换行符，可以使用零宽空格 `\u200b` 解决限制。
-
 在 AstrBot 中，消息链表示为 `List[BaseMessageComponent]` 类型的列表。
 
 ## 指令

@@ -58,6 +58,9 @@ async def helloworld(self, event: AstrMessageEvent):
 
 上面构建了一个 `message chain`，也就是消息链，最终会发送一条包含了图片和文字的消息，并且保留顺序。
 
+> [!TIP]
+> 在 aiocqhttp 消息适配器中，对于 `plain` 类型的消息，在发送中会使用 `strip()` 方法去除空格及换行符，可以在消息前后添加零宽空格 `\u200b` 以解决这个问题。
+
 类似地，
 
 **文件 File**
