@@ -128,6 +128,7 @@ export default defineConfig({
                 base: "/config/providers",
                 collapsed: true,
                 items: [
+                  { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO 派欧云", link: "/ppio" },
                   { text: "硅基流动", link: "/siliconflow" },
                   { text: "小马算力", link: "/tokenpony" },
@@ -137,7 +138,6 @@ export default defineConfig({
                   { text: "阿里云百炼应用", link: "/dashscope" },
                   { text: "Ollama", link: "/provider-ollama" },
                   { text: "LMStudio", link: "/provider-lmstudio" },
-                  { text: "OneAPI", link: "/oneapi" },
                 ],
               },
               {
@@ -335,6 +335,7 @@ export default defineConfig({
                 base: "/en/config/providers",
                 collapsed: true,
                 items: [
+                  { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO Cloud", link: "/ppio" },
                   { text: "SiliconFlow", link: "/siliconflow" },
                   { text: "TokenPony", link: "/tokenpony" },
@@ -344,7 +345,6 @@ export default defineConfig({
                   { text: "Alibaba Cloud Bailian", link: "/dashscope" },
                   { text: "Ollama", link: "/provider-ollama" },
                   { text: "LMStudio", link: "/provider-lmstudio" },
-                  { text: "OneAPI", link: "/oneapi" },
                 ],
               },
               {
