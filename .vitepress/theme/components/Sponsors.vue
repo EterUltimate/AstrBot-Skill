@@ -1,9 +1,19 @@
 <template>
   <div class="sponsors">
-    <a href="https://www.rainyun.com/NjY3OTQ1_"><img width="80" src="https://www.rainyun.com/img/logo.d193755d.png"></a>
-    <span>本站由<a href="https://www.rainyun.com/NjY3OTQ1_">雨云</a>提供云计算服务</span>
+    <div class="wwads-cn wwads-vertical wwads-sticky" data-id="380" style="max-width:180px"></div>
   </div>
 </template>
+
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  const script = document.createElement('script')
+  script.src = 'https://cdn.wwads.cn/js/makemoney.js'
+  script.async = true
+  document.head.appendChild(script)
+})
+</script>
 
 <style scoped>
 .sponsors {
@@ -15,6 +25,5 @@
   align-items: center;
   flex-direction: column;
   gap: 8px;
-  background-color: var(--vp-c-bg-soft);
 }
 </style>
