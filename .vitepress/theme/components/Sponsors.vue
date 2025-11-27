@@ -1,6 +1,6 @@
 <template>
-  <div class="sponsors">
-    <div class="wwads-cn wwads-vertical wwads-sticky" data-id="380" style="max-width:180px"></div>
+  <div>
+    <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div>
   </div>
 </template>
 
@@ -17,13 +17,15 @@ onMounted(() => {
 
 <style scoped>
 .sponsors {
-  padding: 24px;
-  border-radius: 8px;
-  font-size: 11px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 8px;
+  max-width: 100%;
+  margin: 0 !important;
+  background-color: transparent !important;
+}
+
+.sponsors .wwads-text {
+  color: var(--vp-c-bg) !important;
+  transition-property: color;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
