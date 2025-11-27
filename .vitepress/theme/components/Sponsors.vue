@@ -23,7 +23,7 @@ onMounted(() => {
 }
 
 .sponsors .wwads-text {
-  color: var(--vp-c-bg) !important;
+  color: var(--vp-c-text-1) !important;
   transition-property: color;
   transition-duration: 500ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
