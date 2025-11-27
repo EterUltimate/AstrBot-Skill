@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 
 const props = defineProps({
   shareText: {
@@ -77,6 +77,13 @@ const copiedIconSvg = `
     <path d="M20 6 9 17l-5-5"></path>
   </svg>
 `
+
+onMounted(() => {
+  const script = document.createElement('script')
+  script.src = 'https://cdn.wwads.cn/js/makemoney.js'
+  script.async = true
+  document.head.appendChild(script)
+})
 </script>
 
 <template>
@@ -97,6 +104,7 @@ const copiedIconSvg = `
       </div>
     </button>
   </div>
+  <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div>
 </template>
 
 <style scoped>
@@ -168,5 +176,18 @@ const copiedIconSvg = `
   display: inline-flex;
   align-items: center;
   margin-right: 6px;
+}
+
+.sponsors {
+  max-width: 100%;
+  margin: 0 !important;
+  background-color: transparent !important;
+}
+
+.sponsors .wwads-text {
+  color: var(--vp-c-text-1) !important;
+  transition-property: color;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
