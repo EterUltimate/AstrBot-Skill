@@ -87,7 +87,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div style="display: flex; justify-content: center; align-items: center;">
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
     <div class="article-share">
       <button :class="['article-share__button', { copied: copied }]"
         :aria-label="copied ? props.copiedText : props.shareText" aria-live="polite" @click="copyToClipboard">
@@ -110,6 +110,7 @@ onMounted(() => {
 <style scoped>
 .article-share {
   padding: 14px 0;
+  width: 100%;
 }
 
 .article-share__button {
