@@ -28,7 +28,7 @@ defineOptions({ name: "ArticleShare" })
 
 const copied = ref(false)
 const isClient =
-    typeof window !== "undefined" && typeof document !== "undefined"
+  typeof window !== "undefined" && typeof document !== "undefined"
 
 const shareLink = computed(() => {
   if (!isClient) return ""
@@ -87,28 +87,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="article-share">
-    <button
-        :class="['article-share__button', { copied: copied }]"
-        :aria-label="copied ? props.copiedText : props.shareText"
-        aria-live="polite"
-        @click="copyToClipboard">
-      <div v-if="!copied" class="content-wrapper">
-        <span class="icon" v-html="shareIconSvg"></span>
-        {{ props.shareText }}
-      </div>
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="article-share">
+      <button :class="['article-share__button', { copied: copied }]"
+        :aria-label="copied ? props.copiedText : props.shareText" aria-live="polite" @click="copyToClipboard">
+        <div v-if="!copied" class="content-wrapper">
+          <span class="icon" v-html="shareIconSvg"></span>
+          {{ props.shareText }}
+        </div>
 
-      <div v-else class="content-wrapper">
-        <span class="icon" v-html="copiedIconSvg"></span>
-        {{ props.copiedText }}
-      </div>
-    </button>
+        <div v-else class="content-wrapper">
+          <span class="icon" v-html="copiedIconSvg"></span>
+          {{ props.copiedText }}
+        </div>
+      </button>
+    </div>
+    <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div>
   </div>
-  <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div>
+
 </template>
 
 <style scoped>
-
 .article-share {
   padding: 14px 0;
 }
@@ -157,7 +156,8 @@ onMounted(() => {
 }
 
 .article-share__button.copied {
-  color: var(--vp-c-brand-1, #007acc); /* 增加了备用颜色 */
+  color: var(--vp-c-brand-1, #007acc);
+  /* 增加了备用颜色 */
   background-color: var(--vp-c-brand-soft, #ddf4ff);
 }
 
