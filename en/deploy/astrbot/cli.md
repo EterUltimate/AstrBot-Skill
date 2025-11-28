@@ -29,7 +29,14 @@ Alternatively, download the source code directly from GitHub and extract it:
 
 2. Execute in terminal (in the AstrBot directory)
 ```bash
+uv sync
 uv run main.py
+```
+
+If you have installed some plugins, it is recommended to add the `--no-sync` parameter for subsequent startups to avoid reinstalling plugin dependencies. We are working on solving this issue, so stay tuned.
+
+```bash
+uv run --no-sync main.py
 ```
 :::
 

@@ -29,7 +29,14 @@ cd AstrBot
 
 2. 在终端执行(AstrBot 目录下)
 ```bash
+uv sync
 uv run main.py
+```
+
+如果您安装了一些插件，建议后续启动附上 `--no-sync` 参数，以避免插件依赖库被重复安装。我们正在努力解决这个问题，敬请期待。
+
+```bash
+uv run --no-sync main.py
 ```
 :::
 
