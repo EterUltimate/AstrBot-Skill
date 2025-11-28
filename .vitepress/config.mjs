@@ -124,7 +124,7 @@ export default defineConfig({
             collapsed: false,
             items: [
               {
-                text: "接入大模型服务",
+                text: "配置模型服务商",
                 base: "/config/providers",
                 collapsed: true,
                 items: [
@@ -133,11 +133,19 @@ export default defineConfig({
                   { text: "硅基流动", link: "/siliconflow" },
                   { text: "小马算力", link: "/tokenpony" },
                   { text: "302.AI", link: "/302ai" },
-                  { text: "Dify", link: "/dify" },
-                  { text: "Coze", link: "/coze" },
-                  { text: "阿里云百炼应用", link: "/dashscope" },
                   { text: "Ollama", link: "/provider-ollama" },
                   { text: "LMStudio", link: "/provider-lmstudio" },
+                ],
+              },
+              {
+                text: "配置 Agent 执行器",
+                base: "/config/agent-runners",
+                collapsed: true,
+                items: [
+                  { text: "内置 Agent 执行器", link: "/astrbot-agent-runner" },
+                  { text: "Dify", link: "/dify" },
+                  { text: "扣子 Coze", link: "/coze" },
+                  { text: "阿里云百炼应用", link: "/dashscope" },
                 ],
               },
               {
@@ -342,11 +350,19 @@ export default defineConfig({
                   { text: "SiliconFlow", link: "/siliconflow" },
                   { text: "TokenPony", link: "/tokenpony" },
                   { text: "302.AI", link: "/302ai" },
-                  { text: "Dify", link: "/dify" },
-                  { text: "Coze", link: "/coze" },
-                  { text: "Alibaba Cloud Bailian", link: "/dashscope" },
                   { text: "Ollama", link: "/provider-ollama" },
                   { text: "LMStudio", link: "/provider-lmstudio" },
+                ],
+              },
+              {
+                text: "Integrating Agent Runners",
+                base: "/en/config/agent-runners",
+                collapsed: true,
+                items: [
+                  { text: "Built-in Agent Runner", link: "/astrbot-agent-runner" },
+                  { text: "Dify", link: "/dify" },
+                  { text: "Coze", link: "/coze" },
+                  { text: "Alibaba Bailian", link: "/dashscope" },
                 ],
               },
               {
