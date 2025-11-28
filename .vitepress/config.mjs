@@ -158,8 +158,9 @@ export default defineConfig({
               { text: "MCP", link: "/mcp" },
               { text: "网页搜索", link: "/websearch" },
               { text: "知识库", link: "/knowledge-base" },
-              { text: "沙箱化代码执行器(beta)", link: "/code-interpreter" },
               { text: "自定义规则", link: "/custom-rules" },
+              { text: "Agent 执行器", link: "/agent-runner" },
+              { text: "沙箱化代码执行器(beta)", link: "/code-interpreter" },
             ],
           },
           {
@@ -366,8 +367,9 @@ export default defineConfig({
               { text: "MCP", link: "/mcp" },
               { text: "Web Search", link: "/websearch" },
               { text: "Knowledge Base", link: "/knowledge-base" },
-              { text: "Sandboxed Code Interpreter (beta)", link: "/code-interpreter" },
               { text: "Custom Rules", link: "/custom-rules" },
+              { text: "Agent Runner", link: "/agent-runner" },
+              { text: "Sandboxed Code Interpreter (beta)", link: "/code-interpreter" },
             ],
           },
           {
