@@ -86,4 +86,4 @@ class ConfigPlugin(Star):
 
 ## Configuration Updates
 
-When you release updates with different Schema versions, AstrBot recursively checks the configuration files, automatically adding default values for missing configurations and removing redundant items.
+When you update the Schema across different versions, AstrBot recursively checks the configuration items in the Schema, automatically adding default values for missing configurations and removing redundant ones.

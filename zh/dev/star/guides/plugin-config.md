@@ -86,4 +86,4 @@ class ConfigPlugin(Star):
 
 ## 配置更新
 
-AstrBot 会在您发布不同版本更新 Schema 时递归检查配置文件，自动为缺失的配置添加默认值、删除多余的配置项。
+您在发布不同版本更新 Schema 时，AstrBot 会递归检查 Schema 的配置项，自动为缺失的配置添加默认值、删除多余的配置项。
