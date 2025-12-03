@@ -15,7 +15,7 @@ AstrBot 支持接入 ModelStack 作为模型提供商，用户可以通过 Model
 创建成功后，点击复制密钥按钮，复制生成的 API Key 密钥。
 
 > [!TIP]
-> 为了能够正常使用，你可能需要先支付。如果有任何支付问题，请立即联系 [i@modelstack.app](mailto:i@modelstack.app)。
+> 为了能够正常使用，你可能需要先支付 🤔。如果有任何支付问题，请立即联系 [i@modelstack.app](mailto:i@modelstack.app) 🚀。
 
 ### 选择模型
 
