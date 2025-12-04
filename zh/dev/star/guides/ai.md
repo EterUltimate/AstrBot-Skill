@@ -152,7 +152,7 @@ class AssignAgentTool(FunctionTool[AstrAgentContext]):
 
     name: str = "assign_agent"
     description: str = "Assign an agent to a task based on the given query"
-    parameters: dict = field(
+    parameters: dict = Field(
         default_factory=lambda: {
             "type": "object",
             "properties": {
@@ -179,7 +179,7 @@ class WeatherTool(FunctionTool[AstrAgentContext]):
 
     name: str = "weather"
     description: str = "Get weather information for a location"
-    parameters: dict = field(
+    parameters: dict = Field(
         default_factory=lambda: {
             "type": "object",
             "properties": {
@@ -207,7 +207,7 @@ class SubAgent1(FunctionTool[AstrAgentContext]):
 
     name: str = "subagent1_name"
     description: str = "subagent1_description"
-    parameters: dict = field(
+    parameters: dict = Field(
         default_factory=lambda: {
             "type": "object",
             "properties": {
@@ -244,7 +244,7 @@ class SubAgent2(FunctionTool[AstrAgentContext]):
 
     name: str = "subagent2_name"
     description: str = "subagent2_description"
-    parameters: dict = field(
+    parameters: dict = Field(
         default_factory=lambda: {
             "type": "object",
             "properties": {
