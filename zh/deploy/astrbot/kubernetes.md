@@ -1,7 +1,9 @@
 # 使用 Kubernetes 部署 AstrBot
 
 > [!WARNING]
-> 通过 Kubernetes (K8s) 可以将 AstrBot 可靠地、可扩展地部署在集群环境中。
+> 通过 Kubernetes (K8s) 可以将 AstrBot 以高可用的方式部署在集群环境中，当出现故障时可以自动拉起恢复。
+>
+> 由于 AstrBot 当前使用 SQLite 数据库，此部署方案不支持多副本水平扩展。同时，若采用 Sidecar 模式，NapCat 的登录状态持久化需要您特别关注。
 >
 > 以下教程默认您的环境已安装并配置好 `kubectl`，且能够连接到您的 K8s 集群。
 

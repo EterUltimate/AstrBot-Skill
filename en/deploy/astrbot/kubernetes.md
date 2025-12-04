@@ -1,7 +1,9 @@
 # Deploy AstrBot with Kubernetes
 
 > [!WARNING]
-> You can deploy AstrBot reliably and scalably in a cluster environment using Kubernetes (K8s).
+> You can deploy AstrBot in a high-availability setup using Kubernetes (K8s), allowing it to automatically recover from failures.
+>
+> Due to the current use of an SQLite database, this deployment does not support horizontal scaling with multiple replicas. Additionally, if using the Sidecar mode, pay special attention to the persistence of NapCat's login state.
 >
 > The following tutorial assumes that you have `kubectl` installed and configured, and that you can connect to your K8s cluster.
 
