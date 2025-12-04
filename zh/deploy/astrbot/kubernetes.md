@@ -78,10 +78,6 @@ kubectl apply -f k8s/astrbot_with_napcat/02-deployment.yaml
     *   **反向 Websocket 端口**: `6199`
     *   保存配置。
 
-    <!-- 在此插入 AstrBot 配置截图 -->
-    <p align="center">
-      <!-- <img src="your_astrbot_config_image_url_here" width="600"/> -->
-    </p>
 
 2.  **在 NapCat 中配置 Websocket Client：**
     *   进入 NapCat WebUI，选择 `设置` -> `反向WS` -> `添加`。
@@ -90,10 +86,6 @@ kubectl apply -f k8s/astrbot_with_napcat/02-deployment.yaml
     *   **消息格式**: `Array`
     *   保存配置。
 
-    <!-- 在此插入 NapCat 配置截图 -->
-    <p align="center">
-      <!-- <img src="your_napcat_config_image_url_here" width="600"/> -->
-    </p>
 
 ---
 

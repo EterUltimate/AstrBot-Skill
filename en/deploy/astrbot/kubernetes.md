@@ -78,10 +78,6 @@ Since AstrBot and NapCat are in the same Pod, they can communicate directly via 
     *   **Reverse Websocket Port**: `6199`
     *   Save the configuration.
 
-    <!-- Insert AstrBot config screenshot here -->
-    <p align="center">
-      <!-- <img src="your_astrbot_config_image_url_here" width="600"/> -->
-    </p>
 
 2.  **Configure Websocket Client in NapCat:**
     *   Go to the NapCat WebUI, select `Settings` -> `Reverse WS` -> `Add`.
@@ -90,10 +86,6 @@ Since AstrBot and NapCat are in the same Pod, they can communicate directly via 
     *   **Message Format**: `Array`
     *   Save the configuration.
 
-    <!-- Insert NapCat config screenshot here -->
-    <p align="center">
-      <!-- <img src="your_napcat_config_image_url_here" width="600"/> -->
-    </p>
 
 ---
 
