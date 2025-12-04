@@ -49,6 +49,7 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { text: "🦈 Docker 部署", link: "/docker" },
+                  { text: "☸️ Kubernetes 部署", link: "/kubernetes" },
                   { text: "☁️ 雨云一键云部署(NEW)", link: "/rainyun" },
                   { text: "💻 Windows 一键部署", link: "/windows" },
                   { text: "👍 手动部署", link: "/cli" },
@@ -272,6 +273,7 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { text: "🦈 Docker Deployment", link: "/docker" },
+                  { text: "☸️ Kubernetes Deployment", link: "/kubernetes" },
                   { text: "👍 Manual Deployment", link: "/cli" },
                   { text: "😁 BT Panel Deployment", link: "/btpanel" },
                   { text: "🥇 1Panel Deployment", link: "/1panel" },
