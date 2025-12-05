@@ -41,6 +41,14 @@ You can also click the + button in the bottom right corner to manually install p
 
 > Due to the plugin update mechanism, the AstrBot Team cannot fully guarantee the security of plugins in the plugin market. Please carefully verify them. The AstrBot Team is not responsible for any losses caused by plugins.
 
+## Command Management
+
+Use the `Command Management` menu on the left to centrally manage all registered commands; system plugins are hidden by default.
+
+Filter by plugin, type (command / command group / subcommand), permission, and status, and combine with the search box for quick lookup. Command group rows can expand to show subcommands, badges display the subcommand count, and subcommand rows are indented to indicate hierarchy.
+
+You can enable/disable and rename each command.
+
 ## Updating the Admin Panel
 
 When AstrBot starts, it automatically checks if the admin panel needs updating. If it does, the first log entry (in yellow) will prompt you.
