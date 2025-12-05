@@ -7,7 +7,7 @@
 
 综合了文档里的几乎全部安装方式
 
-还有许多实用功能linux工具
+还包含许多实用的 Linux 工具
 
 astrbot分类在 `基础工具/bot安装/astrbot` 里
 ```bash
