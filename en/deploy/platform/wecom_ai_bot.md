@@ -22,11 +22,17 @@ AstrBot 在 v4.3.5 版本开始支持接入企业微信智能机器人平台。
 
 ![新增适配器](/source/images/wecom_ai_bot/image-2.png)
 
-2. 在弹出的配置项中将 `企业微信智能机器人的名字`、`token`、`encoding_aes_key` 从上一步创建智能机器人时填写的值复制粘贴到对应的输入框中。ID 可以随意填写，用于区分不同的消息平台实例。`port` 默认为 `6198`，可以根据需要修改，但请确保该端口未被占用。点击 `保存`。
+2. 在弹出的配置项中将 `企业微信智能机器人的名字`、`token`、`encoding_aes_key` 从上一步创建智能机器人时填写的值复制粘贴到对应的输入框中。ID 可以随意填写，用于区分不同的消息平台实例。`port` 默认为 `6198`，可以根据需要修改，但请确保该端口未被占用。请保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。点击 `保存`。
 
-3. 回到企业微信智能机器人创建页面，填写 `URL` 为 `http://IP:port/webhook/wecom-ai-bot`，其中 `IP` 替换为你的 AstrBot 服务器的公网 IP 地址，`port` 替换为上一步填写的端口号。
+3. 回到企业微信智能机器人创建页面，填写 `URL`：
 
-> 建议有能力的用户自行配置域名和反向代理，并使用 HTTPS 协议。如果没有域名，也可以使用 [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/)。
+   - 如果开启了 `统一 Webhook 模式`，点击保存之后，AstrBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入 `URL` 处。
+
+   ![unified_webhook](/source/images/use/unified-webhook.png)
+
+   - 如果没有开启 `统一 Webhook 模式`，填写 `http://IP:port/webhook/wecom-ai-bot`，其中 `IP` 替换为你的 AstrBot 服务器的公网 IP 地址，`port` 替换为上一步填写的端口号。
+
+> 建议有能力的用户自行配置域名和反向代理，将请求转发到 AstrBot 所在服务器的 `6185` 端口（如果开启了统一 Webhook 模式）或配置指定的端口（如果没有开启统一 Webhook 模式），并使用 HTTPS 协议。如果没有域名，也可以使用 [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/)。
 
 4. 点击 `创建` 按钮，如果一切无误，将进入智能机器人详情页面。如果报错 `服务没有正确响应，请确认后重试`，请检查 AstrBot 的配置、服务器防火墙端口放行规则等。
 

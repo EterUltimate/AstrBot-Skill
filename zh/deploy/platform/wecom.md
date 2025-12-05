@@ -35,11 +35,17 @@ AstrBot 支持接入企业微信应用和微信客服。
 
 如果您之前使用过微信客服机器人，那么在 `开发配置` 中直接找到 `回调配置`，点击修改。
 
-回调 URL 填写： `http://你的带公网地址的服务器ip:6195/callback/command`
+点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处。请保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。然后点击保存配置，等待适配器加载完成。
 
-> 请注意放行端口
+回调 URL 填写：
 
-点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处，然后点击保存配置，等待适配器加载完成。
+- 如果开启了 `统一 Webhook 模式`，点击保存之后，AstrBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入回调 URL 处。
+
+![unified_webhook](/source/images/use/unified-webhook.png)
+
+- 如果没有开启 `统一 Webhook 模式`，填写 `http://你的带公网地址的服务器ip:6195/callback/command`。
+
+> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 AstrBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
 
 回到微信客服 `回调配置`，点击 `完成`。如果一切无误，将会显示 `已完成`（否则会显示类似 `openapi 回调不通过` 类似的文本）。
 
@@ -81,13 +87,19 @@ AstrBot 支持接入企业微信应用和微信客服。
 
 ![image](/source/images/wecom/image-9.png)
 
-在 URL 处填入 `http://你的带公网地址的服务器ip:6195/callback/command`
-
-> 请注意放行端口
-
-并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处。
+并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 AstrBot 配置的 `token` 和 `encoding_aes_key` 处。建议保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。
 
 现在应该已经填完 AstrBot 连接到企业微信的所有配置项。点击 AstrBot 配置页右下角保存，等待 AstrBot 重启。
+
+在 URL 处填入回调地址：
+
+- 如果开启了 `统一 Webhook 模式`，点击保存之后，AstrBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入 URL 处。
+
+![unified_webhook](/source/images/use/unified-webhook.png)
+
+- 如果没有开启 `统一 Webhook 模式`，填入 `http://你的带公网地址的服务器ip:6195/callback/command`。
+
+> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 AstrBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
 
 接下来配置企业可信 IP。
 

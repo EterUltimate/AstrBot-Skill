@@ -51,17 +51,29 @@ Slack supports two connection methods: `Webhook` and `Socket`. If you don't have
 
 ## Start the Platform Adapter
 
-The configuration is now complete. If you're using Socket mode, simply click the Save button in the bottom right corner of the configuration. If you're using Webhook mode, you can also configure the Slack Webhook Host, Slack Webhook Port, and Slack Webhook Path according to your needs. Generally, using the default values is sufficient.
+The configuration is now complete. If you're using Socket mode, simply click the Save button in the bottom right corner of the configuration.
+
+If you're using Webhook mode, please keep `Unified Webhook Mode (unified_webhook_mode)` enabled.
+
+> [!TIP]
+> Before v4.8.0, there is no `Unified Webhook Mode`. You need to fill in the following configuration items:
+> Slack Webhook Host, Slack Webhook Port, and Slack Webhook Path
 
 
 ## Enable Event Subscriptions
 
 After successfully creating the platform adapter, return to the Slack settings. In the Event Subscriptions page on the left sidebar, click Enable Events to enable event reception.
 
-If you're using Webhook mode, enter `https://your-domain/astrbot-slack-webhook/callback` in the `Request URL` field that appears.
+If you're using Webhook mode:
+
+- If `Unified Webhook Mode` is enabled, after clicking save, AstrBot will automatically generate a unique Webhook callback URL for you. You can find it in the logs or on the bot card in the WebUI's Bots page. Enter this URL in the `Request URL` field.
+
+![unified_webhook](/source/images/use/unified-webhook.png)
+
+- If `Unified Webhook Mode` is not enabled, enter `https://your-domain/astrbot-slack-webhook/callback` in the `Request URL` field.
 
 > [!TIP]
-> In Webhook mode, you need to first set up your domain with your DNS provider, then use reverse proxy software to proxy the Slack Webhook Port you configured in the previous step to your domain. Alternatively, you can use Cloudflare Tunnel. For detailed tutorials, please refer to online resources; this tutorial will not cover these in detail.
+> In Webhook mode, you need to first set up your domain with your DNS provider, then use reverse proxy software to forward requests to port `6185` on the AstrBot server (if Unified Webhook Mode is enabled) or the port specified in your configuration (if Unified Webhook Mode is not enabled). Alternatively, you can use Cloudflare Tunnel. For detailed tutorials, please refer to online resources; this tutorial will not cover these in detail.
 
 After enabling, under Subscribe to bot events below, click Add Bot User Event and add the following events:
 
