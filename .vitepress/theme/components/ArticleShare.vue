@@ -78,12 +78,12 @@ const copiedIconSvg = `
   </svg>
 `
 
-onMounted(() => {
-  const script = document.createElement('script')
-  script.src = 'https://cdn.wwads.cn/js/makemoney.js'
-  script.async = true
-  document.head.appendChild(script)
-})
+// onMounted(() => {
+//   const script = document.createElement('script')
+//   script.src = 'https://cdn.wwads.cn/js/makemoney.js'
+//   script.async = true
+//   document.head.appendChild(script)
+// })
 </script>
 
 <template>
@@ -102,7 +102,7 @@ onMounted(() => {
         </div>
       </button>
     </div>
-    <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div>
+   <!-- <div class="wwads-cn wwads-vertical sponsors" data-id="380" style="max-width:180px"></div> -->
   </div>
 
 </template>
