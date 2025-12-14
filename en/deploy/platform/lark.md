@@ -1,84 +1,101 @@
-# 接入飞书
+# Connecting to Lark
 
-## 常见问题
+## Creating a Bot
 
-如果发现 `加载平台适配器 lark 失败，原因：No module named 'lark_oapi'。请检查依赖库是否安装。提示：可以在 管理面板->控制台->安装Pip库 中安装依赖库。` 报错，说明没有安装 `lark_oapi` 库，请根据提示安装或者直接通过 pip 安装。
+Navigate to the [Developer Console](https://open.feishu.cn/app) and create a custom enterprise application.
 
-## 创建机器人
+![Create Custom Enterprise Application](/source/images/lark/image.png)
 
-前往 [开发者后台](https://open.feishu.cn/app) ，创建企业自建应用。
+Add the Bot capability to your application.
 
-![创建企业自建应用](/source/images/lark/image.png)
+![Add Bot Capability](/source/images/lark/image-1.png)
 
-添加应用能力——机器人。
+Click on "Credentials & Basic Info" to obtain your app_id and app_secret.
 
-![添加应用能力](/source/images/lark/image-1.png)
+![Get app_id and app_secret](/source/images/lark/image-4.png)
 
-点击凭证与基础信息，获取 app_id 和 app_secret。
+## Configuring AstrBot
 
-![获取 app_id 和 app_secret](/source/images/lark/image-4.png)
+1. Access the AstrBot management panel
+2. Click on `Bots` in the left sidebar
+3. In the right panel, click `+ Create Bot`
+4. Select `lark`
 
-## 配置 AstrBot
+Fill in the configuration fields as follows:
 
-1. 进入 AstrBot 的管理面板
-2. 点击左边栏 `机器人`
-3. 然后在右边的界面中，点击 `+ 创建机器人` 
-4. 选择 `lark(飞书)`
+- ID: Choose any identifier to distinguish between different messaging platform instances
+- Enable: Check this option
+- app_id: The app_id you obtained earlier
+- app_secret: The app_secret you obtained earlier
+- Bot name: Your Lark bot's name
 
-弹出的配置项填写：
+For the domain field, if you're using Lark China, keep the default value. If you're using Lark International, set it to `https://open.larksuite.com`. If you're using a self-hosted enterprise Lark instance, enter your Lark instance's domain.
 
-- ID(id)：随意填写，用于区分不同的消息平台实例。
-- 启用(enable): 勾选。
-- app_id: 获取的 app_id
-- app_secret: 获取的 app_secret
-- 飞书机器人的名字
+For the subscription method, `socket` uses a long connection subscription approach, while `webhook` sends events to your developer server and requires a public server. Generally, `socket` is recommended. However, if you're using Lark International or a self-hosted Lark instance, choose `webhook`. The subsequent configuration steps will differ accordingly.
 
-如果您正在用国际版飞书，请将 `domain` 设置为 `https://open.larksuite.com`。
+If you selected the `webhook` method, navigate to the Lark Developer Console, click on "Events & Callbacks," then "Encryption Policy," and fill in the Encrypt Key. While not mandatory, AstrBot takes your data security seriously, so we strongly recommend setting this up. After filling it in, copy the `Encrypt Key` and `Verification Token` to the corresponding `encrypt_key` and `verification_token` fields in AstrBot's configuration.
 
-点击 `保存`。
+Click `Save`.
 
-## 设置回调和权限
+## Setting up Callbacks and Permissions
 
-接下来，点击事件与回调，使用长连接接收事件，点击保存。**如果上一步没有成功启动，那么这里将无法保存。**
+The following steps vary depending on the subscription method you selected above. Please proceed to the corresponding section based on your choice.
 
-![设置事件与回调](/source/images/lark/image-6.png)
+### `socket` Long Connection Method
 
-点击添加事件，消息与群组，下拉找到 `接收消息`，添加。
+Next, click on "Events & Callbacks," select "Receive events using long connection," and click Save. **If the previous step didn't start successfully, you won't be able to save here.**
 
-![添加事件](/source/images/lark/image-7.png)
+![Configure Events & Callbacks](/source/images/lark/image-6.png)
 
-点击开通以下权限。
+### `webhook` Send Events to Developer Server Method
 
-![开通权限](/source/images/lark/image-8.png)
+> [!TIP]
+> To make better use of this method, please refer to [Unified Webhook Mode](/zh/use/unified-webhook.md#如何使用统一-webhook-模式) for the necessary configuration.
 
-再点击上面的`保存`按钮。
+After clicking `Save`, the bot card will display "View Webhook URL." Click to view and copy the callback URL.
 
-接下来，点击权限管理，点击开通权限，输入 `im:message:send,im:message,im:message:send_as_bot`。添加筛选到的权限。
+![](/source/images/lark/webhook.png)
 
-再次输入 `im:resource:upload,im:resource` 开通上传图片相关的权限。
+Next, return to Lark's Events & Callbacks page, click "Event Configuration," select "Send events to developer server," enter the callback URL you just copied as the "Request URL," and click Save. If everything is correct, no errors will appear.
 
-最终开通的权限如下图：
+### Setting up Events
 
-![最终开通的权限](/source/images/lark/image-11.png)
+After completing the event configuration in the previous step, click "Add Event," navigate to "Messages & Groups," scroll down to find `Receive Message`, and add it.
 
-## 创建版本
+![Add Event](/source/images/lark/image-7.png)
 
-创建版本。
+Click to enable the following permissions.
 
-![创建版本](/source/images/lark/image-2.png)
+![Enable Permissions](/source/images/lark/image-8.png)
 
-填写版本号，更新说明，可见范围后点击保存，确认发布。
+Then click the `Save` button at the top.
 
-## 拉入机器人到群组
+Next, click on "Permission Management," click "Enable Permissions," and enter `im:message:send,im:message,im:message:send_as_bot`. Add the filtered permissions.
 
-进入飞书 APP（网页版飞书无法添加机器人），点进群聊，点击右上角按钮->群机器人->添加机器人。
+Enter `im:resource:upload,im:resource` again to enable image upload permissions.
 
-搜索刚刚创建的机器人的名字。比如教程创建了 `AstrBot` 机器人：
+The final set of permissions should look like this:
 
-![添加机器人](/source/images/lark/image-9.png)
+![Final Permissions](/source/images/lark/image-11.png)
 
-## 🎉 大功告成
+## Creating a Version
 
-在群内发送一个 `/help` 指令，机器人将做出响应。
+Create a new version.
 
-![成功](/source/images/lark/image-13.png)
+![Create Version](/source/images/lark/image-2.png)
+
+Fill in the version number, update notes, and visibility scope, then click Save and confirm the release.
+
+## Adding the Bot to a Group
+
+Open the Lark app (the web version doesn't support adding bots), enter a group chat, click the button in the upper right corner → Group Bots → Add Bot.
+
+Search for the bot you just created. For example, if you created the `AstrBot` bot as shown in this tutorial:
+
+![Add Bot](/source/images/lark/image-9.png)
+
+## 🎉 All Done!
+
+Send a `/help` command in the group, and the bot will respond.
+
+![Success](/source/images/lark/image-13.png)
