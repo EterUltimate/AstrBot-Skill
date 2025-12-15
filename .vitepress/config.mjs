@@ -127,7 +127,7 @@ export default defineConfig({
               {
                 text: "配置模型服务商",
                 base: "/config/providers",
-                collapsed: true,
+                collapsed: false,
                 items: [
                   { text: "🚀 ModelStack", link: "/modelstack" },
                   { text: "NewAPI", link: "/newapi" },
@@ -348,7 +348,7 @@ export default defineConfig({
               {
                 text: "Integrating LLM Services",
                 base: "/en/config/providers",
-                collapsed: true,
+                collapsed: false,
                 items: [
                   { text: "🚀 ModelStack", link: "/modelstack" },
                   { text: "NewAPI", link: "/newapi" },

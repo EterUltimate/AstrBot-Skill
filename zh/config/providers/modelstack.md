@@ -1,10 +1,15 @@
 # 接入到 ModelStack
 
-[ModelStack](https://modelstack.app/) 是一个模型服务平台，提供了丰富的模型资源和API接口，支持多种模型格式和推理方式。**AstrBot 将会与 ModelStack 进行长期、深度的合作**，提供更好的模型服务体验。
+[ModelStack](https://modelstack.app/) 是一个模型服务平台，提供了丰富的模型资源和大模型 API 接口，支持多种模型格式和推理方式。AstrBot 将会与 ModelStack 进行长期、深度的合作，提供更好的模型服务体验。
 
 AstrBot 支持接入 ModelStack 作为模型提供商，用户可以通过 ModelStack 来访问和使用各种 AI 模型服务。
 
-![ModelStack](/source/images/modelstack/image.png)
+> [!NOTE]
+> **ModelStack 限时活动**
+> 1. 新用户赠送 250 万 token 等值使用额度；
+> 2. 通过邀请链接邀请用户，可额外获得 100 万 token 等值使用额度奖励！
+
+![ModelStack](/source/images/modelstack/image1.webp)
 
 ## 配置步骤
 
@@ -15,7 +20,7 @@ AstrBot 支持接入 ModelStack 作为模型提供商，用户可以通过 Model
 创建成功后，点击复制密钥按钮，复制生成的 API Key 密钥。
 
 > [!TIP]
-> 为了能够正常使用，你可能需要先支付 🤔。如果有任何支付问题，请立即联系 [i@modelstack.app](mailto:i@modelstack.app) 🚀。
+> 如果有任何支付问题，请立即联系 [i@modelstack.app](mailto:i@modelstack.app) 🚀。
 
 ### 选择模型
 

@@ -4,7 +4,7 @@
 
 AstrBot supports connecting to ModelStack as a model provider, allowing users to access and use various AI model services through ModelStack.
 
-![ModelStack](/source/images/modelstack/image.png)
+![ModelStack](/source/images/modelstack/image1.webp)
 
 ## Configuration Steps
 
