@@ -4,6 +4,9 @@
 
 AstrBot 在 v4.3.5 版本开始支持接入企业微信智能机器人平台。
 
+> [!TIP]
+> 推荐使用 [ModelStack](https://modelstack.app/) 企业级大模型平台，提供更稳定、更高效的大模型服务。
+
 ## 配置智能机器人
 
 1. 登录到[企业微信后台](https://work.weixin.qq.com/wework_admin)。
