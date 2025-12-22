@@ -56,7 +56,7 @@ NAPCAT_UID=$(id -u) NAPCAT_GID=$(id -g) docker-compose -f ./astrbot.yml up -d
 > [!TIP]
 > 如果用 Docker 部署，将无法正常接收到`语音数据`、`文件数据`。这意味着语音转文字、沙箱的文件输入功能将无法使用。可以接收到文字消息、图片消息等其他类型的消息。
 
-默认您安装了 Docker。
+此教程默认您安装了 Docker。
 
 在终端执行以下命令即可一键部署。
 
@@ -94,13 +94,15 @@ docker logs napcat
 4. 选择 `接入QQ个人号(OneBot v11)`
 
 弹出的配置项填写：
-
-配置项填写：
-
-- ID(id)：随意填写，用于区分不同的消息平台实例。
+- ID(id)：随意填写，仅用于区分不同的消息平台实例。
 - 启用(enable): 勾选。
-- 反向 WebSocket 主机地址：请填写你的机器的 IP 地址。一般情况下请直接填写 `0.0.0.0`
-- 反向 WebSocket 端口：填写一个端口，例如 `6199`。
+- 反向 WebSocket 主机地址：请填写你的机器的 IP 地址，一般情况下请直接填写 `0.0.0.0`
+- 反向 WebSocket 端口：填写一个端口，默认为 `6199`。
+- 反向 Websocket Token：只有当 NapCat 网络配置中配置了token才需填写。
+
+图例：（最快只需要点击启用，然后保存即可）
+
+<img width="775" height="802" alt="image" src="https://github.com/user-attachments/assets/58d11030-e798-4e80-97ba-b2b0b597539a" />
 
 点击 `保存`。
 
@@ -114,14 +116,14 @@ docker logs napcat
 
 切换回 NapCatQQ 的管理面板，点击 `网络配置->新建->WebSockets客户端`。
 
-![image](https://napneko.github.io/assets/use/Astrbot-onebot-2.png)
+<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/09a397d1-a605-4025-a858-3d1fdca73bc2" />
 
 在新弹出的窗口中：
 
 - 勾选 `启用`。
 - `URL` 填写 `ws://宿主机IP:端口/ws`。如 `ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`。
 
-> 注意如果是docker部署（用的本文档的docker脚本）那么填写的应该是`ws://astrbot:6199/ws`
+> ‼注意：如果是使用本文档提供的docker脚本部署，那么填写的应该是`ws://astrbot:6199/ws`
 
 - 消息格式：`Array`
 - 心跳间隔: `5000`
@@ -130,12 +132,12 @@ docker logs napcat
 > [!WARNING]
 >
 > 1. 切记后面加一个 `/ws`!
-> 2. 这里的 IP 不是 `0.0.0.0`
+> 2. 这里的 IP 不能填为 `0.0.0.0`
 
 点击 `保存`。
 
-前往 AstrBot WebUI `控制台`，如果出现 `aiocqhttp(OneBot v11) 适配器已连接。` 相关蓝色的日志，说明连接成功。
+前往 AstrBot WebUI `控制台`，如果出现 ` aiocqhttp(OneBot v11) 适配器已连接。` 蓝色的日志，说明连接成功。如果没有，若干秒后出现` aiocqhttp 适配器已被关闭` 则为连接超时（失败），请检查配置是否正确。
 
 ## 🎉 大功告成
 
-此时，你的 AstrBot 和 NapCatQQ 应该已经连接成功。使用 `私聊` 的方式在 QQ 对机器人发送 `/help` 以检查是否连接成功。
+此时，你的 AstrBot 和 NapCatQQ 应该已经连接成功！使用 `私聊` 的方式在 QQ 对机器人发送 `/help` 以检查是否连接成功。
