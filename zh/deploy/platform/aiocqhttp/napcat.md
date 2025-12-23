@@ -121,7 +121,11 @@ docker logs napcat
 - 勾选 `启用`。
 - `URL` 填写 `ws://宿主机IP:端口/ws`。如 `ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`。
 
-> 注意如果是docker部署（用的本文档的docker脚本）那么填写的应该是`ws://astrbot:6199/ws`
+> [!IMPORTANT]
+> 注意如果是docker部署（同时把两个容器接入一个网络）那么填写的应该是`ws://astrbot:6199/ws`（例如本文档的docker脚本）
+
+> [!IMPORTANT]
+> 由于docker网络隔离的原因，不在同一个网络时请使用内网ip地址或公网ip地址 ***（不安全）*** 进行连接，也就是`ws://(内网/公网):6199/ws`
 
 - 消息格式：`Array`
 - 心跳间隔: `5000`
