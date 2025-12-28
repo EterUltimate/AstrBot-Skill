@@ -1,41 +1,18 @@
-# 接入到 ModelStack
+ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，我们很抱歉地宣布 ModelStak 将永久停止服务。
 
-[ModelStack](https://modelstack.app/) 是一个模型服务平台，提供了丰富的模型资源和大模型 API 接口，支持多种模型格式和推理方式。AstrBot 将会与 ModelStack 进行长期、深度的合作，提供更好的模型服务体验。
+如果您之前有付费，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
 
-AstrBot 支持接入 ModelStack 作为模型提供商，用户可以通过 ModelStack 来访问和使用各种 AI 模型服务。
+## 对 ModelStack 项目的整体盈利情况进行披露
 
-> [!NOTE]
-> **ModelStack 限时活动**
-> 1. 新用户赠送 250 万 token 等值使用额度；
-> 2. 通过邀请链接邀请用户，可额外获得 100 万 token 等值使用额度奖励！
+作为一个开源组织，我们有义务对此项目进行透明化管理，包括支出和收入（单位：人民币）。
 
-![ModelStack](/source/images/modelstack/image1.webp)
+- 支出：
+    - 模型 API 费用：2200 元
+    - 服务器费用：720 元
+    - 手续费：14.46 元
+- 收入：
+    - 1425.5 元
 
-## 配置步骤
+盈利：1425.5 - 2200 - 720 - 14.46 = -1,508.96 元
 
-### 获取 ModelStack API Key 密钥
-
-在 ModelStack 注册并登录后，点击上方导航栏的「控制台」，点击「令牌管理」，然后点击「添加令牌」按钮，创建一个新的 API Key 密钥。
-
-创建成功后，点击复制密钥按钮，复制生成的 API Key 密钥。
-
-> [!TIP]
-> 如果有任何支付问题，请立即联系 [i@modelstack.app](mailto:i@modelstack.app) 🚀。
-
-### 选择模型
-
-在上方导航栏的「模型广场」中选择需要使用的模型。
-
-### 接入到 AstrBot
-
-在 AstrBot 面板的「服务提供商」页面，点击「新增服务提供商」，选择「OpenAI」。（如果有 ModelStack 提供商，则选择「ModelStack」）。
-
-- ID 命名为 `modelstack`（随意）
-- API Base URL 填写 `https://modelstack.app/v1`
-- API Key 填写上面获取的 API Key 密钥
-- 模型名称填写上面选择的模型名称
-- 点击「保存」按钮，完成创建。
-
-### 应用模型
-
-在 AstrBot 面板的「配置文件」页面，找到模型一节，将「默认聊天模型」修改为刚刚创建的 ModelStack 提供商，点击「保存」按钮，完成应用。
+如需要任何相关上述佐证信息，请联系 [i@modelstack.app](mailto:i@modelstack.app)。

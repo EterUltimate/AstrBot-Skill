@@ -1,36 +1,17 @@
-# Connect to ModelStack
+ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，已停止服务。
 
-[ModelStack](https://modelstack.app/) is a model service platform that provides rich model resources and API interfaces, supporting various model formats and inference methods. **AstrBot will maintain a long-term, in-depth partnership with ModelStack** to provide a better model service experience.
+如果您之前有付费，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
 
-AstrBot supports connecting to ModelStack as a model provider, allowing users to access and use various AI model services through ModelStack.
+## 对 ModelStack 项目的整体盈利情况进行披露
 
-![ModelStack](/source/images/modelstack/image1.webp)
+作为一个开源组织，我们有义务对此项目进行透明化管理，包括支出和收入。
 
-## Configuration Steps
+- 支出：
+    - 模型 API 费用：2200 元
+    - 服务器费用：720 元
+- 收入：
+    - 1425.5 元
 
-### Obtain ModelStack API Key
+盈利：1425.5 - 2200 - 720 = -1494.5 元
 
-After registering and logging into ModelStack, click "Console" in the top navigation bar, then click "Token Management", and click the "Add Token" button to create a new API Key.
-
-After successful creation, click the copy key button to copy the generated API Key.
-
-> [!TIP]
-> To use the service properly, you may need to make a payment first. If you have any payment issues, please contact [i@modelstack.app](mailto:i@modelstack.app) immediately.
-
-### Select a Model
-
-Select the model you want to use from "Model Square" in the top navigation bar.
-
-### Connect to AstrBot
-
-On the "Service Providers" page of the AstrBot panel, click "Add Service Provider" and select "OpenAI". (If there is a ModelStack provider available, select "ModelStack").
-
-- Name the ID as `modelstack` (or any name you prefer)
-- Fill in the API Base URL with `https://modelstack.app/v1`
-- Fill in the API Key with the API Key obtained above
-- Fill in the model name with the model name selected above
-- Click the "Save" button to complete the creation.
-
-### Apply the Model
-
-On the "Configuration" page of the AstrBot panel, find the model section, change the "Default Chat Model" to the ModelStack provider you just created, click the "Save" button to complete the application.
+如需要任何相关佐证信息，请联系 [i@modelstack.app](mailto:i@modelstack.app)。
