@@ -129,7 +129,7 @@ export default defineConfig({
                 base: "/config/providers",
                 collapsed: false,
                 items: [
-                  { text: "🚀 ModelStack", link: "/modelstack" },
+                  // { text: "🚀 ModelStack", link: "/modelstack" },
                   { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO 派欧云", link: "/ppio" },
                   { text: "硅基流动", link: "/siliconflow" },
@@ -350,7 +350,7 @@ export default defineConfig({
                 base: "/en/config/providers",
                 collapsed: false,
                 items: [
-                  { text: "🚀 ModelStack", link: "/modelstack" },
+                  // { text: "🚀 ModelStack", link: "/modelstack" },
                   { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO Cloud", link: "/ppio" },
                   { text: "SiliconFlow", link: "/siliconflow" },
