@@ -1,4 +1,6 @@
-ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，我们很抱歉地宣布 ModelStak 将短暂停止服务。
+ModelStack 是一个大模型 API 聚合平台。
+
+由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关不实信息威胁，我们很抱歉地宣布 ModelStack 将短暂停止服务。待我们收集所有信息后，将会恢复无充值模式下的服务。
 
 我们会尽快恢复服务，如果您有退款需求，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
 
