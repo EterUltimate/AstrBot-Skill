@@ -1,17 +1,18 @@
-ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，已停止服务。
+ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，我们很抱歉地宣布 ModelStak 将短暂停止服务。
 
-如果您之前有付费，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
+我们会尽快恢复服务，如果您有退款需求，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
 
 ## 对 ModelStack 项目的整体盈利情况进行披露
 
-作为一个开源组织，我们有义务对此项目进行透明化管理，包括支出和收入。
+作为一个开源组织，我们有义务对此项目进行透明化管理，包括支出和收入（单位：人民币）。
 
 - 支出：
     - 模型 API 费用：2200 元
     - 服务器费用：720 元
+    - 手续费：14.46 元
 - 收入：
     - 1425.5 元
 
-盈利：1425.5 - 2200 - 720 = -1494.5 元
+盈利：1425.5 - 2200 - 720 - 14.46 = -1,508.96 元
 
-如需要任何相关佐证信息，请联系 [i@modelstack.app](mailto:i@modelstack.app)。
+如需要任何相关上述佐证信息，请联系 [i@modelstack.app](mailto:i@modelstack.app)。

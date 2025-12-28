@@ -1,6 +1,6 @@
-ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，我们很抱歉地宣布 ModelStak 将永久停止服务。
+ModelStack 由于 2025 年 12 月 28 日服务被大规模 DDoS 攻击和相关人身威胁，我们很抱歉地宣布 ModelStak 将短暂停止服务。
 
-如果您之前有付费，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
+我们会尽快恢复服务，如果您有退款需求，请联系 [i@modelstack.app](mailto:i@modelstack.app) 退还剩余部分。
 
 ## 对 ModelStack 项目的整体盈利情况进行披露
 
