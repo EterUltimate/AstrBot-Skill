@@ -91,7 +91,7 @@ docker logs napcat
 1. 进入 AstrBot 的管理面板
 2. 点击左边栏 `机器人`
 3. 然后在右边的界面中，点击 `+ 创建机器人`
-4. 选择 `接入QQ个人号(OneBot v11)`
+4. 选择 `OneBot v11`(即QQ个人号)
 
 弹出的配置项填写：
 - ID(id)：随意填写，仅用于区分不同的消息平台实例。
@@ -102,7 +102,7 @@ docker logs napcat
 
 图例：（最快只需要点击启用，然后保存即可）
 
-<img width="775" height="802" alt="image" src="https://github.com/user-attachments/assets/58d11030-e798-4e80-97ba-b2b0b597539a" />
+<img src="https://vip.123pan.cn/1832254989/yk6baz03t0n000d7w33ho48t59oul8pzDIYwDqiyAdr1BGxwDwQvDO==.png">
 
 点击 `保存`。
 
@@ -116,7 +116,7 @@ docker logs napcat
 
 切换回 NapCatQQ 的管理面板，点击 `网络配置->新建->WebSockets客户端`。
 
-<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/09a397d1-a605-4025-a858-3d1fdca73bc2" />
+![配置截图](https://vip.123pan.cn/1832254989/yk6baz03t0l000d7w33g363cjotm9u5lDIYwDqiyAdr1BGxwDwQvDO==.png)
 
 在新弹出的窗口中：
 
