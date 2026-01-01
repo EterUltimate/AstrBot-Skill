@@ -4,6 +4,7 @@
 >
 > - 请合理控制使用频率。过于频繁地发送消息可能会被判定为异常行为，增加触发风控机制的风险。
 > - 本项目严禁用于任何违反法律法规的用途。若您意图将 AstrBot 应用于非法产业或活动，我们**明确反对并拒绝**您使用本项目。
+> - AstrBot 仅提供对 OneBot v11 协议的连接，并不直接侧载 QQ。
 
 NapCatQQ 是基于无头 QQNT 的 OneBot 协议实现端。它本质上运行了一个 QQNT 实例。
 
@@ -91,18 +92,19 @@ docker logs napcat
 1. 进入 AstrBot 的管理面板
 2. 点击左边栏 `机器人`
 3. 然后在右边的界面中，点击 `+ 创建机器人`
-4. 选择 `接入QQ个人号(OneBot v11)`
+4. 选择 `OneBot v11`
 
 弹出的配置项填写：
 - ID(id)：随意填写，仅用于区分不同的消息平台实例。
 - 启用(enable): 勾选。
 - 反向 WebSocket 主机地址：请填写你的机器的 IP 地址，一般情况下请直接填写 `0.0.0.0`
 - 反向 WebSocket 端口：填写一个端口，默认为 `6199`。
-- 反向 Websocket Token：只有当 NapCat 网络配置中配置了token才需填写。
+- 反向 Websocket Token：只有当 NapCat 网络配置中配置了 token 才需填写。
 
 图例：（最快只需要点击启用，然后保存即可）
 
-<img width="775" height="802" alt="image" src="https://github.com/user-attachments/assets/58d11030-e798-4e80-97ba-b2b0b597539a" />
+<img width="818" height="799" alt="xinjianya" src="https://github.com/user-attachments/assets/813ac338-2fd7-4add-bde4-8b0f6d0bda95" />
+
 
 点击 `保存`。
 
@@ -116,7 +118,8 @@ docker logs napcat
 
 切换回 NapCatQQ 的管理面板，点击 `网络配置->新建->WebSockets客户端`。
 
-<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/09a397d1-a605-4025-a858-3d1fdca73bc2" />
+<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/5044f96a-a81f-407a-a3b1-0c518499eda4" />
+
 
 在新弹出的窗口中：
 
