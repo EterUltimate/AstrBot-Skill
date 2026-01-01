@@ -102,7 +102,8 @@ docker logs napcat
 
 图例：（最快只需要点击启用，然后保存即可）
 
-<img src="https://vip.123pan.cn/1832254989/yk6baz03t0n000d7w33ho48t59oul8pzDIYwDqiyAdr1BGxwDwQvDO==.png">
+<img width="818" height="799" alt="xinjianya" src="https://github.com/user-attachments/assets/813ac338-2fd7-4add-bde4-8b0f6d0bda95" />
+
 
 点击 `保存`。
 
@@ -116,7 +117,8 @@ docker logs napcat
 
 切换回 NapCatQQ 的管理面板，点击 `网络配置->新建->WebSockets客户端`。
 
-![配置截图](https://vip.123pan.cn/1832254989/yk6baz03t0l000d7w33g363cjotm9u5lDIYwDqiyAdr1BGxwDwQvDO==.png)
+<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/5044f96a-a81f-407a-a3b1-0c518499eda4" />
+
 
 在新弹出的窗口中：
 
