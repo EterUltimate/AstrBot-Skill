@@ -100,6 +100,7 @@ export default defineConfig({
                   { text: "Slack", link: "/slack" },
                   { text: "Misskey", link: "/misskey" },
                   { text: "Discord", link: "/discord" },
+                  { text: "Matrix", link: "/matrix" },
                   { text: "KOOK", link: "/kook" },
                   { text: "VoceChat", link: "/vocechat" },
                   {
@@ -321,6 +322,7 @@ export default defineConfig({
                   { text: "Slack", link: "/slack" },
                   { text: "Misskey", link: "/misskey" },
                   { text: "Discord", link: "/discord" },
+                  { text: "Matrix", link: "/matrix" },
                   { text: "KOOK", link: "/kook" },
                   { text: "VoceChat", link: "/vocechat" },
                   {
