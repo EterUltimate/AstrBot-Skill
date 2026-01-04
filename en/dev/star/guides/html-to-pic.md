@@ -1,6 +1,9 @@
 
 # Text to Image
 
+> [!TIP]
+> For easier development, you can use the [AstrBot Text2Image Playground](https://t2i-playground.astrbot.app/) for online visual editing and testing of HTML templates.
+
 ## Basic Usage
 
 AstrBot supports rendering text into images.
