@@ -1,6 +1,9 @@
 
 # 文转图
 
+> [!TIP]
+> 为了方便开发，您可以使用 [AstrBot Text2Image Playground](https://t2i-playground.astrbot.app/) 在线可视化编辑和测试 HTML 模板。
+
 ## 基本
 
 AstrBot 支持将文字渲染成图片。
