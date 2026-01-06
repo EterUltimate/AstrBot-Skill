@@ -1,5 +1,24 @@
 # FAQ
+## 安装相关
+### Windows安装失败
+Windows出现venv安装失败、启动失败，请优先尝试[手动uv部署](https://docs.astrbot.app/deploy/astrbot/cli.html#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%B9%B6%E8%BF%90%E8%A1%8C)。
+### Linux安装失败
+可能是因为python版本不兼容。Astrbot兼容python3.10~3.13版本，如果需要排查，请自行搜索（或者问AI，豆包、deepseek都可以）  
 
+## NapCat连接相关
+### 我明明按照文档的步骤做了，为什么NapCat连不上Astrbot？
+1. 如果你两个**全都**是使用docker部署，请尝试在终端运行：
+```
+sudo docker network create newnet           # 创建新网络 
+sudo docker network connect newnet astrbot  
+sudo docker network connect newnet napcat   # 让两个容器连到一起
+sudo docker restart astrbot
+sudo docker restart napcat                  # 重启容器
+```
+运行无报错则回到NapCat的Webui，网络配置中，将你之前填写的`ws://127.0.0.1:6199/ws`修改为`ws://astrbot:6199/ws`
+
+2. 如果只有NapCat是docker部署，请将NapCat的Webui网络配置中的`ws://127.0.0.1:6199/ws`修改为`ws://宿主机IP:6199/ws`（宿主机IP请自行搜索如何查看）
+3. 如果都不是docker部署，则请将NapCat的Webui网络配置中的`ws://127.0.0.1:6199/ws`修改为`ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`
 ## 管理面板相关
 
 ### 当管理面板打开时遇到 404 错误
