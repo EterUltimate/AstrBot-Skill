@@ -1,64 +1,57 @@
-# 通过 NapCatQQ 协议实现端接入 QQ
+# Using NapCat
 
 > [!TIP]
 >
-> - 请合理控制使用频率。过于频繁地发送消息可能会被判定为异常行为，增加触发风控机制的风险。
-> - 本项目严禁用于任何违反法律法规的用途。若您意图将 AstrBot 应用于非法产业或活动，我们**明确反对并拒绝**您使用本项目。
+> - Please control usage frequency appropriately. Sending messages too frequently may be identified as abnormal behavior, increasing the risk of triggering risk control mechanisms.
+> - This project is strictly prohibited from being used for any purpose that violates laws and regulations. If you intend to use AstrBot for illegal industries or activities, we **explicitly oppose and refuse** your use of this project.
+> - AstrBot connects to the OneBot v11 protocol through the `aiocqhttp` adapter. OneBot v11 protocol is an open communication protocol and does not represent any specific software or service.
 
-NapCatQQ 是基于无头 QQNT 的 OneBot 协议实现端。它本质上运行了一个 QQNT 实例。
+NapCat's GitHub Repository: [NapCat](https://github.com/NapNeko/NapCatQQ)
+NapCat's Documentation: [NapCat Documentation](https://napcat.napneko.icu/)
 
-NapCatQQ 的 GitHub 仓库：[NapCatQQ](https://github.com/NapNeko/NapCatQQ)
-NapCatQQ 的文档：[NapCatQQ 文档](https://napcat.napneko.icu/)
+NapCat provides multiple deployment methods, including Docker, Windows one-click installation packages, and more.
 
-> [!WARNING]
-> 前置准备：
->
-> - 一个 QQ 号（最好不是新创建的 QQ 号）。
-> - 一台具有摄像功能的手机以扫码登录 QQ。
+## Deploy via One-Click Script
 
-NapCat 提供了大量的部署方式，包括 Docker、Windows 一键安装包等等。
-
-## 通过一键脚本部署
-
-推荐采用这种方式部署。
+This deployment method is recommended.
 
 ### Windows
 
-看这篇文章：[NapCat.Shell - Win手动启动教程](https://napneko.github.io/guide/boot/Shell#napcat-shell-win%E6%89%8B%E5%8A%A8%E5%90%AF%E5%8A%A8%E6%95%99%E7%A8%8B)
+Refer to this article: [NapCat.Shell - Windows Manual Start Tutorial](https://napneko.github.io/guide/boot/Shell#napcat-shell-win%E6%89%8B%E5%8A%A8%E5%90%AF%E5%8A%A8%E6%95%99%E7%A8%8B)
 
 ### Linux
 
-看这篇文章：[NapCat.Installer - Linux一键使用脚本(支持Ubuntu 20+/Debian 10+/Centos9)](https://napneko.github.io/guide/boot/Shell#napcat-installer-linux%E4%B8%80%E9%94%AE%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC-%E6%94%AF%E6%8C%81ubuntu-20-debian-10-centos9)
+Refer to this article: [NapCat.Installer - Linux One-Click Script (Supports Ubuntu 20+/Debian 10+/Centos9)](https://napneko.github.io/guide/boot/Shell#napcat-installer-linux%E4%B8%80%E9%94%AE%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC-%E6%94%AF%E6%8C%81ubuntu-20-debian-10-centos9)
 
 > [!TIP]
-> **Napcat WebUI 在哪打开**：
-> 在 napcat 的日志里会显示 WebUI 链接。
+> **Where to open Napcat WebUI**:
+> The WebUI link will be displayed in napcat's logs.
 >
-> 如果是 linux 命令行一键部署的napcat：`docker log <qq号>`。
+> If napcat is deployed via Linux command line one-click deployment: `docker log <account>`.
 >
-> Docker部署的 NapCat：`docker logs napcat`。
+> For Docker-deployed NapCat: `docker logs napcat`.
 
-## 通过 Docker Compose 部署
+## Deploy via Docker Compose
 
 > [!TIP]
-> 如果用 Docker Compose 部署，NapCat 侧无需配置,通过 NapCat WebUI (工作在端口 6099) 或 `docker logs napcat` 登录，仅在 AstrBot 侧开启 aiocqhttp 适配器即可连接，并且可以直接实现文件 `语音数据`、`文件数据` 正常接收与发送。
+> If deploying with Docker Compose, no configuration is needed on the NapCat side. Just log in via NapCat WebUI (running on port 6099) or `docker logs napcat`, enable the aiocqhttp adapter on the AstrBot side to connect, and you can directly implement normal receiving and sending of `voice data` and `file data`.
 
-1. 下载或复制 [astrbot.yml](https://github.com/NapNeko/NapCat-Docker/blob/main/compose/astrbot.yml) 内容
-2. 将刚刚下载的文件重命名为 `astrbot.yml`
-3. 在 `astrbot.yml` 文件所在目录执行:
+1. Download or copy the content of [astrbot.yml](https://github.com/NapNeko/NapCat-Docker/blob/main/compose/astrbot.yml)
+2. Rename the downloaded file to `astrbot.yml`
+3. Execute in the directory where the `astrbot.yml` file is located:
 
 ```bash
 NAPCAT_UID=$(id -u) NAPCAT_GID=$(id -g) docker-compose -f ./astrbot.yml up -d
 ```
 
-## 通过 Docker 部署
+## Deploy via Docker
 
 > [!TIP]
-> 如果用 Docker 部署，将无法正常接收到`语音数据`、`文件数据`。这意味着语音转文字、沙箱的文件输入功能将无法使用。可以接收到文字消息、图片消息等其他类型的消息。
+> If deploying with Docker, you will not be able to properly receive `voice data` and `file data`. This means voice-to-text and sandbox file input functions will not be available. You can receive text messages, image messages, and other types of messages.
 
-默认您安装了 Docker。
+This tutorial assumes you have Docker installed.
 
-在终端执行以下命令即可一键部署。
+Execute the following command in the terminal for one-click deployment.
 
 ```bash
 docker run -d \
@@ -72,70 +65,76 @@ docker run -d \
 mlikiowa/napcat-docker:latest
 ```
 
-执行成功后，需要查看日志以得到登录二维码和管理面板的 URL。
+After successful execution, you need to check the logs to get the login QR code and the management panel URL.
 
 ```bash
 docker logs napcat
 ```
 
-请复制管理面板的 URL，然后在浏览器中打开备用。
+Please copy the management panel URL and open it in your browser.
 
-然后使用你要登录的 QQ 扫描出现的二维码，即可登录。
+Then use the account you want to log in with to scan the QR code that appears.
 
-如果登录阶段没有出现问题，即成功部署。
+If there are no issues during the login stage, deployment is successful.
 
-## 连接到 AstrBot
+## Connect to AstrBot
 
-## 在 AstrBot 配置 aiocqhttp
+## Configure aiocqhttp in AstrBot
 
-1. 进入 AstrBot 的管理面板
-2. 点击左边栏 `机器人`
-3. 然后在右边的界面中，点击 `+ 创建机器人`
-4. 选择 `接入QQ个人号(OneBot v11)`
+1. Enter AstrBot's management panel
+2. Click `Bots` in the left sidebar
+3. Then in the interface on the right, click `+ Create Bot`
+4. Select `OneBot v11`
 
-弹出的配置项填写：
+Fill in the configuration items that appear:
+- ID(id): Fill in arbitrarily, only used to distinguish different messaging platform instances.
+- Enable: Check this.
+- Reverse WebSocket Host Address: Please fill in your machine's IP address, generally fill in `0.0.0.0` directly
+- Reverse WebSocket Port: Fill in a port, default is `6199`.
+- Reverse Websocket Token: Only needs to be filled when a token is configured in NapCat's network settings.
 
-配置项填写：
+Example image: (At the fastest, just check Enable, then save)
 
-- ID(id)：随意填写，用于区分不同的消息平台实例。
-- 启用(enable): 勾选。
-- 反向 WebSocket 主机地址：请填写你的机器的 IP 地址。一般情况下请直接填写 `0.0.0.0`
-- 反向 WebSocket 端口：填写一个端口，例如 `6199`。
+<img width="818" height="799" alt="xinjianya" src="https://github.com/user-attachments/assets/813ac338-2fd7-4add-bde4-8b0f6d0bda95" />
 
-点击 `保存`。
 
-### 配置管理员
+Click `Save`.
 
-填写完毕后，进入 `配置文件` 页，点击 `平台配置` 选项卡，找到 `管理员 ID`，填写你的 QQ 号（不是机器人的 QQ 号）。
+### Configure Administrator
 
-切记点击右下角 `保存`，AstrBot 重启并会应用配置。
+After filling in, go to the `Configuration File` page, click the `Platform Configuration` tab, find `Administrator ID`, and fill in your account number (not the bot's account number).
 
-### 在 NapCatQQ 中添加 WebSocket 客户端
+Remember to click `Save` in the lower right corner, AstrBot will restart and apply the configuration.
 
-切换回 NapCatQQ 的管理面板，点击 `网络配置->新建->WebSockets客户端`。
+### Add WebSocket Client in NapCat
 
-![image](https://napneko.github.io/assets/use/Astrbot-onebot-2.png)
+Switch back to NapCat's management panel, click `Network Configuration->New->WebSockets Client`.
 
-在新弹出的窗口中：
+<img width="649" height="751" alt="jiaochenXJY" src="https://github.com/user-attachments/assets/5044f96a-a81f-407a-a3b1-0c518499eda4" />
 
-- 勾选 `启用`。
-- `URL` 填写 `ws://宿主机IP:端口/ws`。如 `ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`。
 
-> 注意如果是docker部署（例如用的本文档的docker-compose脚本）那么填写的应该是`ws://astrbot:6199/ws`
+In the newly opened window:
 
-- 消息格式：`Array`
-- 心跳间隔: `5000`
-- 重连间隔: `5000`
+- Check `Enable`.
+- Fill in `URL` with `ws://HostIP:Port/ws`. For example, `ws://localhost:6199/ws` or `ws://127.0.0.1:6199/ws`.
+
+> [!IMPORTANT]
+> 1. If deploying with Docker and both AstrBot and NapCat containers are connected to the same network, use `ws://astrbot:6199/ws` (refer to the Docker script in this documentation).
+> 2. Due to Docker network isolation, when not on the same network, please use the internal network IP address or public network IP address ***(unsafe)*** to connect, i.e., `ws://(internal/public IP):6199/ws`.
+
+- Message Format: `Array`
+- Heartbeat Interval: `5000`
+- Reconnection Interval: `5000`
 
 > [!WARNING]
 >
-> 1. 切记后面加一个 `/ws`!
-> 2. 这里的 IP 不是 `0.0.0.0`
+> 1. Remember to add `/ws` at the end!
+> 2. The IP here cannot be `0.0.0.0`
 
-点击 `保存`。
+Click `Save`.
 
-前往 AstrBot WebUI `控制台`，如果出现 `aiocqhttp(OneBot v11) 适配器已连接。` 相关蓝色的日志，说明连接成功。
+Go to AstrBot WebUI `Console`, if you see the blue log ` aiocqhttp(OneBot v11) adapter connected.`, it means the connection is successful. If not, and after several seconds ` aiocqhttp adapter has been closed` appears, it indicates connection timeout (failed), please check if the configuration is correct.
 
-## 🎉 大功告成
+## 🎉 All Done
 
-此时，你的 AstrBot 和 NapCatQQ 应该已经连接成功。使用 `私聊` 的方式在 QQ 对机器人发送 `/help` 以检查是否连接成功。
+At this point, your AstrBot and NapCat should be successfully connected! Use `private message` to send `/help` to the bot to check if the connection is successful.
