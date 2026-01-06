@@ -18,7 +18,7 @@ sudo docker restart napcat                  # 重启容器
 运行无报错则回到NapCat的Webui，网络配置中，将你之前填写的`ws://127.0.0.1:6199/ws`修改为`ws://astrbot:6199/ws`
 
 2. 如果只有NapCat是docker部署，请将NapCat的Webui网络配置中的`ws://127.0.0.1:6199/ws`修改为`ws://宿主机IP:6199/ws`（宿主机IP请自行搜索如何查看）
-3. 如果都不是docker部署，则请将NapCat的Webui网络配置中的`ws://127.0.0.1:6099/ws`修改为`ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`
+3. 如果都不是docker部署，则请将NapCat的Webui网络配置中的`ws://127.0.0.1:6199/ws`修改为`ws://localhost:6199/ws`或`ws://127.0.0.1:6199/ws`
 ## 管理面板相关
 
 ### 当管理面板打开时遇到 404 错误
