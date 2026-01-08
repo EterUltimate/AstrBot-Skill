@@ -46,7 +46,7 @@ export default defineConfig({
               {
                 text: "部署 AstrBot",
                 base: "/deploy/astrbot",
-                collapsed: true,
+                collapsed: false,
                 items: [
                   { text: "🦈 Docker 部署", link: "/docker" },
                   { text: "☸️ Kubernetes 部署", link: "/kubernetes" },
@@ -122,7 +122,7 @@ export default defineConfig({
               {
                 text: "配置模型服务商",
                 base: "/config/providers",
-                collapsed: false,
+                collapsed: true,
                 items: [
                   { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO 派欧云", link: "/ppio" },
@@ -339,7 +339,7 @@ export default defineConfig({
               {
                 text: "Integrating LLM Services",
                 base: "/en/config/providers",
-                collapsed: false,
+                collapsed: true,
                 items: [
                   { text: "NewAPI", link: "/newapi" },
                   { text: "PPIO Cloud", link: "/ppio" },
