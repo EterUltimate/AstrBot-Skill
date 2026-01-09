@@ -2,9 +2,6 @@
 
 AstrBot 支持接入微信公众平台（版本 >= v3.5.8），并以微信公众号的形式接入，届时，您可以直接在微信公众号聊天界面中与 AstrBot 进行交互。
 
-> [!TIP]
-> 如需定制开发，请联系 [community@astrbot.app](mailto:community@astrbot.app)
-
 ## 准备接入
 
 步骤：

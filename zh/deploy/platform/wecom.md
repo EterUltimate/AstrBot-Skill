@@ -2,9 +2,6 @@
 
 AstrBot 支持接入企业微信应用和微信客服。
 
-> [!TIP]
-> 如需定制开发，请联系 [community@astrbot.app](mailto:community@astrbot.app)
-
 ## 准备接入
 
 步骤：
