@@ -64,6 +64,7 @@ class DocGenerator:
         """统一处理异常"""
         error_msg = self._mask_sensitive(str(e))
         print(f"{context} 出错: {error_msg}")
+        print("提示: 如果遇到连通性问题，请尝试运行 `python scripts/test_api.py` 进行故障排查。")
 
     def _mask_sensitive(self, text: str) -> str:
         """脱敏日志中的 API Key"""
@@ -89,7 +90,7 @@ class DocGenerator:
         
         # 提取 Host 用于日志打印（脱敏）
         parsed_url = urlparse(self.base_url)
-        print(f"请求 API: {parsed_url.netloc} (Method: POST, Model: {self.model_name})")
+        print(f"请求 API: {parsed_url.netloc} (Method: POST, Model: {self.model_name}, Version: {api_version})")
         
         payload = {
             "contents": [
