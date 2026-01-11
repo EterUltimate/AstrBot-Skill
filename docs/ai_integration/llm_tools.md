@@ -47,4 +47,3 @@ class MyTool(FunctionTool[AstrAgentContext]):
 ### 注册与调用
 
 - **注册工具**: 在插件 `__init__` 中使用 `self.context.add_llm_tools(MyTool())`。
-- **调用 Agent 循环**: `await self.context.tool_loop_agent(event, chat_provider_id, prompt, tools=ToolSet([...]))`。
