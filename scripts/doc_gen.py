@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import time
 from typing import List, Dict, Optional
 from datetime import datetime
 import httpx
@@ -72,17 +73,23 @@ class DocGenerator:
 
     def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
         """直接使用 httpx 调用 Gemini 原生 API"""
-        # 确保 url 拼接正确，处理可能的重复 v1beta 或其他路径问题
-        # 这里的逻辑假设 base_url 是 API 的根路径（如 https://generativelanguage.googleapis.com）
-        # 如果用户提供了完整的 v1beta 路径，则不再重复拼接
-        if "/v1" in self.base_url:
-            url = f"{self.base_url}/models/{self.model_name}:generateContent?key={self.__api_key}"
+        # 1. 路径深度自适应
+        base_url = self.base_url.rstrip('/')
+        api_version = config.GEMINI_API_VERSION
+        
+        # 检查 base_url 是否已经包含了版本号
+        if re.search(r'/v1(beta)?$', base_url):
+            url_prefix = base_url
+        elif "/v1" in base_url or "/v1beta" in base_url:
+            url_prefix = base_url
         else:
-            url = f"{self.base_url}/v1beta/models/{self.model_name}:generateContent?key={self.__api_key}"
+            url_prefix = f"{base_url}/{api_version}"
+            
+        url = f"{url_prefix}/models/{self.model_name}:generateContent?key={self.__api_key}"
         
         # 提取 Host 用于日志打印（脱敏）
         parsed_url = urlparse(self.base_url)
-        print(f"正在请求 API: {parsed_url.netloc} (Model: {self.model_name})")
+        print(f"请求 API: {parsed_url.netloc} (Method: POST, Model: {self.model_name})")
         
         payload = {
             "contents": [
@@ -103,6 +110,7 @@ class DocGenerator:
 
         headers = {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             "User-Agent": "AstrBot/DocGen",
             "x-goog-api-key": self.__api_key,
         }
@@ -110,37 +118,50 @@ class DocGenerator:
         # 修复 401 冲突：如果是官方域名，不要发送 Authorization: Bearer
         if "googleapis.com" not in self.base_url:
             headers["Authorization"] = f"Bearer {self.__api_key}"
+            
+        # 打印脱敏后的 Headers
+        masked_headers = {k: (self._mask_sensitive(v) if k.lower() in ["x-goog-api-key", "authorization"] else v) for k, v in headers.items()}
+        print(f"请求头: {json.dumps(masked_headers, indent=2)}")
 
-        try:
-            with httpx.Client(timeout=60.0) as client:
-                # 在某些中转站中，如果 URL 中没有 key，Header 也可以生效；
-                # 这里采取双重保障：URL 参数 + Headers (x-goog-api-key & Authorization)
-                response = client.post(url, json=payload, headers=headers)
-                
-                if response.status_code != 200:
-                    masked_response = self._mask_sensitive(response.text)
-                    raise Exception(f"Gemini API error ({response.status_code}): {masked_response}")
-        except Exception as e:
-            # 捕获所有 httpx 可能抛出的异常（如连接错误），并确保脱敏
-            raise Exception(self._mask_sensitive(str(e)))
-            
-            data = response.json()
-            
-            if not data.get("candidates"):
-                raise Exception(f"Gemini returned no candidates. Full response: {json.dumps(data)}")
-            
-            candidate = data["candidates"][0]
-            finish_reason = candidate.get("finishReason")
-            
-            if finish_reason not in ["STOP", "MAX_TOKENS", None]:
-                # 某些情况下 finishReason 可能是 SAFETY, RECITATION 等
-                raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {json.dumps(candidate)}")
-                
-            parts = candidate.get("content", {}).get("parts", [])
-            if not parts:
-                raise Exception(f"Gemini returned no parts in content. Candidate: {json.dumps(candidate)}")
-                
-            return parts[0].get("text", "")
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                with httpx.Client(timeout=60.0) as client:
+                    response = client.post(url, json=payload, headers=headers)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        
+                        if not data.get("candidates"):
+                            raise Exception(f"Gemini returned no candidates. Full response: {json.dumps(data)}")
+                        
+                        candidate = data["candidates"][0]
+                        finish_reason = candidate.get("finishReason")
+                        
+                        if finish_reason not in ["STOP", "MAX_TOKENS", None]:
+                            raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {json.dumps(candidate)}")
+                            
+                        parts = candidate.get("content", {}).get("parts", [])
+                        if not parts:
+                            raise Exception(f"Gemini returned no parts in content. Candidate: {json.dumps(candidate)}")
+                            
+                        return parts[0].get("text", "")
+                    
+                    elif response.status_code in [403, 429] and attempt < max_retries - 1:
+                        wait_time = (attempt + 1) * 2
+                        print(f"收到 {response.status_code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        masked_response = self._mask_sensitive(response.text)
+                        raise Exception(f"Gemini API error ({response.status_code}): {masked_response}")
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    wait_time = (attempt + 1) * 2
+                    print(f"请求发生异常: {self._mask_sensitive(str(e))}，正在进行第 {attempt + 1} 次重试...")
+                    time.sleep(wait_time)
+                    continue
+                raise Exception(self._mask_sensitive(str(e)))
 
     def _extract_json(self, text: str) -> Dict:
         """从 Gemini 的 Markdown 响应中提取 JSON 字符串"""
