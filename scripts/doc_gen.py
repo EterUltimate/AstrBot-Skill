@@ -105,8 +105,11 @@ class DocGenerator:
             "Content-Type": "application/json",
             "User-Agent": "AstrBot/DocGen",
             "x-goog-api-key": self.__api_key,
-            "Authorization": f"Bearer {self.__api_key}"
         }
+        
+        # 修复 401 冲突：如果是官方域名，不要发送 Authorization: Bearer
+        if "googleapis.com" not in self.base_url:
+            headers["Authorization"] = f"Bearer {self.__api_key}"
 
         try:
             with httpx.Client(timeout=60.0) as client:

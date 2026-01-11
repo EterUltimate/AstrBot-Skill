@@ -40,6 +40,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          MODEL_NAME: ${{ secrets.MODEL_NAME }}
           # HTTPS_PROXY: "http://your-proxy-host:port" # 如果您的 API 无法从 GitHub Action 所在的海外环境访问，请配置代理，或者换用具备全球访问能力的 API 聚合站
         run: |
           if [ "${{ inputs.force_latest }}" = "true" ]; then
