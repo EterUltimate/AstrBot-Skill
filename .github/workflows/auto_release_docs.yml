@@ -1,0 +1,56 @@
+name: Auto Release Docs
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC.
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-release-docs
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Check upstream tag and release status
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_REPO: AstrBotDevs/AstrBot
+        run: |
+          python scripts/check_release.py
+          echo "Decision:"
+          cat "$GITHUB_OUTPUT"
+
+      - name: Create docs zip
+        if: steps.check.outputs.should_release == 'true'
+        run: |
+          test -d docs
+          zip -r "${{ steps.check.outputs.asset_name }}" docs
+
+      - name: Publish GitHub Release
+        if: steps.check.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.check.outputs.upstream_tag }}
+          name: ${{ steps.check.outputs.release_title }}
+          body: ${{ steps.check.outputs.release_body }}
+          files: ${{ steps.check.outputs.asset_name }}
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
