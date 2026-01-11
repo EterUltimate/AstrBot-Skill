@@ -22,6 +22,7 @@ def test_api() -> None:
     api_version = config.GEMINI_API_VERSION
     model_name = config.MODEL_NAME
     api_style = config.LLM_API_STYLE
+    show_base_url_in_logs = config.SHOW_BASE_URL_IN_LOGS
 
     if not api_key:
         print("Error: GEMINI_API_KEY is not set.")
@@ -36,10 +37,14 @@ def test_api() -> None:
     print("Request Detail (masked):")
     print(f"  - LLM_API_STYLE: {api_style}")
     print(f"  - Detected style: {style}")
-    print(f"  - Base URL: {mask_sensitive(base_url, api_key)}")
+    if show_base_url_in_logs:
+        print(f"  - Base URL: {mask_sensitive(base_url, api_key)}")
+        print(f"  - Target URL: {mask_sensitive(url, api_key)}")
+    else:
+        print("  - Base URL: (hidden)")
+        print("  - Target URL: (hidden)")
     print(f"  - API Version: {api_version}")
     print(f"  - Model: {model_name}")
-    print(f"  - Target URL: {mask_sensitive(url, api_key)}")
 
     print("\n[Sending Request via curl...]")
     try:

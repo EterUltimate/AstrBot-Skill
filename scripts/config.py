@@ -10,6 +10,7 @@ class Config:
     GEMINI_API_VERSION = os.getenv("GEMINI_API_VERSION", "v1beta").strip()
     MODEL_NAME = (os.getenv("MODEL_NAME") or "gemini-1.5-flash").strip()
     LLM_API_STYLE = os.getenv("LLM_API_STYLE", "auto").strip()
+    SHOW_BASE_URL_IN_LOGS = os.getenv("SHOW_BASE_URL_IN_LOGS", "0").strip() == "1"
     REPO_NAME = "AstrBotDevs/AstrBot"
     STATE_FILE = "scripts/state.json"
 

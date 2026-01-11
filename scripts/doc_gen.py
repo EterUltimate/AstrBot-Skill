@@ -16,6 +16,7 @@ class DocGenerator:
         self.model_name = config.MODEL_NAME
         self.api_style = config.LLM_API_STYLE
         self.docs_root = "docs"
+        self.show_base_url_in_logs = config.SHOW_BASE_URL_IN_LOGS
         self.categories = [
             "ai_integration",
             "storage",
@@ -89,7 +90,10 @@ class DocGenerator:
         
         # 打印请求信息 (脱敏)
         print(f"发起请求: model={self.model_name}")
-        print(f"  - Base URL: {self._mask_sensitive(self.base_url)}")
+        if self.show_base_url_in_logs:
+            print(f"  - Base URL: {self._mask_sensitive(self.base_url)}")
+        else:
+            print("  - Base URL: (hidden)")
         print(f"  - API Style: {self.api_style}")
         print(f"  - Temperature: {temperature}")
 
@@ -149,9 +153,14 @@ class DocGenerator:
 
     def should_update_docs(self, commit_message: str, diff: str) -> bool:
         """AI 过滤逻辑：判断是否需要更新文档"""
+        changed_paths = self._extract_changed_paths(diff)
+        if changed_paths and self._should_skip_by_paths(changed_paths):
+            print("AI filtering skipped: only non-dev-doc relevant paths changed.")
+            return False
+
         system_instruction = "你是一个文档维护助手。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
         prompt = f"""
-你是一个文档维护助手。请判断以下代码变更（Commit/PR）是否涉及功能、API 或架构的改动，从而需要更新开发文档。
+你是一个文档维护助手。请判断以下代码变更（Commit/PR）是否**会影响第三方开发者/插件作者/适配器作者**，从而需要更新开发文档。
 
 Commit Message:
 {commit_message}
@@ -160,10 +169,10 @@ Diff Snippet:
 {diff[:2000]}
 
 规则：
-1. 如果只是修复拼写错误、格式调整、CI 配置、测试用例增加，通常不需要更新文档。
-2. 如果增加了新功能、修改了现有 API 行为、改变了核心架构或流程，则需要更新文档。
+1. 仅当变更影响 **对外契约**（如插件 API、事件/消息模型、配置 schema、Provider/Adapter 接口、对外行为/兼容性）时，才需要更新文档。
+2. 如果只是内部重构、Dashboard/UI 细节、日志/注释、CI 配置、测试用例、格式调整，通常不需要更新文档。
 
-请仅回答 "YES" 或 "NO"。
+请仅回答 "YES" 或 "NO"（可以在 YES 后面附带 1 句极短理由/证据）。
 """
         try:
             result = self._call_gemini(prompt, system_instruction=system_instruction, temperature=0, max_tokens=10).strip().upper()
@@ -171,6 +180,115 @@ Diff Snippet:
         except Exception as e:
             self._handle_exception(e, "AI filtering")
             return False
+
+    def _extract_changed_paths(self, diff: str) -> List[str]:
+        paths: List[str] = []
+        if not diff:
+            return paths
+        for match in re.finditer(r"^diff --git a/(.+?) b/(.+?)$", diff, flags=re.MULTILINE):
+            a_path = match.group(1).strip()
+            b_path = match.group(2).strip()
+            if a_path and a_path not in paths:
+                paths.append(a_path)
+            if b_path and b_path not in paths:
+                paths.append(b_path)
+        return paths
+
+    def _should_skip_by_paths(self, paths: List[str]) -> bool:
+        ignore_prefixes = (
+            ".github/",
+            ".vscode/",
+            "docs/",
+            "doc/",
+            "website/",
+            "web/",
+            "dashboard/",
+            "frontend/",
+            "front/",
+            "ui/",
+            "assets/",
+        )
+        ignore_exact = {
+            "README.md",
+            "README.zh.md",
+            "CHANGELOG.md",
+            "pnpm-lock.yaml",
+            "package-lock.json",
+            "yarn.lock",
+            "package.json",
+        }
+        ignore_suffixes = (
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".svg",
+            ".ico",
+            ".lock",
+        )
+
+        def is_ignored(path: str) -> bool:
+            p = (path or "").lstrip("./")
+            if p in ignore_exact:
+                return True
+            if p.startswith(ignore_prefixes):
+                return True
+            if p.endswith(ignore_suffixes):
+                return True
+            if p.endswith((".vue", ".ts", ".tsx", ".js", ".jsx", ".css", ".scss", ".less", ".html")):
+                return True
+            return False
+
+        if paths and all(is_ignored(p) for p in paths):
+            return True
+
+        # 只有前端/UI 改动时直接跳过（即使未落在上述目录）
+        if paths and all(p.endswith((".vue", ".ts", ".tsx", ".js", ".jsx", ".css", ".scss", ".less", ".html")) for p in paths):
+            return True
+
+        return False
+
+    def _validate_change(self, change: Dict, processed_diff: str, commit_message: str) -> Optional[str]:
+        action = (change.get("action") or "").strip().lower()
+        if action not in {"create", "update", "noop"}:
+            return "action must be one of: create/update/noop"
+
+        if action == "noop":
+            return None
+
+        file_name = (change.get("file_name") or "").strip()
+        if not file_name.endswith(".md"):
+            return "file_name must end with .md"
+        if any(x in file_name for x in ["/", "\\", ".."]):
+            return "file_name must be a plain filename (no path)"
+
+        target_category = (change.get("target_category") or "").strip()
+        if action == "create":
+            if target_category not in self.categories:
+                return f"target_category must be one of: {', '.join(self.categories)}"
+
+        content = change.get("content")
+        if not isinstance(content, str) or not content.strip():
+            return "content must be a non-empty string"
+        if not content.lstrip().startswith("---"):
+            return "content must start with YAML frontmatter ('---')"
+
+        evidence = change.get("evidence")
+        if not isinstance(evidence, list) or len(evidence) < 2:
+            return "evidence must be a list with at least 2 items"
+
+        haystack = f"{commit_message}\n{processed_diff}"
+        matched = 0
+        for item in evidence:
+            if not isinstance(item, str):
+                continue
+            token = item.strip().strip("`")
+            if token and token in haystack:
+                matched += 1
+        if matched < 2:
+            return "evidence items must appear in commit message or diff"
+
+        return None
 
     def _preprocess_diff(self, diff: str) -> str:
         """预处理 Diff：如果行数过多，生成摘要"""
@@ -215,6 +333,7 @@ Diff Snippet:
 1. **原子化**：每个 file 只描述一个核心功能或逻辑块。
 2. **高密度**：包含核心类名、方法签名、配置项名称。
 3. **术语一致性**：必须强制引用和使用现有文档中定义的术语（如 Message Chain, Provider, Adapter, Event Loop 等）。
+4. **面向“AI 开发者”**：只记录稳定且可复用的“对外契约/行为”，不要记录 WebUI/前端组件实现细节、样式、交互、字段清洗的小技巧等内部噪音。
 
 --- 当前分类结构 ---
 请根据功能将文档归入以下分类之一：
@@ -238,10 +357,15 @@ Diff Snippet:
 {commit_message}
 
 --- 任务要求 ---
+0. **禁止编造**：只允许描述上面 Diff/Summary 中可以直接佐证的变更；不得凭空引入不存在的文件、类、方法、组件或行为。
 1. **判断操作**：
-   - 如果是全新功能：`action` 为 "create"，并确定一个合适的 `target_category` 和 `file_name`（如 `plugin_hooks.md`）。
-   - 如果是现有文档的显著改进：`action` 为 "update"，指定 `file_name`。
-2. **生成内容规范**：
+   - 如果变更不影响第三方开发者/插件作者/适配器作者（例如 UI 细节、内部重构），请返回 `action: "noop"`，并给出 `reason`（1 句）。
+   - 如果是全新对外功能/契约：`action` 为 "create"。
+   - 如果是现有文档的显著改进：`action` 为 "update"。
+2. **证据约束 (必须满足，否则用 noop)**：
+   - 你必须提供 `evidence` 数组（至少 2 条），每条为 **原样字符串**（建议是文件路径/符号名），且必须能在 Diff/Summary 或 Commit Message 中找到。
+   - 证据必须与“对外契约/行为”有关；如果证据仅来自前端/UI（例如 .vue/.css），请使用 noop。
+3. **生成内容规范**：
    - **Markdown Frontmatter**：
      ---
      title: (简洁的功能名称)
@@ -253,20 +377,34 @@ Diff Snippet:
    - **深度分析**：不仅描述“做了什么”，还要深入分析此次变更对**系统架构**（如组件间耦合、数据流向）或**插件开发逻辑**（如 API 变更、生命周期调整）的具体影响。
    - **防偷懒指令**：禁止使用“见代码”、“略”、“无变化”或“如上所述”等模糊表述。必须使用清晰、完整的自然语言描述逻辑变更和内部机制。
    - **变更影响分析 (Impact Analysis)**：必须包含一个名为 `## 变更影响分析` 的区块，专门列出此变更对 AI 消费者（其他开发者 AI 助手）理解系统时可能产生的副作用、边界情况或新增的最佳实践。
-3. **输出格式**：
-   - 必须返回 JSON 对象。
+4. **输出格式**：
+   - 必须返回 JSON 对象，且只能包含这些 key：`action`, `target_category`, `file_name`, `content`, `evidence`, `reason`。
    
 --- 示例输出结构 ---
 {{
   "action": "create",
   "target_category": "messages",
   "file_name": "new_event_system.md",
-  "content": "---\\ntitle: New Event System\\ntype: feature\\n...\\n---\\n\\n## 概述\\n...\\n## 关键实现\\n...\\n## 变更影响分析\\n..."
+  "content": "---\\ntitle: New Event System\\ntype: feature\\n...\\n---\\n\\n## 概述\\n...\\n## 关键实现\\n...\\n## 变更影响分析\\n...",
+  "evidence": ["path/to/file.py", "ClassName.method_name"],
+  "reason": ""
 }}
 """
         try:
             raw_response = self._call_gemini(prompt, system_instruction=system_instruction, temperature=0.2)
             result = self._extract_json(raw_response)
+            validation_error = self._validate_change(result, processed_diff, commit_message)
+            if validation_error:
+                if (result.get("action") or "").strip().lower() == "noop":
+                    print(f"AI returned noop: {result.get('reason', '').strip()}")
+                    return None
+                print(f"AI output validation failed: {validation_error}")
+                return None
+
+            if (result.get("action") or "").strip().lower() == "noop":
+                print(f"AI returned noop: {result.get('reason', '').strip()}")
+                return None
+
             file_path = self._apply_change(result)
             if file_path:
                 return {

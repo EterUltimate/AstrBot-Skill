@@ -134,7 +134,7 @@ class GitHubMonitor:
                 "author": author,
                 "message": message,
                 "pr_link": pr_link,
-                "diff": diff[:2000] + "..." if len(diff) > 2000 else diff # 限制长度
+                "diff": diff,
             })
 
         return changes, state
