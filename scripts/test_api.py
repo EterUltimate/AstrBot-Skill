@@ -20,13 +20,21 @@ def test_api():
         print("Error: GEMINI_API_KEY is not set.")
         return
 
-    # 模拟 doc_gen.py 中的 URL 构建逻辑
+    # 模拟 doc_gen.py 中的 URL 构建逻辑与归一化
+    api_version = api_version.strip('/')
     if re.search(r'/v1(beta)?$', base_url):
         url_prefix = base_url
     elif "/v1" in base_url or "/v1beta" in base_url:
         url_prefix = base_url
     else:
         url_prefix = f"{base_url}/{api_version}"
+    
+    # 彻底清理双斜杠（保持协议部分的 // 不变）
+    if "://" in url_prefix:
+        scheme, rest = url_prefix.split("://", 1)
+        url_prefix = f"{scheme}://{re.sub(r'/+', '/', rest)}"
+    else:
+        url_prefix = re.sub(r'/+', '/', url_prefix)
         
     url = f"{url_prefix}/models/{model_name}:generateContent?key={api_key}"
     
@@ -39,8 +47,14 @@ def test_api():
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "User-Agent": "AstrBot/ApiTest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "x-goog-api-key": api_key,
+        "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
     }
     
     if "googleapis.com" not in base_url:

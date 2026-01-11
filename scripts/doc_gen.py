@@ -74,9 +74,9 @@ class DocGenerator:
 
     def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
         """直接使用 httpx 调用 Gemini 原生 API"""
-        # 1. 路径深度自适应
+        # 1. 路径深度自适应与 URL 归一化
         base_url = self.base_url.rstrip('/')
-        api_version = config.GEMINI_API_VERSION
+        api_version = config.GEMINI_API_VERSION.strip('/')
         
         # 检查 base_url 是否已经包含了版本号
         if re.search(r'/v1(beta)?$', base_url):
@@ -85,6 +85,13 @@ class DocGenerator:
             url_prefix = base_url
         else:
             url_prefix = f"{base_url}/{api_version}"
+        
+        # 彻底清理双斜杠（保持协议部分的 // 不变）
+        if "://" in url_prefix:
+            scheme, rest = url_prefix.split("://", 1)
+            url_prefix = f"{scheme}://{re.sub(r'/+', '/', rest)}"
+        else:
+            url_prefix = re.sub(r'/+', '/', url_prefix)
             
         url = f"{url_prefix}/models/{self.model_name}:generateContent?key={self.__api_key}"
         
@@ -116,8 +123,14 @@ class DocGenerator:
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "User-Agent": "AstrBot/DocGen",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "x-goog-api-key": self.__api_key,
+            "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
         }
         
         # 修复 401 冲突：如果是官方域名，不要发送 Authorization: Bearer
