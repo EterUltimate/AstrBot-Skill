@@ -4,13 +4,14 @@ import re
 from typing import List, Dict, Optional
 from datetime import datetime
 import httpx
+from urllib.parse import urlparse
 from config import config
 
 class DocGenerator:
     def __init__(self):
         if not config.GEMINI_API_KEY:
             raise ValueError("GEMINI_API_KEY (or OPENAI_API_KEY) is not set in environment variables.")
-        self.api_key = config.GEMINI_API_KEY
+        self.__api_key = config.GEMINI_API_KEY
         self.base_url = config.BASE_URL.rstrip('/')
         self.model_name = config.MODEL_NAME
         self.docs_root = "docs"
@@ -60,12 +61,28 @@ class DocGenerator:
 
     def _handle_exception(self, e: Exception, context: str):
         """统一处理异常"""
-        error_msg = str(e)
+        error_msg = self._mask_sensitive(str(e))
         print(f"{context} 出错: {error_msg}")
+
+    def _mask_sensitive(self, text: str) -> str:
+        """脱敏日志中的 API Key"""
+        if not self.__api_key:
+            return text
+        return text.replace(self.__api_key, "***")
 
     def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
         """直接使用 httpx 调用 Gemini 原生 API"""
-        url = f"{self.base_url}/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
+        # 确保 url 拼接正确，处理可能的重复 v1beta 或其他路径问题
+        # 这里的逻辑假设 base_url 是 API 的根路径（如 https://generativelanguage.googleapis.com）
+        # 如果用户提供了完整的 v1beta 路径，则不再重复拼接
+        if "/v1" in self.base_url:
+            url = f"{self.base_url}/models/{self.model_name}:generateContent?key={self.__api_key}"
+        else:
+            url = f"{self.base_url}/v1beta/models/{self.model_name}:generateContent?key={self.__api_key}"
+        
+        # 提取 Host 用于日志打印（脱敏）
+        parsed_url = urlparse(self.base_url)
+        print(f"正在请求 API: {parsed_url.netloc} (Model: {self.model_name})")
         
         payload = {
             "contents": [
@@ -86,14 +103,23 @@ class DocGenerator:
 
         headers = {
             "Content-Type": "application/json",
-            "User-Agent": "AstrBot/DocGen"
+            "User-Agent": "AstrBot/DocGen",
+            "x-goog-api-key": self.__api_key,
+            "Authorization": f"Bearer {self.__api_key}"
         }
 
-        with httpx.Client(timeout=60.0) as client:
-            response = client.post(url, json=payload, headers=headers)
-            
-            if response.status_code != 200:
-                raise Exception(f"Gemini API error ({response.status_code}): {response.text}")
+        try:
+            with httpx.Client(timeout=60.0) as client:
+                # 在某些中转站中，如果 URL 中没有 key，Header 也可以生效；
+                # 这里采取双重保障：URL 参数 + Headers (x-goog-api-key & Authorization)
+                response = client.post(url, json=payload, headers=headers)
+                
+                if response.status_code != 200:
+                    masked_response = self._mask_sensitive(response.text)
+                    raise Exception(f"Gemini API error ({response.status_code}): {masked_response}")
+        except Exception as e:
+            # 捕获所有 httpx 可能抛出的异常（如连接错误），并确保脱敏
+            raise Exception(self._mask_sensitive(str(e)))
             
             data = response.json()
             
@@ -131,7 +157,9 @@ class DocGenerator:
         try:
             return json.loads(json_str)
         except json.JSONDecodeError as e:
-            print(f"Failed to decode JSON from text: {text}")
+            # 极端情况下的安全保障
+            masked_text = self._mask_sensitive(text)
+            print(f"Failed to decode JSON from text: {masked_text}")
             raise e
 
     def should_update_docs(self, commit_message: str, diff: str) -> bool:
