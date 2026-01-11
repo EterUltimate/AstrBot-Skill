@@ -1,3 +1,2 @@
 httpx
-openai
 python-dotenv

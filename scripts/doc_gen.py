@@ -3,18 +3,16 @@ import json
 import re
 from typing import List, Dict, Optional
 from datetime import datetime
-from openai import OpenAI
+import httpx
 from config import config
 
 class DocGenerator:
     def __init__(self):
-        if not config.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY is not set in environment variables.")
-        self.client = OpenAI(
-            api_key=config.OPENAI_API_KEY,
-            base_url=config.OPENAI_API_BASE,
-            default_headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 AstrBot/DocGen"}
-        )
+        if not config.GEMINI_API_KEY:
+            raise ValueError("GEMINI_API_KEY (or OPENAI_API_KEY) is not set in environment variables.")
+        self.api_key = config.GEMINI_API_KEY
+        self.base_url = config.BASE_URL.rstrip('/')
+        self.model_name = config.MODEL_NAME
         self.docs_root = "docs"
         self.categories = [
             "ai_integration",
@@ -61,38 +59,84 @@ class DocGenerator:
         return "\n\n".join(context)
 
     def _handle_exception(self, e: Exception, context: str):
-        """统一处理 OpenAI 异常，增加对 WAF 拦截的检测"""
+        """统一处理异常"""
         error_msg = str(e)
-        html_snippet = ""
-
-        # 尝试从 openai 异常对象中获取响应体 (兼容 v1 SDK)
-        if hasattr(e, "response") and hasattr(e.response, "text"):
-            try:
-                body = e.response.text
-                if body.strip().startswith("<!DOCTYPE html>"):
-                    html_snippet = body.strip()[:200].replace("\n", " ")
-                    error_msg = f"API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。"
-            except:
-                pass
-        elif "<!DOCTYPE html>" in error_msg:
-            match = re.search(r"(<!DOCTYPE html>.*)", error_msg, re.IGNORECASE | re.DOTALL)
-            if match:
-                html_snippet = match.group(1)[:200].replace("\n", " ")
-            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。"
-        
-        if html_snippet:
-            error_msg += f"\n[HTML 摘要] {html_snippet}"
-            error_msg += "\n[诊断] 由于 GitHub Action 位于海外，您的公益 API 站拒绝了请求。请使用全局可用的 API 或配置代理。"
-        
-        # 增加网络环境建议
-        if "connection" in error_msg.lower() or "timeout" in error_msg.lower() or "proxy" in error_msg.lower():
-            if "[诊断]" not in error_msg:
-                error_msg += "\n[提示] 中国国内网络环境可能会影响 API 访问，建议配置 HTTPS_PROXY 环境变量，或使用具备全球访问能力的 API 聚合站。"
-
         print(f"{context} 出错: {error_msg}")
+
+    def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
+        """直接使用 httpx 调用 Gemini 原生 API"""
+        url = f"{self.base_url}/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
+        
+        payload = {
+            "contents": [
+                {
+                    "parts": [{"text": prompt}]
+                }
+            ],
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            }
+        }
+        
+        if system_instruction:
+            payload["system_instruction"] = {
+                "parts": [{"text": system_instruction}]
+            }
+
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "AstrBot/DocGen"
+        }
+
+        with httpx.Client(timeout=60.0) as client:
+            response = client.post(url, json=payload, headers=headers)
+            
+            if response.status_code != 200:
+                raise Exception(f"Gemini API error ({response.status_code}): {response.text}")
+            
+            data = response.json()
+            
+            if not data.get("candidates"):
+                raise Exception(f"Gemini returned no candidates. Full response: {json.dumps(data)}")
+            
+            candidate = data["candidates"][0]
+            finish_reason = candidate.get("finishReason")
+            
+            if finish_reason not in ["STOP", "MAX_TOKENS", None]:
+                # 某些情况下 finishReason 可能是 SAFETY, RECITATION 等
+                raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {json.dumps(candidate)}")
+                
+            parts = candidate.get("content", {}).get("parts", [])
+            if not parts:
+                raise Exception(f"Gemini returned no parts in content. Candidate: {json.dumps(candidate)}")
+                
+            return parts[0].get("text", "")
+
+    def _extract_json(self, text: str) -> Dict:
+        """从 Gemini 的 Markdown 响应中提取 JSON 字符串"""
+        # 尝试匹配 ```json ... ```
+        json_match = re.search(r"```json\s*(.*?)\s*```", text, re.DOTALL)
+        if json_match:
+            json_str = json_match.group(1)
+        else:
+            # 如果没有 Markdown 块，尝试寻找第一个 { 和最后一个 }
+            start = text.find('{')
+            end = text.rfind('}')
+            if start != -1 and end != -1:
+                json_str = text[start:end+1]
+            else:
+                json_str = text
+        
+        try:
+            return json.loads(json_str)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON from text: {text}")
+            raise e
 
     def should_update_docs(self, commit_message: str, diff: str) -> bool:
         """AI 过滤逻辑：判断是否需要更新文档"""
+        system_instruction = "你是一个文档维护助手。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
         prompt = f"""
 你是一个文档维护助手。请判断以下代码变更（Commit/PR）是否涉及功能、API 或架构的改动，从而需要更新开发文档。
 
@@ -109,19 +153,7 @@ Diff Snippet:
 请仅回答 "YES" 或 "NO"。
 """
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "你是一个文档维护助手。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
-                    },
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=5,
-                temperature=0
-            )
-            result = response.choices[0].message.content.strip().upper()
+            result = self._call_gemini(prompt, system_instruction=system_instruction, temperature=0, max_tokens=10).strip().upper()
             return "YES" in result
         except Exception as e:
             self._handle_exception(e, "AI filtering")
@@ -134,6 +166,7 @@ Diff Snippet:
             return diff
             
         print(f"检测到变更量较大 ({line_count} 行)。正在生成技术摘要以供 AI 分析...")
+        system_instruction = "你是一个专业的技术摘要生成器，擅长将冗长的代码 Diff 转换为紧凑的技术规范摘要。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
         summary_prompt = f"""
 你是一个资深系统架构师。以下是一个巨大的代码变更 Diff。
 由于 Diff 过长，请你将其压缩为一个**高密度的技术摘要**。
@@ -149,18 +182,7 @@ Diff Snippet:
 {diff[:30000]} # 截断以防止摘要过程本身超限
 """
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "你是一个专业的技术摘要生成器，擅长将冗长的代码 Diff 转换为紧凑的技术规范摘要。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
-                    },
-                    {"role": "user", "content": summary_prompt}
-                ],
-                temperature=0.2
-            )
-            summary = response.choices[0].message.content
+            summary = self._call_gemini(summary_prompt, system_instruction=system_instruction, temperature=0.2)
             return f"[Large Diff Summary]\n{summary}\n\n[Note: Original diff was {line_count} lines and was summarized.]"
         except Exception as e:
             self._handle_exception(e, "summarizing diff")
@@ -173,6 +195,7 @@ Diff Snippet:
         today = datetime.now().strftime("%Y-%m-%d")
         categories_str = ", ".join(self.categories)
 
+        system_instruction = "你是一个只输出 JSON 的文档助手。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
         prompt = f"""
 你是一个高级软件工程师和技术文档专家。你的任务是维护 AstrBot 的**开发文档 (Functional Chunks)**。
 这些文档主要供 AI (LLM) 消费，作为 RAG 的上下文，因此需要：
@@ -218,7 +241,7 @@ Diff Snippet:
    - **防偷懒指令**：禁止使用“见代码”、“略”、“无变化”或“如上所述”等模糊表述。必须使用清晰、完整的自然语言描述逻辑变更和内部机制。
    - **变更影响分析 (Impact Analysis)**：必须包含一个名为 `## 变更影响分析` 的区块，专门列出此变更对 AI 消费者（其他开发者 AI 助手）理解系统时可能产生的副作用、边界情况或新增的最佳实践。
 3. **输出格式**：
-   - 必须返回 JSON 对象。不要包含任何 Markdown 代码块包装。
+   - 必须返回 JSON 对象。
    
 --- 示例输出结构 ---
 {{
@@ -229,18 +252,8 @@ Diff Snippet:
 }}
 """
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "你是一个只输出 JSON 的文档助手。在执行任何分析或生成任务之前，你必须首先内化 `core_concepts.md` 中定义的 AstrBot 核心架构逻辑和心智模型。"
-                    },
-                    {"role": "user", "content": prompt}
-                ],
-                response_format={"type": "json_object"}
-            )
-            result = json.loads(response.choices[0].message.content)
+            raw_response = self._call_gemini(prompt, system_instruction=system_instruction, temperature=0.2)
+            result = self._extract_json(raw_response)
             file_path = self._apply_change(result)
             if file_path:
                 return {
