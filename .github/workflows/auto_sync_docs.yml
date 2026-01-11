@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install httpx openai python-dotenv
+          pip install -r requirements.txt
 
       - name: Run sync script
         id: sync_script
