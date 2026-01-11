@@ -12,7 +12,8 @@ class DocGenerator:
             raise ValueError("OPENAI_API_KEY is not set in environment variables.")
         self.client = OpenAI(
             api_key=config.OPENAI_API_KEY,
-            base_url=config.OPENAI_API_BASE
+            base_url=config.OPENAI_API_BASE,
+            default_headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 AstrBot/DocGen"}
         )
         self.docs_root = "docs"
         self.categories = [
@@ -59,6 +60,22 @@ class DocGenerator:
         
         return "\n\n".join(context)
 
+    def _handle_exception(self, e: Exception, context: str):
+        """统一处理 OpenAI 异常，增加对 WAF 拦截的检测"""
+        error_msg = str(e)
+        # 尝试从 openai 异常对象中获取响应体 (兼容 v1 SDK)
+        if hasattr(e, "response") and hasattr(e.response, "text"):
+            try:
+                body = e.response.text
+                if body.strip().startswith("<!DOCTYPE html>"):
+                    error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (Detected HTML response)。请检查 API Base URL 或代理设置。"
+            except:
+                pass
+        elif "<!DOCTYPE html>" in error_msg:
+            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (Detected HTML response)。请检查 API Base URL 或代理设置。"
+        
+        print(f"Error in {context}: {error_msg}")
+
     def should_update_docs(self, commit_message: str, diff: str) -> bool:
         """AI 过滤逻辑：判断是否需要更新文档"""
         prompt = f"""
@@ -92,7 +109,7 @@ Diff Snippet:
             result = response.choices[0].message.content.strip().upper()
             return "YES" in result
         except Exception as e:
-            print(f"Error in AI filtering: {e}")
+            self._handle_exception(e, "AI filtering")
             return False
 
     def _preprocess_diff(self, diff: str) -> str:
@@ -131,7 +148,7 @@ Diff Snippet:
             summary = response.choices[0].message.content
             return f"[Large Diff Summary]\n{summary}\n\n[Note: Original diff was {line_count} lines and was summarized.]"
         except Exception as e:
-            print(f"Error summarizing diff: {e}")
+            self._handle_exception(e, "summarizing diff")
             return diff[:10000] # 降级方案：直接截断
 
     def generate_doc_update(self, commit_message: str, diff: str) -> Optional[str]:
@@ -211,7 +228,7 @@ Diff Snippet:
             result = json.loads(response.choices[0].message.content)
             return self._apply_change(result)
         except Exception as e:
-            print(f"Error in AI generation: {e}")
+            self._handle_exception(e, "AI generation")
             return None
 
     def _apply_change(self, change: Dict) -> Optional[str]:

@@ -62,4 +62,4 @@ jobs:
           body: ${{ steps.sync_script.outputs.pr_body }}
           labels: auto-generated
           commit-message: "docs: automated sync from main repo"
-          base: main # 确保目标分支正确，默认为 main
+          base: ${{ github.ref_name }} # 确保指向当前运行的分支
