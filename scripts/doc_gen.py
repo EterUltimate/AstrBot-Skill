@@ -88,9 +88,13 @@ class DocGenerator:
             
         url = f"{url_prefix}/models/{self.model_name}:generateContent?key={self.__api_key}"
         
-        # 提取 Host 用于日志打印（脱敏）
-        parsed_url = urlparse(self.base_url)
-        print(f"请求 API: {parsed_url.netloc} (Method: POST, Model: {self.model_name}, Version: {api_version})")
+        # 打印完整的请求 URL (脱敏)
+        masked_url = self._mask_sensitive(url)
+        print(f"发起请求: POST {masked_url}")
+        print(f"  - Base URL: {self._mask_sensitive(base_url)}")
+        print(f"  - API Version: {api_version}")
+        print(f"  - Model: {self.model_name}")
+        print(f"  - Final URL Prefix: {self._mask_sensitive(url_prefix)}")
         
         payload = {
             "contents": [

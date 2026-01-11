@@ -30,6 +30,12 @@ def test_api():
         
     url = f"{url_prefix}/models/{model_name}:generateContent?key={api_key}"
     
+    print(f"URL Concatenation Detail:")
+    print(f"  - Base URL: {mask_sensitive(base_url, api_key)}")
+    print(f"  - API Version: {api_version}")
+    print(f"  - Model: {model_name}")
+    print(f"  - URL Prefix: {mask_sensitive(url_prefix, api_key)}")
+    
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -68,6 +74,17 @@ def test_api():
             
             print(f"Status Code: {response.status_code}")
             
+            # 脱敏打印响应头
+            print("\n[Response Headers]")
+            important_headers = ['cf-ray', 'server', 'content-type', 'date', 'x-envoy-upstream-service-time']
+            for k, v in response.headers.items():
+                # 对所有可能包含敏感信息的头进行脱敏（虽然通常不包含 key，但为了安全起见）
+                masked_v = mask_sensitive(v, api_key)
+                if k.lower() in important_headers:
+                    print(f"  {k}: {masked_v}")
+                elif k.lower().startswith('x-'):
+                    print(f"  {k}: {masked_v}")
+
             # HTML 拦截检查
             content_type = response.headers.get("Content-Type", "")
             if "text/html" in content_type or response.text.strip().startswith("<!DOCTYPE html>"):
