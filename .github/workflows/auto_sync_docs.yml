@@ -2,7 +2,9 @@ name: Auto Sync Docs
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # 每 6 小时触发一次
+    # GitHub Actions cron uses UTC.
+    # Every 3 hours: 00:00, 03:00, 06:00 ... 21:00 (UTC)
+    - cron: "0 */3 * * *"
   workflow_dispatch: # 支持手动触发
     inputs:
       force_latest:
@@ -14,6 +16,10 @@ on:
 permissions:
   contents: write
   pull-requests: write
+
+concurrency:
+  group: auto-sync-docs
+  cancel-in-progress: false
 
 jobs:
   auto-sync:
@@ -34,6 +40,15 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Restore sync state cache
+        id: state_cache_restore
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/state.json
+          key: sync-state-${{ github.run_id }}
+          restore-keys: |
+            sync-state-
+
       - name: Debug Environment Variables
         run: |
           echo "Checking environment variables (presence only):"
@@ -45,6 +60,7 @@ jobs:
           [ -n "$MODEL_NAME" ] && echo "MODEL_NAME is set" || echo "MODEL_NAME is NOT set"
           [ -n "$GEMINI_API_VERSION" ] && echo "GEMINI_API_VERSION is set" || echo "GEMINI_API_VERSION is NOT set"
           [ -n "$LLM_API_STYLE" ] && echo "LLM_API_STYLE is set" || echo "LLM_API_STYLE is NOT set"
+          [ -n "$SYNC_LOOKBACK_HOURS" ] && echo "SYNC_LOOKBACK_HOURS is set" || echo "SYNC_LOOKBACK_HOURS is NOT set"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -54,6 +70,7 @@ jobs:
           GEMINI_API_VERSION: ${{ vars.GEMINI_API_VERSION || 'v1beta' }}
           OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
           LLM_API_STYLE: ${{ vars.LLM_API_STYLE || 'auto' }}
+          SYNC_LOOKBACK_HOURS: ${{ vars.SYNC_LOOKBACK_HOURS || '6' }}
 
       - name: Run sync script
         id: sync_script
@@ -66,6 +83,7 @@ jobs:
           MODEL_NAME: ${{ secrets.MODEL_NAME }}
           GEMINI_API_VERSION: ${{ vars.GEMINI_API_VERSION || 'v1beta' }}
           LLM_API_STYLE: ${{ vars.LLM_API_STYLE || 'auto' }}
+          SYNC_LOOKBACK_HOURS: ${{ vars.SYNC_LOOKBACK_HOURS || '6' }}
           # HTTPS_PROXY: "http://your-proxy-host:port" # 如果您的 API 无法从 GitHub Action 所在的海外环境访问，请配置代理，或者换用具备全球访问能力的 API 聚合站
         run: |
           # 验证 API 连通性 (可选)
@@ -75,6 +93,13 @@ jobs:
           else
             python scripts/main.py
           fi
+
+      - name: Save sync state cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: scripts/state.json
+          key: sync-state-${{ github.run_id }}
 
       - name: Set branch name
         if: steps.sync_script.outputs.has_updates == 'true'

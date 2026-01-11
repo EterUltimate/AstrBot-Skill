@@ -1,5 +1,7 @@
 import json
 import httpx
+import os
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Optional
 from config import config
 
@@ -26,19 +28,32 @@ class GitHubMonitor:
     def get_latest_commits(self, since_sha: str = "") -> List[Dict]:
         """获取自 since_sha 之后的所有 commits"""
         url = f"{self.base_url}/commits"
-        params = {"per_page": 20} # 默认取最近20个
-        
+        params = {"per_page": 100, "page": 1}
+
+        new_commits: List[Dict] = []
+        max_pages = 10
+        while params["page"] <= max_pages:
+            response = self.client.get(url, params=params)
+            response.raise_for_status()
+            commits = response.json() or []
+            if not commits:
+                break
+
+            for commit in commits:
+                if since_sha and commit.get("sha") == since_sha:
+                    return new_commits
+                new_commits.append(commit)
+
+            params["page"] += 1
+
+        return new_commits
+
+    def get_commits_since(self, since_iso: str) -> List[Dict]:
+        url = f"{self.base_url}/commits"
+        params = {"per_page": 100, "since": since_iso}
         response = self.client.get(url, params=params)
         response.raise_for_status()
-        commits = response.json()
-        
-        new_commits = []
-        for commit in commits:
-            if commit['sha'] == since_sha:
-                break
-            new_commits.append(commit)
-        
-        return new_commits
+        return response.json() or []
 
     def get_commit_diff(self, sha: str) -> str:
         """获取特定 commit 的 diff 内容"""
@@ -75,34 +90,47 @@ class GitHubMonitor:
             print("Force latest mode enabled. Ignoring last_commit_sha.")
             last_sha = "FORCE_LATEST" # Special value to trigger fetching only the latest commit
 
-        # 1. 检查 Tags
+        # 1. 检查 Tags（按 last_tag 增量）
         tags = self.get_latest_tags()
         new_tags = []
         if tags:
-            current_latest_tag = tags[0]['name']
-            if current_latest_tag != last_tag:
-                # 优化同步逻辑：减少旧版本噪音。如果发现新 Tag，只取最新的一个，不要回溯历史生成海量快照。
-                new_tags = [tags[0]]
+            current_latest_tag = tags[0].get("name")
+            if current_latest_tag and current_latest_tag != last_tag:
+                if last_tag:
+                    for tag in tags:
+                        if tag.get("name") == last_tag:
+                            break
+                        new_tags.append(tag)
+                else:
+                    # 初次运行避免生成历史海量快照：只取最新一个
+                    new_tags = [tags[0]]
+
                 state["last_tag"] = current_latest_tag
 
         # 2. 检查 Commits
         if force_latest or not last_sha:
-            # 只获取最新一个 commit (初次运行或强制同步最新)
-            url = f"{self.base_url}/commits"
-            params = {"per_page": 1}
-            response = self.client.get(url, params=params)
-            response.raise_for_status()
-            commits = response.json()
+            if force_latest:
+                # 只获取最新一个 commit
+                url = f"{self.base_url}/commits"
+                params = {"per_page": 1}
+                response = self.client.get(url, params=params)
+                response.raise_for_status()
+                commits = response.json() or []
+            else:
+                # 初次运行/无状态：按 lookback 小时拉取，避免漏扫；默认 6 小时
+                lookback_hours = int(os.getenv("SYNC_LOOKBACK_HOURS", "6") or "6")
+                since_dt = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
+                commits = self.get_commits_since(since_dt.isoformat())
         else:
             commits = self.get_latest_commits(since_sha=last_sha)
             
         if commits:
-            state["last_commit_sha"] = commits[0]['sha']
+            state["last_commit_sha"] = commits[0].get("sha")
 
         # 3. 汇总变更
         changes = []
         
-        # 处理 Tag (发布事件)
+        # 处理 Tag (发布事件)，按时间顺序（旧->新）
         for tag in reversed(new_tags):
             changes.append({
                 "type": "release",
@@ -111,7 +139,7 @@ class GitHubMonitor:
                 "sha": tag['commit']['sha']
             })
 
-        # 处理 Commits
+        # 处理 Commits，按时间顺序（旧->新）
         for commit in reversed(commits):
             sha = commit['sha']
             message = commit['commit']['message']
