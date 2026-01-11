@@ -81,15 +81,13 @@ class GitHubMonitor:
         if tags:
             current_latest_tag = tags[0]['name']
             if current_latest_tag != last_tag:
-                for tag in tags:
-                    if tag['name'] == last_tag:
-                        break
-                    new_tags.append(tag)
+                # 优化同步逻辑：减少旧版本噪音。如果发现新 Tag，只取最新的一个，不要回溯历史生成海量快照。
+                new_tags = [tags[0]]
                 state["last_tag"] = current_latest_tag
 
         # 2. 检查 Commits
-        if force_latest:
-            # 只获取最新一个 commit
+        if force_latest or not last_sha:
+            # 只获取最新一个 commit (初次运行或强制同步最新)
             url = f"{self.base_url}/commits"
             params = {"per_page": 1}
             response = self.client.get(url, params=params)

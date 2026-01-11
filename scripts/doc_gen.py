@@ -68,13 +68,17 @@ class DocGenerator:
             try:
                 body = e.response.text
                 if body.strip().startswith("<!DOCTYPE html>"):
-                    error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (Detected HTML response)。请检查 API Base URL 或代理设置。"
+                    error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。请检查 API Base URL 或代理设置。"
             except:
                 pass
         elif "<!DOCTYPE html>" in error_msg:
-            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (Detected HTML response)。请检查 API Base URL 或代理设置。"
+            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。请检查 API Base URL 或代理设置。"
         
-        print(f"Error in {context}: {error_msg}")
+        # 增加网络环境建议
+        if "connection" in error_msg.lower() or "timeout" in error_msg.lower() or "proxy" in error_msg.lower():
+            error_msg += "\n[提示] 中国国内网络环境可能会影响 API 访问，建议配置 HTTPS_PROXY 环境变量，或使用具备全球访问能力的 API 聚合站。"
+
+        print(f"{context} 出错: {error_msg}")
 
     def should_update_docs(self, commit_message: str, diff: str) -> bool:
         """AI 过滤逻辑：判断是否需要更新文档"""
@@ -118,7 +122,7 @@ Diff Snippet:
         if line_count < 500:
             return diff
             
-        print(f"Diff is large ({line_count} lines). Summarizing for pre-processing...")
+        print(f"检测到变更量较大 ({line_count} 行)。正在生成技术摘要以供 AI 分析...")
         summary_prompt = f"""
 你是一个资深系统架构师。以下是一个巨大的代码变更 Diff。
 由于 Diff 过长，请你将其压缩为一个**高密度的技术摘要**。
@@ -151,7 +155,7 @@ Diff Snippet:
             self._handle_exception(e, "summarizing diff")
             return diff[:10000] # 降级方案：直接截断
 
-    def generate_doc_update(self, commit_message: str, diff: str) -> Optional[str]:
+    def generate_doc_update(self, commit_message: str, diff: str) -> Optional[Dict]:
         """AI 生成逻辑：生成或更新 docs/ 下各分类目录的 Functional Chunks"""
         base_context = self._get_base_context()
         processed_diff = self._preprocess_diff(diff)
@@ -226,9 +230,16 @@ Diff Snippet:
                 response_format={"type": "json_object"}
             )
             result = json.loads(response.choices[0].message.content)
-            return self._apply_change(result)
+            file_path = self._apply_change(result)
+            if file_path:
+                return {
+                    "file_path": file_path,
+                    "action": result.get("action"),
+                    "title": result.get("content", "").split("\n")[1].replace("title: ", "") if "title: " in result.get("content", "") else result.get("file_name")
+                }
+            return None
         except Exception as e:
-            self._handle_exception(e, "AI generation")
+            self._handle_exception(e, "AI 生成")
             return None
 
     def _apply_change(self, change: Dict) -> Optional[str]:
@@ -257,17 +268,17 @@ Diff Snippet:
                     break
             
             if not file_path:
-                print(f"Update requested for {file_name} but not found in any category. Falling back to create.")
+                print(f"警告：请求更新 {file_name} 但在任何分类中均未找到。将回退到创建操作。")
                 action = "create"
-
+    
         if action == "create" or not file_path:
             file_path = os.path.join(self.docs_root, target_category, file_name)
-
+    
         # 写入文件
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"Applied document {action}: {file_path}")
+        print(f"已应用文档{action}：{file_path}")
         return file_path
 
 if __name__ == "__main__":
