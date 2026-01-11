@@ -4,8 +4,10 @@ import re
 import time
 from typing import List, Dict, Optional
 from datetime import datetime
-import httpx
 from urllib.parse import urlparse
+from google import genai
+from google.genai import types
+from google.genai.errors import APIError
 from config import config
 
 class DocGenerator:
@@ -25,6 +27,21 @@ class DocGenerator:
             "platform_adapters"
         ]
         self.default_category = "design_standards"
+
+        # 初始化 Google GenAI 客户端
+        # 注意：SDK 的 http_options.timeout 单位通常是毫秒
+        http_options = types.HttpOptions(
+            base_url=self.base_url if self.base_url else None,
+            timeout=60000, 
+        )
+        
+        # 如果提供了 API 版本，可以在这里配置，但 SDK 通常会自动处理
+        # 如果需要手动指定版本，可以通过 http_options.api_version
+        
+        self.client = genai.Client(
+            api_key=self.__api_key,
+            http_options=http_options
+        )
 
     def _get_base_context(self) -> str:
         """递归读取 docs/ 下的所有分类文件夹（排除 snapshots/）下的 md 文件作为上下文。
@@ -64,6 +81,18 @@ class DocGenerator:
         """统一处理异常"""
         error_msg = self._mask_sensitive(str(e))
         print(f"{context} 出错: {error_msg}")
+        
+        if isinstance(e, APIError):
+            print(f"API 诊断: 状态码={e.code}, 消息={error_msg}")
+            if e.code == 401:
+                print("诊断建议: API Key 无效，请检查环境变量 GEMINI_API_KEY。")
+            elif e.code == 403:
+                print("诊断建议: 权限不足或被封禁，请检查 API Key 权限或 IP 区域。")
+            elif e.code == 429:
+                print("诊断建议: 触发频率限制，请稍后再试或更换 API Key。")
+            elif e.code >= 500:
+                print("诊断建议: Google API 服务端错误，请稍后重试。")
+        
         print("提示: 如果遇到连通性问题，请尝试运行 `python scripts/test_api.py` 进行故障排查。")
 
     def _mask_sensitive(self, text: str) -> str:
@@ -73,113 +102,77 @@ class DocGenerator:
         return text.replace(self.__api_key, "***")
 
     def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
-        """直接使用 httpx 调用 Gemini 原生 API"""
-        # 1. 路径深度自适应与 URL 归一化
-        base_url = self.base_url.rstrip('/')
-        api_version = config.GEMINI_API_VERSION.strip('/')
+        """使用 google-genai SDK 调用 Gemini API"""
         
-        # 检查 base_url 是否已经包含了版本号
-        if re.search(r'/v1(beta)?$', base_url):
-            url_prefix = base_url
-        elif "/v1" in base_url or "/v1beta" in base_url:
-            url_prefix = base_url
-        else:
-            url_prefix = f"{base_url}/{api_version}"
+        # 打印请求信息 (脱敏)
+        print(f"发起请求: model={self.model_name}")
+        print(f"  - Base URL: {self._mask_sensitive(self.base_url)}")
+        print(f"  - Temperature: {temperature}")
         
-        # 彻底清理双斜杠（保持协议部分的 // 不变）
-        if "://" in url_prefix:
-            scheme, rest = url_prefix.split("://", 1)
-            url_prefix = f"{scheme}://{re.sub(r'/+', '/', rest)}"
-        else:
-            url_prefix = re.sub(r'/+', '/', url_prefix)
-            
-        url = f"{url_prefix}/models/{self.model_name}:generateContent?key={self.__api_key}"
-        
-        # 打印完整的请求 URL (脱敏)
-        masked_url = self._mask_sensitive(url)
-        print(f"发起请求: POST {masked_url}")
-        print(f"  - Base URL: {self._mask_sensitive(base_url)}")
-        print(f"  - API Version: {api_version}")
-        print(f"  - Model: {self.model_name}")
-        print(f"  - Final URL Prefix: {self._mask_sensitive(url_prefix)}")
-        
-        payload = {
-            "contents": [
-                {
-                    "parts": [{"text": prompt}]
-                }
-            ],
-            "generationConfig": {
-                "temperature": temperature,
-                "maxOutputTokens": max_tokens,
-            }
-        }
-        
-        if system_instruction:
-            payload["system_instruction"] = {
-                "parts": [{"text": system_instruction}]
-            }
+        # 配置安全设置：默认 BLOCK_NONE
+        safety_settings = [
+            types.SafetySetting(
+                category=cat,
+                threshold='BLOCK_NONE',
+            )
+            for cat in [
+                'HATE_SPEECH',
+                'HARASSMENT',
+                'SEXUALLY_EXPLICIT',
+                'DANGEROUS_CONTENT'
+            ]
+        ]
 
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "x-goog-api-key": self.__api_key,
-            "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "cross-site",
-        }
-        
-        # 修复 401 冲突：如果是官方域名，不要发送 Authorization: Bearer
-        if "googleapis.com" not in self.base_url:
-            headers["Authorization"] = f"Bearer {self.__api_key}"
-            
-        # 打印脱敏后的 Headers
-        masked_headers = {k: (self._mask_sensitive(v) if k.lower() in ["x-goog-api-key", "authorization"] else v) for k, v in headers.items()}
-        print(f"请求头: {json.dumps(masked_headers, indent=2)}")
+        config_params = types.GenerateContentConfig(
+            system_instruction=system_instruction,
+            temperature=temperature,
+            max_output_tokens=max_tokens,
+            safety_settings=safety_settings,
+        )
 
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                with httpx.Client(timeout=60.0) as client:
-                    response = client.post(url, json=payload, headers=headers)
-                    
-                    if response.status_code == 200:
-                        data = response.json()
-                        
-                        if not data.get("candidates"):
-                            raise Exception(f"Gemini returned no candidates. Full response: {json.dumps(data)}")
-                        
-                        candidate = data["candidates"][0]
-                        finish_reason = candidate.get("finishReason")
-                        
-                        if finish_reason not in ["STOP", "MAX_TOKENS", None]:
-                            raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {json.dumps(candidate)}")
-                            
-                        parts = candidate.get("content", {}).get("parts", [])
-                        if not parts:
-                            raise Exception(f"Gemini returned no parts in content. Candidate: {json.dumps(candidate)}")
-                            
-                        return parts[0].get("text", "")
-                    
-                    elif response.status_code in [403, 429] and attempt < max_retries - 1:
-                        wait_time = (attempt + 1) * 2
-                        print(f"收到 {response.status_code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
-                        time.sleep(wait_time)
-                        continue
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=config_params
+                )
+                
+                if not response.candidates:
+                    raise Exception(f"Gemini returned no candidates. Full response: {response}")
+                
+                candidate = response.candidates[0]
+                finish_reason = candidate.finish_reason
+                
+                if finish_reason not in [types.FinishReason.STOP, types.FinishReason.MAX_TOKENS, None]:
+                    # 某些 SDK 版本可能直接返回枚举
+                    if hasattr(types.FinishReason, "STOP") and finish_reason == types.FinishReason.STOP:
+                        pass
+                    elif str(finish_reason) in ["STOP", "MAX_TOKENS", "FinishReason.STOP", "FinishReason.MAX_TOKENS"]:
+                        pass
                     else:
-                        masked_response = self._mask_sensitive(response.text)
-                        raise Exception(f"Gemini API error ({response.status_code}): {masked_response}")
+                        raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {candidate}")
+                    
+                if not candidate.content or not candidate.content.parts:
+                    raise Exception(f"Gemini returned no parts in content. Candidate: {candidate}")
+                    
+                return candidate.content.parts[0].text or ""
+            
+            except APIError as e:
+                if e.code in [403, 429] and attempt < max_retries - 1:
+                    wait_time = (attempt + 1) * 2
+                    print(f"收到 API 错误 {e.code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
+                    time.sleep(wait_time)
+                    continue
+                raise e
             except Exception as e:
                 if attempt < max_retries - 1:
                     wait_time = (attempt + 1) * 2
                     print(f"请求发生异常: {self._mask_sensitive(str(e))}，正在进行第 {attempt + 1} 次重试...")
                     time.sleep(wait_time)
                     continue
-                raise Exception(self._mask_sensitive(str(e)))
+                raise e
 
     def _extract_json(self, text: str) -> Dict:
         """从 Gemini 的 Markdown 响应中提取 JSON 字符串"""
@@ -269,7 +262,7 @@ Diff Snippet:
         prompt = f"""
 你是一个高级软件工程师和技术文档专家。你的任务是维护 AstrBot 的**开发文档 (Functional Chunks)**。
 这些文档主要供 AI (LLM) 消费，作为 RAG 的上下文，因此需要：
-1. **原子化**：每个文件只描述一个核心功能或逻辑块。
+1. **原子化**：每个 file 只描述一个核心功能或逻辑块。
 2. **高密度**：包含核心类名、方法签名、配置项名称。
 3. **术语一致性**：必须强制引用和使用现有文档中定义的术语（如 Message Chain, Provider, Adapter, Event Loop 等）。
 
