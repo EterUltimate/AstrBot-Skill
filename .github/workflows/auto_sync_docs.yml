@@ -40,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
-          # HTTPS_PROXY: "http://your-proxy-host:port" # 中国国内网络环境建议配置代理，或使用具备全球访问能力的 API 聚合站
+          # HTTPS_PROXY: "http://your-proxy-host:port" # 如果您的 API 无法从 GitHub Action 所在的海外环境访问，请配置代理，或者换用具备全球访问能力的 API 聚合站
         run: |
           if [ "${{ inputs.force_latest }}" = "true" ]; then
             python scripts/main.py --force-latest

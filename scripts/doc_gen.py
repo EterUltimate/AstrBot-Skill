@@ -63,20 +63,31 @@ class DocGenerator:
     def _handle_exception(self, e: Exception, context: str):
         """统一处理 OpenAI 异常，增加对 WAF 拦截的检测"""
         error_msg = str(e)
+        html_snippet = ""
+
         # 尝试从 openai 异常对象中获取响应体 (兼容 v1 SDK)
         if hasattr(e, "response") and hasattr(e.response, "text"):
             try:
                 body = e.response.text
                 if body.strip().startswith("<!DOCTYPE html>"):
-                    error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。请检查 API Base URL 或代理设置。"
+                    html_snippet = body.strip()[:200].replace("\n", " ")
+                    error_msg = f"API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。"
             except:
                 pass
         elif "<!DOCTYPE html>" in error_msg:
-            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。请检查 API Base URL 或代理设置。"
+            match = re.search(r"(<!DOCTYPE html>.*)", error_msg, re.IGNORECASE | re.DOTALL)
+            if match:
+                html_snippet = match.group(1)[:200].replace("\n", " ")
+            error_msg = "API 接口被 Cloudflare 或 WAF 拦截 (检测到 HTML 响应)。"
+        
+        if html_snippet:
+            error_msg += f"\n[HTML 摘要] {html_snippet}"
+            error_msg += "\n[诊断] 由于 GitHub Action 位于海外，您的公益 API 站拒绝了请求。请使用全局可用的 API 或配置代理。"
         
         # 增加网络环境建议
         if "connection" in error_msg.lower() or "timeout" in error_msg.lower() or "proxy" in error_msg.lower():
-            error_msg += "\n[提示] 中国国内网络环境可能会影响 API 访问，建议配置 HTTPS_PROXY 环境变量，或使用具备全球访问能力的 API 聚合站。"
+            if "[诊断]" not in error_msg:
+                error_msg += "\n[提示] 中国国内网络环境可能会影响 API 访问，建议配置 HTTPS_PROXY 环境变量，或使用具备全球访问能力的 API 聚合站。"
 
         print(f"{context} 出错: {error_msg}")
 
