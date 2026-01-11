@@ -1,0 +1,53 @@
+name: Auto Sync Docs
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # 每 6 小时触发一次
+  workflow_dispatch: # 支持手动触发
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install httpx openai python-dotenv
+
+      - name: Run sync script
+        id: sync_script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/main.py
+
+      - name: Set branch name
+        if: steps.sync_script.outputs.has_updates == 'true'
+        id: vars
+        run: echo "branch=auto-doc-update-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.sync_script.outputs.has_updates == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.vars.outputs.branch }}
+          title: ${{ steps.sync_script.outputs.pr_title }}
+          body: ${{ steps.sync_script.outputs.pr_body }}
+          labels: auto-generated
+          commit-message: "docs: automated sync from main repo"
+          base: main # 确保目标分支正确，默认为 main

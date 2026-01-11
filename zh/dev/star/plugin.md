@@ -783,11 +783,11 @@ async def on_aiocqhttp(self, event: AstrMessageEvent, text: str):
 
 #### 自定义(基于 HTML)
 
-如果你觉得上面渲染出来的图片不够美观，你可以使用自定义的 HTML 模板来渲染图片。
+如果你觉得上面渲染出来的图片不够美观，你可以使用自定义的 HTML 模板或直接渲染网页。
 
-AstrBot 支持使用 `HTML + Jinja2` 的方式来渲染文转图模板。
+AstrBot 内置了基于 **Playwright** 的渲染引擎，支持使用 `HTML + Jinja2` 的方式来渲染文转图模板。
 
-```py{7}
+```python
 # 自定义的 Jinja2 模板，支持 CSS
 TMPL = '''
 <div style="font-size: 32px;">
@@ -802,9 +802,10 @@ TMPL = '''
 
 @filter.command("todo")
 async def custom_t2i_tmpl(self, event: AstrMessageEvent):
-    options = {} # 可选择传入渲染选项。
-    url = await self.html_render(TMPL, {"items": ["吃饭", "睡觉", "玩原神"]}, options=options) # 第二个参数是 Jinja2 的渲染数据
-    yield event.image_result(url)
+    options = {"viewport": {"width": 300, "height": 400}} # 可选择传入渲染选项。
+    # 使用 html_text 传入 HTML 字符串，data 传入 Jinja2 渲染数据
+    image_path = await self.html_render(html_text=TMPL, data={"items": ["吃饭", "睡觉", "玩原神"]}, options=options)
+    yield event.image_result(image_path)
 ```
 
 返回的结果:
@@ -815,18 +816,20 @@ async def custom_t2i_tmpl(self, event: AstrMessageEvent):
 
 **图片渲染选项(options)**：
 
-请参考 Playwright 的 [screenshot](https://playwright.dev/python/docs/api/class-page#page-screenshot) API。
+请参考 Playwright 的 [screenshot](https://playwright.dev/python/docs/api/class-page#page-screenshot) API。常用选项包括：
 
-- `timeout` (float, optional): 截图超时时间.
+- `viewport` (dict): 视口大小，例如 `{"width": 800, "height": 600}`。
+- `selector` (str): 等待并截图指定的 CSS 选择器对应的元素。
+- `wait_until` (str): 等待页面加载的状态。可选值：`"commit"`, `"domcontentloaded"`, `"load"`, `"networkidle"` (默认)。
+- `timeout` (float, optional): 截图超时时间 (毫秒).
 - `type` (Literal["jpeg", "png"], optional): 截图图片类型.
 - `quality` (int, optional): 截图质量，仅适用于 JPEG 格式图片.
 - `omit_background` (bool, optional): 是否允许隐藏默认的白色背景，这样就可以截透明图了，仅适用于 PNG 格式
 - `full_page` (bool, optional): 是否截整个页面而不是仅设置的视口大小，默认为 True.
-- `clip` (dict, optional): 截图后裁切的区域。参考 Playwright screenshot API。
+- `clip` (dict, optional): 截图后裁切的区域。
 - `animations`: (Literal["allow", "disabled"], optional): 是否允许播放 CSS 动画.
 - `caret`: (Literal["hide", "initial"], optional): 当设置为 hide 时，截图时将隐藏文本插入符号，默认为 hide.
-- `scale`: (Literal["css", "device"], optional): 页面缩放设置. 当设置为 css 时，则将设备分辨率与 CSS 中的像素一一对应，在高分屏上会使得截图变小. 当设置为 device 时，则根据设备的屏幕缩放设置或当前 Playwright 的 Page/Context 中的 device_scale_factor 参数来缩放.
-- `mask` (List["Locator"]], optional): 指定截图时的遮罩的 Locator。元素将被一颜色为 #FF00FF 的框覆盖.
+- `scale`: (Literal["css", "device"], optional): 页面缩放设置.
 
 ### 会话控制
 
