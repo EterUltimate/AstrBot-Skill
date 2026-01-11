@@ -15,6 +15,50 @@ class MainController:
         self.updated_files = set()
         self.ai_changes = [] # 记录 AI 改动的详细摘要
 
+    def _write_snapshot_indexes(self):
+        snapshots_root = os.path.join("docs", "snapshots")
+        if not os.path.isdir(snapshots_root):
+            return
+
+        versions = sorted(
+            [d for d in os.listdir(snapshots_root) if os.path.isdir(os.path.join(snapshots_root, d))],
+            reverse=True,
+        )
+
+        index_lines = ["# 文档快照", "", "这里存放按 AstrBot Tag 归档的文档快照。", ""]
+        for v in versions:
+            index_lines.append(f"- [{v}](/snapshots/{v}/)")
+        index_lines.append("")
+
+        index_path = os.path.join(snapshots_root, "index.md")
+        os.makedirs(os.path.dirname(index_path), exist_ok=True)
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(index_lines))
+        self.updated_files.add(index_path)
+
+        for v in versions:
+            v_dir = os.path.join(snapshots_root, v)
+            v_index = os.path.join(v_dir, "index.md")
+            if os.path.exists(v_index):
+                continue
+            content = [
+                f"# {v} 文档快照",
+                "",
+                f"这是 AstrBot `{v}` 的文档快照（仅 docs/ 内容）。",
+                "",
+                "## 快速入口",
+                "",
+                f"- [核心概念](/snapshots/{v}/design_standards/core_concepts)",
+                f"- [架构总览](/snapshots/{v}/design_standards/architecture_overview)",
+                f"- [消息模型](/snapshots/{v}/messages/model)",
+                f"- [插件配置 Schema](/snapshots/{v}/plugin_config/schema)",
+                f"- [平台适配器接口](/snapshots/{v}/platform_adapters/adapter_interface)",
+                "",
+            ]
+            with open(v_index, "w", encoding="utf-8") as f:
+                f.write("\n".join(content))
+            self.updated_files.add(v_index)
+
     def handle_release(self, update: Dict):
         """
         实现版本发布逻辑：
@@ -61,6 +105,9 @@ class MainController:
             for root, _, files in os.walk(snapshot_path):
                 for file in files:
                     self.updated_files.add(os.path.join(root, file))
+
+            # 为 snapshots 写入索引页（供 VitePress / GitHub Pages 使用）
+            self._write_snapshot_indexes()
         except Exception as e:
             print(f"❌ 创建快照时出错：{e}")
 
