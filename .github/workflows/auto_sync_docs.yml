@@ -34,6 +34,27 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Debug Environment Variables
+        run: |
+          echo "Checking environment variables (presence only):"
+          [ -n "$GITHUB_TOKEN" ] && echo "GITHUB_TOKEN is set" || echo "GITHUB_TOKEN is NOT set"
+          [ -n "$GEMINI_API_KEY" ] && echo "GEMINI_API_KEY is set" || echo "GEMINI_API_KEY is NOT set"
+          [ -n "$OPENAI_API_KEY" ] && echo "OPENAI_API_KEY is set" || echo "OPENAI_API_KEY is NOT set"
+          [ -n "$BASE_URL" ] && echo "BASE_URL is set" || echo "BASE_URL is NOT set"
+          [ -n "$OPENAI_API_BASE" ] && echo "OPENAI_API_BASE is set" || echo "OPENAI_API_BASE is NOT set"
+          [ -n "$MODEL_NAME" ] && echo "MODEL_NAME is set" || echo "MODEL_NAME is NOT set"
+          [ -n "$GEMINI_API_VERSION" ] && echo "GEMINI_API_VERSION is set" || echo "GEMINI_API_VERSION is NOT set"
+          [ -n "$LLM_API_STYLE" ] && echo "LLM_API_STYLE is set" || echo "LLM_API_STYLE is NOT set"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          MODEL_NAME: ${{ secrets.MODEL_NAME }}
+          GEMINI_API_VERSION: ${{ vars.GEMINI_API_VERSION || 'v1beta' }}
+          OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
+          LLM_API_STYLE: ${{ vars.LLM_API_STYLE || 'auto' }}
+
       - name: Run sync script
         id: sync_script
         env:
@@ -43,7 +64,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BASE_URL: ${{ secrets.BASE_URL }}
           MODEL_NAME: ${{ secrets.MODEL_NAME }}
-          GEMINI_API_VERSION: ${{ vars.GEMINI_API_VERSION || 'v1' }}
+          GEMINI_API_VERSION: ${{ vars.GEMINI_API_VERSION || 'v1beta' }}
+          LLM_API_STYLE: ${{ vars.LLM_API_STYLE || 'auto' }}
           # HTTPS_PROXY: "http://your-proxy-host:port" # 如果您的 API 无法从 GitHub Action 所在的海外环境访问，请配置代理，或者换用具备全球访问能力的 API 聚合站
         run: |
           # 验证 API 连通性 (可选)

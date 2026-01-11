@@ -4,11 +4,8 @@ import re
 import time
 from typing import List, Dict, Optional
 from datetime import datetime
-from urllib.parse import urlparse
-from google import genai
-from google.genai import types
-from google.genai.errors import APIError
 from config import config
+from llm_client import HttpError, generate_text
 
 class DocGenerator:
     def __init__(self):
@@ -17,6 +14,7 @@ class DocGenerator:
         self.__api_key = config.GEMINI_API_KEY
         self.base_url = config.BASE_URL.rstrip('/')
         self.model_name = config.MODEL_NAME
+        self.api_style = config.LLM_API_STYLE
         self.docs_root = "docs"
         self.categories = [
             "ai_integration",
@@ -27,21 +25,6 @@ class DocGenerator:
             "platform_adapters"
         ]
         self.default_category = "design_standards"
-
-        # 初始化 Google GenAI 客户端
-        # 注意：SDK 的 http_options.timeout 单位通常是毫秒
-        http_options = types.HttpOptions(
-            base_url=self.base_url if self.base_url else None,
-            timeout=60000, 
-        )
-        
-        # 如果提供了 API 版本，可以在这里配置，但 SDK 通常会自动处理
-        # 如果需要手动指定版本，可以通过 http_options.api_version
-        
-        self.client = genai.Client(
-            api_key=self.__api_key,
-            http_options=http_options
-        )
 
     def _get_base_context(self) -> str:
         """递归读取 docs/ 下的所有分类文件夹（排除 snapshots/）下的 md 文件作为上下文。
@@ -82,16 +65,16 @@ class DocGenerator:
         error_msg = self._mask_sensitive(str(e))
         print(f"{context} 出错: {error_msg}")
         
-        if isinstance(e, APIError):
-            print(f"API 诊断: 状态码={e.code}, 消息={error_msg}")
-            if e.code == 401:
+        if isinstance(e, HttpError):
+            print(f"API 诊断: 状态码={e.status_code}, 消息={error_msg}")
+            if e.status_code == 401:
                 print("诊断建议: API Key 无效，请检查环境变量 GEMINI_API_KEY。")
-            elif e.code == 403:
+            elif e.status_code == 403:
                 print("诊断建议: 权限不足或被封禁，请检查 API Key 权限或 IP 区域。")
-            elif e.code == 429:
+            elif e.status_code == 429:
                 print("诊断建议: 触发频率限制，请稍后再试或更换 API Key。")
-            elif e.code >= 500:
-                print("诊断建议: Google API 服务端错误，请稍后重试。")
+            elif e.status_code >= 500:
+                print("诊断建议: 上游服务端错误，请稍后重试。")
         
         print("提示: 如果遇到连通性问题，请尝试运行 `python scripts/test_api.py` 进行故障排查。")
 
@@ -102,67 +85,34 @@ class DocGenerator:
         return text.replace(self.__api_key, "***")
 
     def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
-        """使用 google-genai SDK 调用 Gemini API"""
+        """使用 curl 调用 Gemini/OpenAI-Compatible API"""
         
         # 打印请求信息 (脱敏)
         print(f"发起请求: model={self.model_name}")
         print(f"  - Base URL: {self._mask_sensitive(self.base_url)}")
+        print(f"  - API Style: {self.api_style}")
         print(f"  - Temperature: {temperature}")
-        
-        # 配置安全设置：默认 BLOCK_NONE
-        safety_settings = [
-            types.SafetySetting(
-                category=cat,
-                threshold='BLOCK_NONE',
-            )
-            for cat in [
-                'HATE_SPEECH',
-                'HARASSMENT',
-                'SEXUALLY_EXPLICIT',
-                'DANGEROUS_CONTENT'
-            ]
-        ]
-
-        config_params = types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=temperature,
-            max_output_tokens=max_tokens,
-            safety_settings=safety_settings,
-        )
 
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                response = self.client.models.generate_content(
-                    model=self.model_name,
-                    contents=prompt,
-                    config=config_params
+                return generate_text(
+                    api_key=self.__api_key,
+                    base_url=self.base_url,
+                    model_name=self.model_name,
+                    prompt=prompt,
+                    system_instruction=system_instruction,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    api_version=config.GEMINI_API_VERSION,
+                    api_style=self.api_style,
+                    timeout_seconds=600,
                 )
-                
-                if not response.candidates:
-                    raise Exception(f"Gemini returned no candidates. Full response: {response}")
-                
-                candidate = response.candidates[0]
-                finish_reason = candidate.finish_reason
-                
-                if finish_reason not in [types.FinishReason.STOP, types.FinishReason.MAX_TOKENS, None]:
-                    # 某些 SDK 版本可能直接返回枚举
-                    if hasattr(types.FinishReason, "STOP") and finish_reason == types.FinishReason.STOP:
-                        pass
-                    elif str(finish_reason) in ["STOP", "MAX_TOKENS", "FinishReason.STOP", "FinishReason.MAX_TOKENS"]:
-                        pass
-                    else:
-                        raise Exception(f"Gemini finishReason is abnormal: {finish_reason}. Candidate: {candidate}")
-                    
-                if not candidate.content or not candidate.content.parts:
-                    raise Exception(f"Gemini returned no parts in content. Candidate: {candidate}")
-                    
-                return candidate.content.parts[0].text or ""
             
-            except APIError as e:
-                if e.code in [403, 429] and attempt < max_retries - 1:
+            except HttpError as e:
+                if e.status_code in [403, 429] and attempt < max_retries - 1:
                     wait_time = (attempt + 1) * 2
-                    print(f"收到 API 错误 {e.code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
+                    print(f"收到 API 错误 {e.status_code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
                     time.sleep(wait_time)
                     continue
                 raise e
