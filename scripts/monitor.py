@@ -64,13 +64,17 @@ class GitHubMonitor:
         prs = response.json()
         return [pr for pr in prs if pr.get("merged_at")]
 
-    def check_for_updates(self):
+    def check_for_updates(self, force_latest: bool = False):
         state = self._load_state()
         last_sha = state.get("last_commit_sha")
         last_tag = state.get("last_tag")
         
         print(f"Checking for updates in {config.REPO_NAME}...")
         
+        if force_latest:
+            print("Force latest mode enabled. Ignoring last_commit_sha.")
+            last_sha = "FORCE_LATEST" # Special value to trigger fetching only the latest commit
+
         # 1. 检查 Tags
         tags = self.get_latest_tags()
         new_tags = []
@@ -84,7 +88,16 @@ class GitHubMonitor:
                 state["last_tag"] = current_latest_tag
 
         # 2. 检查 Commits
-        commits = self.get_latest_commits(since_sha=last_sha)
+        if force_latest:
+            # 只获取最新一个 commit
+            url = f"{self.base_url}/commits"
+            params = {"per_page": 1}
+            response = self.client.get(url, params=params)
+            response.raise_for_status()
+            commits = response.json()
+        else:
+            commits = self.get_latest_commits(since_sha=last_sha)
+            
         if commits:
             state["last_commit_sha"] = commits[0]['sha']
 

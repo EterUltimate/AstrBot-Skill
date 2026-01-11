@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 import time
+import argparse
 from typing import List, Dict
 from monitor import GitHubMonitor
 from doc_gen import DocGenerator
@@ -62,7 +63,7 @@ class MainController:
         except Exception as e:
             print(f"❌ Error creating snapshot: {e}")
 
-    def handle_commit(self, update: Dict):
+    def handle_commit(self, update: Dict, force: bool = False):
         """
         实现 PR 自动化辅助：处理 Commit，由 AI 判断并生成/更新文档。
         """
@@ -73,7 +74,7 @@ class MainController:
         print(f"📝 Analyzing commit {sha[:7]}...")
         
         try:
-            if self.doc_gen.should_update_docs(message, diff):
+            if force or self.doc_gen.should_update_docs(message, diff):
                 print(f"✨ AI decided to update docs for commit {sha[:7]}.")
                 file_path = self.doc_gen.generate_doc_update(message, diff)
                 if file_path:
@@ -83,11 +84,11 @@ class MainController:
         except Exception as e:
             print(f"❌ Error processing commit {sha[:7]}: {e}")
 
-    def run(self):
+    def run(self, force_latest: bool = False):
         print("=== AstrBot Docs Automation Start ===")
         try:
             # 1. 获取变更
-            updates, new_state = self.monitor.check_for_updates()
+            updates, new_state = self.monitor.check_for_updates(force_latest=force_latest)
             
             if not updates:
                 print("🏁 No new updates found. Exit.")
@@ -100,7 +101,7 @@ class MainController:
                     self.handle_release(update)
                     processed_updates.append(update)
                 elif update['type'] == 'commit':
-                    self.handle_commit(update)
+                    self.handle_commit(update, force=force_latest)
                     processed_updates.append(update)
 
             # 3. 只有在所有文件写入成功后，才更新 state.json
@@ -158,5 +159,9 @@ class MainController:
             print("[GHA] has_updates=true")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="AstrBot Docs Automation")
+    parser.add_argument("--force-latest", action="store_true", help="Force sync with the latest commit")
+    args = parser.parse_args()
+
     controller = MainController()
-    controller.run()
+    controller.run(force_latest=args.force_latest)

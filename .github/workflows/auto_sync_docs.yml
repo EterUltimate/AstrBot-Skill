@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "0 */6 * * *" # 每 6 小时触发一次
   workflow_dispatch: # 支持手动触发
+    inputs:
+      force_latest:
+        description: 'Force sync with the latest commit'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -33,7 +39,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python scripts/main.py
+          OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
+        run: |
+          if [ "${{ inputs.force_latest }}" = "true" ]; then
+            python scripts/main.py --force-latest
+          else
+            python scripts/main.py
+          fi
 
       - name: Set branch name
         if: steps.sync_script.outputs.has_updates == 'true'
