@@ -17,6 +17,7 @@ class DocGenerator:
         self.api_style = config.LLM_API_STYLE
         self.docs_root = "docs"
         self.show_base_url_in_logs = config.SHOW_BASE_URL_IN_LOGS
+        self.max_tokens = config.LLM_MAX_TOKENS
         self.categories = [
             "ai_integration",
             "storage",
@@ -85,8 +86,12 @@ class DocGenerator:
             return text
         return text.replace(self.__api_key, "***")
 
-    def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: int = 2048) -> str:
+    def _call_gemini(self, prompt: str, system_instruction: Optional[str] = None, temperature: float = 0.7, max_tokens: Optional[int] = None) -> str:
         """使用 curl 调用 Gemini/OpenAI-Compatible API"""
+        if max_tokens is None:
+            max_tokens = self.max_tokens
+        else:
+            max_tokens = int(max_tokens)
         
         # 打印请求信息 (脱敏)
         print(f"发起请求: model={self.model_name}")
@@ -96,6 +101,7 @@ class DocGenerator:
             print("  - Base URL: (hidden)")
         print(f"  - API Style: {self.api_style}")
         print(f"  - Temperature: {temperature}")
+        print(f"  - Max Tokens: {max_tokens}")
 
         max_retries = 3
         for attempt in range(max_retries):
@@ -114,6 +120,13 @@ class DocGenerator:
                 )
             
             except HttpError as e:
+                # Some providers (esp. Gemini) will reject too-large max tokens; retry with a safer cap.
+                if e.status_code in [400, 422] and max_tokens > 8192:
+                    body = (e.body or "")
+                    if any(k in body.lower() for k in ["maxoutputtokens", "max_tokens", "max tokens", "output token"]):
+                        max_tokens = 8192
+                        print("检测到 max_tokens 可能超出上游限制，已自动降级为 8192 并重试...")
+                        continue
                 if e.status_code in [403, 429] and attempt < max_retries - 1:
                     wait_time = (attempt + 1) * 2
                     print(f"收到 API 错误 {e.status_code}，正在进行第 {attempt + 1} 次重试，等待 {wait_time} 秒...")
@@ -149,6 +162,10 @@ class DocGenerator:
             # 极端情况下的安全保障
             masked_text = self._mask_sensitive(text)
             print(f"Failed to decode JSON from text: {masked_text}")
+            # Heuristic hint: common cause is truncated output due to small max_tokens.
+            tail = (text or "")[-200:]
+            if (not tail.strip().endswith("}")) or ("\"content\":" in text and "\"evidence\":" not in text):
+                print("提示: 这通常是模型输出被截断导致的（max_tokens 太小或上游限制）。可尝试提高 LLM_MAX_TOKENS（例如 12000），或减少上下文/差异输入。")
             raise e
 
     def should_update_docs(self, commit_message: str, diff: str) -> bool:

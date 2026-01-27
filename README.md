@@ -15,6 +15,7 @@ _✨ 易上手的多平台 LLM 聊天机器人及开发框架（的文档镜像/
 - `GEMINI_API_KEY`（或 `OPENAI_API_KEY`）：API Key
 - `BASE_URL`（或 `OPENAI_API_BASE`）：接口地址（例如公益站/代理的 URL）
 - `MODEL_NAME`：模型名（例如 `gemini-3-flash-preview`）
+- `LLM_MAX_TOKENS`：文档 AI 生成的最大输出 token 数（默认 `12000`）。若出现 JSON 解析失败（常见于输出被截断），可尝试增大该值。
 - `LLM_API_STYLE`：`auto`（默认）/ `openai` / `gemini`
   - 使用 OpenAI-Compatible 站点时建议设为 `openai`
   - 使用 Google Gemini 原生接口时建议设为 `gemini`
@@ -22,4 +23,3 @@ _✨ 易上手的多平台 LLM 聊天机器人及开发框架（的文档镜像/
 - `SHOW_BASE_URL_IN_LOGS`：是否在日志中输出 `BASE_URL`（默认 `0`，建议保持隐藏；本地排查时可设为 `1`）
 
 本地连通性测试：`python scripts/test_api.py`
-
