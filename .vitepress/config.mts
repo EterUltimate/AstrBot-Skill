@@ -12,11 +12,12 @@ type SidebarItem = {
 const docsRoot = path.resolve(__dirname, "..", "docs");
 
 const DIR_LABELS: Record<string, string> = {
-  ai_integration: "AI 集成",
+  agent: "Agent",
   design_standards: "设计规范",
   messages: "消息",
   platform_adapters: "平台适配",
   plugin_config: "插件配置",
+  "Storage & Utils": "存储与工具",
   storage: "存储",
   snapshots: "快照",
 };
@@ -129,6 +130,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "核心概念", link: "/design_standards/core_concepts" },
+      { text: "Agent", link: "/agent/" },
       { text: "消息模型", link: "/messages/model" },
       { text: "插件配置", link: "/plugin_config/schema" },
       { text: "平台适配", link: "/platform_adapters/adapter_interface" },

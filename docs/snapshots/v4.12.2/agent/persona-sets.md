@@ -1,5 +1,5 @@
 ---
-category: ai_integration
+category: agent
 ---
 
 # 人格管理 (Persona)

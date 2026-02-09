@@ -1,5 +1,5 @@
 ---
-category: ai_integration
+category: agent
 ---
 
 # 会话管理 (Conversation)

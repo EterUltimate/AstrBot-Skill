@@ -1,5 +1,5 @@
 ---
-category: ai_integration
+category: agent
 ---
 
 # 函数调用与工具 (Function Calling / Tools)

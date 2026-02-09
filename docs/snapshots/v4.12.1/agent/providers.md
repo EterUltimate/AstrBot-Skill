@@ -1,5 +1,5 @@
 ---
-category: ai_integration
+category: agent
 ---
 
 # AI 提供商管理 (Providers)

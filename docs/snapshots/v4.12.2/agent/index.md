@@ -1,5 +1,5 @@
 ---
-category: ai_integration
+category: agent
 ---
 # Agent 智能体
 
