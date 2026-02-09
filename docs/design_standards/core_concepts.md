@@ -59,7 +59,7 @@
 Hooks 分为两层，不建议在“概念清单”里重复列举具体 hook 名单（容易过时）：
 
 - 插件事件钩子（`@filter.on_*`）：见 `docs/plugin_config/hooks.md`
-- Agent 运行钩子（`BaseAgentRunHooks`）：见 `docs/agent/hooks.md`
+- Agent 运行钩子（`BaseAgentRunHooks`）：见 `docs/agent/agent-related-hooks.md`
 
 ### 6. Agent 智能体
 

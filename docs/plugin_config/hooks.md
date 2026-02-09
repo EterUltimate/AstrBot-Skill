@@ -7,7 +7,7 @@ category: plugin_config
 事件钩子用于在 AstrBot 核心执行流程的关键节点介入（例如：LLM 请求前后、工具调用前后、发送消息前后）。
 
 > 事件钩子是“插件事件系统”的一部分，和 Agent 运行钩子（`BaseAgentRunHooks`）不是同一套机制。  
-> Agent 运行钩子见：`docs/agent/hooks.md`
+> Agent 运行钩子见：`docs/agent/agent-related-hooks.md`
 
 ## 使用方式
 
@@ -87,7 +87,7 @@ async def on_loaded(self):
 
 ## 相关文档与源码
 
-- Agent 运行钩子：`docs/agent/hooks.md`
+- Agent 运行钩子：`docs/agent/agent-related-hooks.md`
 - `filter` 对外导出位置：`astrbotcore/astrbot/api/event/filter/__init__.py`
 - Hook 注册实现：`astrbotcore/astrbot/core/star/register/star_handler.py`
 - 事件类型枚举：`astrbotcore/astrbot/core/star/star_handler.py`

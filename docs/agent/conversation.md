@@ -4,30 +4,49 @@ category: agent
 
 # 会话与对话分支（Conversation）
 
-AstrBot 把“会话（Session）”与“对话分支（Conversation）”分开管理：
+插件侧通过 `self.context.conversation_manager` 管理会话分支；会话标识使用 `event.unified_msg_origin`（`umo`）。
 
-- 会话：对应一个消息来源（例如某个群/私聊），以 `unified_msg_origin (umo)` 作为标识
-- 对话分支：同一会话下可创建多个分支，并支持切换/删除
+## 插件可用入口
 
-这套机制直接影响：上下文历史、人格（persona）选择、以及 Agent 的工具循环输入。
+```python
+conv_mgr = self.context.conversation_manager
+umo = event.unified_msg_origin
+```
 
-## `ConversationManager` 常用操作
+## ConversationManager 可用方法
 
-- `new_conversation(umo, content=None, title=None, persona_id=None) -> str`：新建对话分支，返回 conversation_id（UUID）
-- `switch_conversation(umo, conversation_id)`：切换当前会话的活动分支
-- `delete_conversation(umo, conversation_id=None)`：删除对话分支（不传 id 通常表示删除当前分支）
-- `get_curr_conversation_id(umo) -> str | None`：获取当前活动分支 id
-- `get_conversation(umo, conversation_id, create_if_not_exists=False)`：读取对话对象
-- `get_conversations(umo=None, platform_id=None)`：列出对话
-- `update_conversation(umo, conversation_id, history=None, title=None, persona_id=None)`：更新历史/标题/persona
-- `get_human_readable_context(...)`：分页获取可读上下文
+- `register_on_session_deleted(callback: Callable[[str], Awaitable[None]]) -> None`：注册会话删除后的级联清理回调。
+- `new_conversation(unified_msg_origin: str, platform_id: str | None = None, content: list[dict] | None = None, title: str | None = None, persona_id: str | None = None) -> str`：新建分支并切换为当前分支。
+- `switch_conversation(unified_msg_origin: str, conversation_id: str) -> None`：切换当前分支。
+- `delete_conversation(unified_msg_origin: str, conversation_id: str | None = None) -> None`：删除指定分支；不传 `conversation_id` 时删除当前分支。
+- `delete_conversations_by_user_id(unified_msg_origin: str) -> None`：删除该会话下全部分支。
+- `get_curr_conversation_id(unified_msg_origin: str) -> str | None`：读取当前分支 ID。
+- `get_conversation(unified_msg_origin: str, conversation_id: str, create_if_not_exists: bool = False) -> Conversation | None`：读取分支对象。
+- `get_conversations(unified_msg_origin: str | None = None, platform_id: str | None = None) -> list[Conversation]`：列出分支。
+- `get_filtered_conversations(page: int = 1, page_size: int = 20, platform_ids: list[str] | None = None, search_query: str = "", **kwargs) -> tuple[list[Conversation], int]`：分页 + 条件过滤。
+- `update_conversation(unified_msg_origin: str, conversation_id: str | None = None, history: list[dict] | None = None, title: str | None = None, persona_id: str | None = None, token_usage: int | None = None) -> None`：更新历史/标题/persona/token_usage。
+- `add_message_pair(cid: str, user_message: UserMessageSegment | dict, assistant_message: AssistantMessageSegment | dict) -> None`：向指定分支追加一组 user/assistant 消息。
+- `get_human_readable_context(unified_msg_origin: str, conversation_id: str, page: int = 1, page_size: int = 10) -> tuple[list[str], int]`：获取分页后的可读上下文。
 
-## 常见联动点
+## 最小示例
 
-- 人格选择与禁用：`docs/agent/persona-resolution.md`
-- 上下文压缩策略（截断/摘要）：`docs/agent/context-compression.md`
+```python
+cid = await self.context.conversation_manager.get_curr_conversation_id(event.unified_msg_origin)
+```
 
-## 相关源码位置
+```python
+cid = await self.context.conversation_manager.new_conversation(event.unified_msg_origin, title="新分支")
+```
 
-- ConversationManager：`astrbotcore/astrbot/core/conversation_mgr.py`
-- Session/Conversation 数据模型：`astrbotcore/astrbot/core/db/po.py`
+```python
+await self.context.conversation_manager.update_conversation(event.unified_msg_origin, conversation_id=cid, title="重命名", persona_id="assistant_default")
+```
+
+```python
+contexts, total_pages = await self.context.conversation_manager.get_human_readable_context(event.unified_msg_origin, cid, page=1, page_size=10)
+```
+
+## MUST
+
+- 所有分支操作必须使用当前会话的 `umo`，不要跨会话复用 `conversation_id`。
+- 更新历史时必须传 OpenAI 风格 `list[dict]` 消息结构。

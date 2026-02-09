@@ -1,44 +1,53 @@
 ---
 category: agent
-title: 人格解析与优先级逻辑 (Persona Resolution)
-type: improvement
-status: stable
-last_updated: 2024-05-22
-related_base: agent/persona-sets.md
 ---
 
-## 概述
+# 人格解析与优先级（Persona Resolution）
+系统按以下顺序解析 `persona_id`，命中即停止：
 
-AstrBot 在构建对话模型（Chat Provider）请求时，会根据一套优先级逻辑来确定当前会话应使用的人格设定（Persona）。该机制同时服务于 Agent/工具循环与普通对话调用。
+1. 会话级：`session_service_config.persona_id`（`umo` 作用域）
+2. 对话分支级：`conversation.persona_id`
+3. 全局默认：`provider_settings.default_personality`
 
-## 人格选择优先级 (Priority Chain)
+## 插件可用入口
 
-系统按以下顺序检索 `persona_id`，一旦命中则停止：
+```python
+umo = event.unified_msg_origin
+conv_mgr = self.context.conversation_manager
+```
 
-1. **会话服务配置 (Session Service Config)**: 最高优先级。存储在 `umo` 作用域下的 `session_service` 配置中。
-2. **对话分支设定 (Conversation Setting)**: 第二优先级。存储在特定 `Conversation` 对象的 `persona_id` 属性中。
-3. **全局默认设定 (Global Config)**: 最低优先级。读取插件配置中的 `default_personality` 字段。
+## 1设置会话级 persona（最高优先级）
 
-## 显式禁用机制 (`[%None]`)
+使用 SDK `sp` 读写 `session_service_config`：
 
-开发者或用户可以通过将 `persona_id` 设置为字符串 `"[%None]"` 来显式禁用人格注入：
-- 当检测到该值时，系统将跳过所有系统提示词（System Prompt）和预设对话（Begin Dialogs）的注入逻辑。
-- 这对于需要“纯净上下文”的插件/Agent 逻辑至关重要（例如你要完全接管 system prompt 与 begin dialogs）。
+```python
+from astrbot.api import sp
 
-## 平台特定行为：Webchat (网页聊天)
+cfg = await sp.get_async(scope="umo", scope_id=umo, key="session_service_config", default={}) or {}
+cfg["persona_id"] = "assistant_default"
+await sp.put_async(scope="umo", scope_id=umo, key="session_service_config", value=cfg)
+```
 
-针对 `webchat` 平台（即 WebUI 聊天界面），系统存在特殊的注入逻辑：
-- **自动注入**: 如果当前未显式禁用人格（即 `persona_id != "[%None]"`），系统会自动应用 `_chatui_default_` 人格。
-- **提示词合并**: `CHATUI_SPECIAL_DEFAULT_PERSONA_PROMPT` 已合并了追问/总结逻辑，确保 Web 界面交互的连贯性。
+## 2设置对话分支级 persona
 
-## 变更影响分析
+```python
+cid = await conv_mgr.get_curr_conversation_id(umo)
+await conv_mgr.update_conversation(umo, conversation_id=cid, persona_id="assistant_default")
+```
 
-- **上下文一致性**: 插件开发者在通过 `context.conversation_manager` 修改对话时，应注意 `persona_id` 的赋值。若希望跟随全局设置，应设为 `None`；若希望完全不使用人格，应设为 `"[%None]"`。
-- **Web 适配器开发**: 如果开发类似 Webchat 的交互式适配器，应参考其 `persona_id` 强制覆盖逻辑，以保证 UI 侧的引导体验一致。
-- **调试建议**: 当发现输出带有非预期的系统提示词时，应首先检查 `event.get_platform_name()` 是否为 `webchat`，其次检查会话服务配置中的 `persona_id` 状态。
+## 3 显式禁用人格注入
 
-## 相关源码位置
+将 `persona_id` 设置为 `"[%None]"`（会话级或分支级都可）：
 
-- PersonaManager：`astrbotcore/astrbot/core/persona_mgr.py`
-- ConversationManager（分支 persona_id）：`astrbotcore/astrbot/core/conversation_mgr.py`
-- Provider 构建/注入逻辑：`astrbotcore/astrbot/core/provider/manager.py`
+```python
+await conv_mgr.update_conversation(umo, conversation_id=cid, persona_id="[%None]")
+```
+
+## 运行时行为要点
+
+- 命中 persona 后会注入：
+  - `persona.prompt` -> `system_prompt`
+  - `persona._begin_dialogs_processed` -> 上下文前置消息
+- `webchat` 平台下，若未命中 persona 且 `persona_id != "[%None]"`，会追加 ChatUI 默认人格提示词。
+- 读写 `session_service_config` 时必须先读后改再写回，避免覆盖掉同键下其他字段（如 `llm_enabled` / `tts_enabled`）。
+- 会话操作必须使用当前 `umo`，不要跨会话复用 `conversation_id`。

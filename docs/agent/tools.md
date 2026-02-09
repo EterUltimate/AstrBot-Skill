@@ -1,19 +1,63 @@
----
-category: agent
----
+﻿# Tools（函数调用）
+Tool 是让大语言模型调用外部能力（检索、计算、执行命令、文件处理）的机制。
+## 两种定义方式
+- 类方式：继承 `FunctionTool`
+- 装饰器方式：`@filter.llm_tool(...)`
+## 方式一：类定义 Tool
 
-# Tools（函数调用 / Function Calling）
+```python
+from pydantic import Field
+from pydantic.dataclasses import dataclass
 
-AstrBot 的工具体系主要有两种使用方式：
+from astrbot.core.agent.run_context import ContextWrapper
+from astrbot.core.agent.tool import FunctionTool, ToolExecResult
+from astrbot.core.astr_agent_context import AstrAgentContext
 
-1) **插件事件侧的函数工具**：`@filter.llm_tool(...)`（用 docstring 生成 schema）  
-2) **Agent/工具循环侧的工具对象**：`FunctionTool` + `ToolSet`（更适合复杂工具、子智能体、沙盒）
 
-两者最终都会进入“模型可调用工具”的集合，并会触发对应的事件钩子（见 `docs/plugin_config/hooks.md`）。
+@dataclass
+class BilibiliTool(FunctionTool[AstrAgentContext]):
+    name: str = "bilibili_videos"
+    description: str = "A tool to fetch Bilibili videos."
+    parameters: dict = Field(
+        default_factory=lambda: {
+            "type": "object",
+            "properties": {
+                "keywords": {
+                    "type": "string",
+                    "description": "Keywords to search for Bilibili videos.",
+                }
+            },
+            "required": ["keywords"],
+        }
+    )
 
-## 方式 A：`@filter.llm_tool`（快速）
+    async def call(
+        self,
+        context: ContextWrapper[AstrAgentContext],
+        **kwargs,
+    ) -> ToolExecResult:
+        return "1. 视频标题：如何使用 AstrBot\n视频链接：xxxxxx"
+```
 
-适合：简单逻辑、参数少、直接把结果交给模型总结。
+## 注册到 AstrBot（全局可调用）
+
+如果希望主对话中的模型自动感知并调用该 Tool，需要注册到全局工具池。
+
+```python
+class MyPlugin(Star):
+    def __init__(self, context: Context):
+        super().__init__(context)
+        self.context.add_llm_tools(BilibiliTool())
+```
+
+兼容旧版本（不推荐新项目继续使用）：
+
+```python
+tool_mgr = self.context.provider_manager.llm_tools
+tool_mgr.func_list.append(BilibiliTool())
+```
+
+## 方式二：装饰器定义并注册
 
 ```python
 from astrbot.api.event import filter, AstrMessageEvent
@@ -25,66 +69,38 @@ async def get_weather(self, event: AstrMessageEvent, location: str):
     Args:
         location(string): 地点
     """
-    return f"{location} 的天气是……"
+    resp = self.get_weather_from_api(location)
+    yield event.plain_result("天气信息: " + resp)
 ```
 
-要点：
+`Args` 中格式必须是 `参数名(类型): 描述`。
 
-- AstrBot 会解析 **docstring** 生成 tool schema（参数类型必须写在 `Args:` 里）。
-- 返回 `str`：会被注入到下一轮 LLM 上下文；返回 `None`：不会注入。
-- 需要“发消息/终止事件传播”时可以用 `yield` 配合 `event.stop_event()`（但请谨慎）。
+支持类型：
 
-## 方式 B：`FunctionTool`（推荐用于 Agent/复杂工具）
+- `string`
+- `number`
+- `object`
+- `boolean`
+- `array`
+- `array[string]`（4.5.7+）
 
-适合：复杂参数、需要强类型、需要复用/组合、需要和 Agent runner 深度集成（例如 handoff 子智能体）。
+## 不注册也可内部使用
+
+如果 Tool 只用于插件内部流程（例如你自己调用 `tool_loop_agent`），可以不注册全局，直接传 `ToolSet`。
 
 ```python
-from dataclasses import dataclass, field
-from astrbot.api.all import FunctionTool, AstrAgentContext, ToolExecResult, ContextWrapper
+from astrbot.core.agent.tool import ToolSet
 
-@dataclass
-class MyTool(FunctionTool[AstrAgentContext]):
-    name: str = "tool_name"
-    description: str = "工具描述"
-    parameters: dict = field(default_factory=lambda: {
-        "type": "object",
-        "properties": {
-            "query": {"type": "string", "description": "搜索关键词"}
-        },
-        "required": ["query"],
-    })
-
-    async def call(self, context: ContextWrapper[AstrAgentContext], **kwargs) -> ToolExecResult:
-        return "tool result"
+llm_resp = await self.context.tool_loop_agent(
+    event=event,
+    chat_provider_id=await self.context.get_current_chat_provider_id(event.unified_msg_origin),
+    prompt="请调用 bilibili_videos 工具搜索 AstrBot 教程",
+    tools=ToolSet([BilibiliTool()]),
+)
 ```
 
-注册方式（常见）：
+这种方式下 Tool 只在这次调用中可见，不会进入全局 `llm_tools`。
 
-- 在插件 `__init__` 中：`self.context.add_llm_tools(MyTool())`
-- 在工具循环 Agent 调用时传入：`tools=ToolSet([MyTool()])`
-
-## 工具调用相关 Hooks（强烈建议知道）
-
-工具调用时可以用事件钩子做审计/装饰（不要用它做权限硬隔离）：
-
-- `@filter.on_using_llm_tool()`：工具调用前
-- `@filter.on_llm_tool_respond()`：工具调用后
-
-详见：`docs/plugin_config/hooks.md`
-
-## 运行时“官方工具”注入（主 Agent）
-
-主 Agent 在构建时会按配置注入一部分内置工具：
-
-- Sandbox / computer-use：执行 shell、运行 Python、文件上传/下载（见 `docs/agent/sandbox.md`）
-- Cron：创建/删除/列出定时任务（见 `docs/agent/cron.md`）
-
-注入逻辑入口：
-
-- `astrbotcore/astrbot/core/astr_main_agent.py`
-
-## 相关源码位置
-
-- `@filter.llm_tool` 解析与注册：`astrbotcore/astrbot/core/star/register/star_handler.py`（`register_llm_tool`）
-- 工具对象与执行：`astrbotcore/astrbot/core/agent/tool.py`、`astrbotcore/astrbot/core/agent/tool_executor.py`
-- Agent runner（工具循环）：`astrbotcore/astrbot/core/agent/runners/tool_loop_agent_runner.py`
+## tips
+- `parameters` 必须是合法 JSON Schema。
+- 装饰器方式必须写规范 docstring（尤其 `Args`），否则 schema 解析失败。

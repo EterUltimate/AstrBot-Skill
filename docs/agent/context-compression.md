@@ -1,60 +1,50 @@
----
-category: agent
----
 
-# 上下文控制与压缩（Context Compression）
+# 上下文控制与压缩
 
-Agent 运行时经常会遇到“上下文长度超限”。AstrBot 提供了两类策略：
 
-- **按轮次截断**：丢弃更早的对话轮次
-- **LLM 摘要压缩**：用另一个模型把旧上下文总结成更短的摘要（再继续对话）
+## 1 `context.tool_loop_agent(...)`
 
-核心目标：在不无限增长 token 的前提下，保持可用的短期记忆与任务连续性。
+用于运行 Agent 工具循环，同时传入上下文压缩参数。
 
-## `ContextManager`（核心入口）
+```python
+await self.context.tool_loop_agent(event=event, chat_provider_id=prov_id, prompt="...", enforce_max_turns=20, truncate_turns=2, llm_compress_keep_recent=6)
+```
 
-- `astrbotcore/astrbot/core/agent/context/manager.py`
+可用压缩参数（都可选）：
 
-它会基于 `ContextConfig` 执行：
+- `enforce_max_turns: int`：最多保留多少轮对话（`-1` 不限制）。
+- `truncate_turns: int`：触发截断时一次丢弃多少轮。
+- `llm_compress_instruction: str | None`：LLM 压缩时的摘要指令。
+- `llm_compress_keep_recent: int`：LLM 压缩时保留最近多少条消息不摘要。
+- `llm_compress_provider: Provider | None`：用于压缩摘要的模型 provider。
+- `custom_token_counter: TokenCounter | None`：自定义 token 计数器。
+- `custom_compressor: ContextCompressor | None`：自定义压缩器。
 
-1) enforce max turns（按轮次强制保留最近 N 轮）  
-2) token-based compression（超过 token 限制时触发压缩/截断）
+## 2`context.get_provider_by_id(provider_id)`
 
-相关配置结构：
+用于拿到压缩模型实例，再传给 `llm_compress_provider`。
 
-- `astrbotcore/astrbot/core/agent/context/config.py`
+```python
+compress_prov = self.context.get_provider_by_id("openai/gpt-4o-mini")
+```
 
-## 常见配置项（概念层）
+## 3 `context.get_current_chat_provider_id(umo)`
 
-- `max_context_tokens`：上下文 token 上限（<=0 表示不限制）
-- `enforce_max_turns`：最多保留多少轮（-1 表示不限制）
-- `truncate_turns`：触发截断时一次丢弃多少轮
-- `llm_compress_provider`：摘要压缩用的 provider（为空则退回到截断策略）
-- `llm_compress_keep_recent`：压缩时保留最近多少条消息不被总结
-- `llm_compress_instruction`：摘要压缩指令（决定摘要格式与保真度）
+用于获取当前会话正在使用的对话 provider id，常用于给 `tool_loop_agent` 传 `chat_provider_id`。
 
-## 与主 Agent 配置的关系
+```python
+chat_provider_id = await self.context.get_current_chat_provider_id(event.unified_msg_origin)
+```
 
-主 Agent 构建阶段会根据配置决定是否启用 “llm_compress” 以及选择哪一个 provider 来做压缩。
-
-实现入口：
-
-- `astrbotcore/astrbot/core/astr_main_agent.py`
-
-常见配置键名（名称对齐）：
-
-- `provider_settings.context_limit_reached_strategy`: `truncate_by_turns` / `llm_compress`
-- `provider_settings.llm_compress_instruction`
-- `provider_settings.llm_compress_keep_recent`
-- `provider_settings.llm_compress_provider_id`
-- `provider_settings.max_context_length`（按轮次控制）
-
-默认配置入口：
-
-- `astrbotcore/astrbot/core/config/default.py`
-
-## 调试建议
-
-- 如果你看到“突然忘记早期信息”：先确认是否触发了截断或摘要压缩
-- 如果摘要质量差：单独为压缩选择更稳的 provider（不要和主对话模型共用）
-- 如果工具循环经常跑偏：限制 `max_steps`，并将压缩指令写得更结构化（例如保留事实表、待办表）
+## 4 `context.get_config(umo)`
+用于读取当前会话配置，按需决定压缩参数。
+```python
+cfg = self.context.get_config(event.unified_msg_origin)
+```
+## 示例
+```python
+umo = event.unified_msg_origin
+chat_prov = await self.context.get_current_chat_provider_id(umo)
+compress_prov = self.context.get_provider_by_id("your_compress_provider_id")
+resp = await self.context.tool_loop_agent(event=event, chat_provider_id=chat_prov, prompt="总结最近讨论并给出下一步", enforce_max_turns=24, truncate_turns=2, llm_compress_instruction="保留任务结论、待办、关键约束", llm_compress_keep_recent=8, llm_compress_provider=compress_prov)
+```

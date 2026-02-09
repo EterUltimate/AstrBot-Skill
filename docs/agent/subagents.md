@@ -1,53 +1,70 @@
----
+﻿---
 category: agent
 ---
 
 # Subagents（子智能体 / Handoff）
 
-AstrBot 支持把“子智能体”以 **handoff tool** 的形式注册到主 Agent 的工具集中，使主 Agent 可以通过工具调用把任务转交给某个子智能体执行。
+Subagent 是给主 Agent 使用的 handoff 工具。主模型通过 `transfer_to_<name>` 把任务转交给子智能体执行。
+`from astrbot.api import agent`（详见 `docs/agent/agent-registration.md`）
 
-子智能体通常由配置加载（更稳定、可运维），也可以通过更底层的注册接口拼装（更灵活但更偏内部）。
+## 配置式（推荐）
 
-## 配置式子智能体（推荐）
+### 最小配置
 
-核心机制：`SubAgentOrchestrator` 从配置加载子智能体定义，并注册对应的 handoff 工具（默认命名：`transfer_to_<agent_name>`）。
+```json
+{
+  "subagent_orchestrator": {
+    "main_enable": true,
+    "remove_main_duplicate_tools": false,
+    "router_system_prompt": "You are a task router...",
+    "agents": [
+      {
+        "enabled": true,
+        "name": "writer",
+        "public_description": "负责技术文档整理与重写",
+        "persona_id": null,
+        "system_prompt": "你是文档子智能体，输出精简且结构化。",
+        "provider_id": "openai_gpt4o_mini",
+        "tools": ["search_docs", "rewrite_text"]
+      }
+    ]
+  }
+}
+```
 
-实现入口：
+### `agents[]` 字段（源码对齐）
 
-- `astrbotcore/astrbot/core/subagent_orchestrator.py`
-- handoff 工具：`astrbotcore/astrbot/core/agent/handoff.py`
+- `enabled`: 是否启用
+- `name`: 子智能体名；工具名会生成为 `transfer_to_<name>`
+- `public_description`: 暴露给主模型的工具描述（决定主模型是否愿意调用）
+- `persona_id`: 可选；存在时优先使用 persona 的 `system_prompt/begin_dialogs/tools`
+- `system_prompt`: 未命中 persona 时使用
+- `provider_id`: 可选；子智能体专用 chat provider 覆盖
+- `tools`: 子智能体可用工具名列表（字符串）
 
-配置键名（名称对齐）：
+## 运行规则
 
-- `subagent_orchestrator.agents`: 子智能体列表
+- `main_enable=true` 时，主 Agent 会把所有 handoff 工具加入工具集。
+- `remove_main_duplicate_tools=true` 时，会把“已分配给子智能体”的同名工具从主 Agent 工具集移除。
+- `router_system_prompt` 会拼接到主 Agent 的 `system_prompt`。
+- `provider_id` 不为空时，handoff 执行优先用该 provider；否则回退当前会话 provider。
 
-### 配置字段（以代码为准）
+## SDK/代码式（高级）
 
-每个 agent item 常见字段：
+```python
+from astrbot.api import agent
 
-- `enabled`：是否启用
-- `name`：子智能体名称（会进入 handoff tool 名称）
-- `persona_id`：可选，引用 Persona（system_prompt / begin_dialogs / tools）
-- `system_prompt`：没有 persona 时使用的指令
-- `public_description`：给主 LLM 看的简短描述（影响它是否选择调用该 subagent）
-- `provider_id`：可选，为该 subagent 指定对话 provider（覆盖默认 provider）
-- `tools`：工具列表（字符串 id 列表）
+@agent(name="writer", instruction="你是写作子智能体。")
+async def writer_agent(event):
+    return None
+```
 
-### 行为要点
+> 代码式注册、`run_hooks`、专属工具挂载见：`docs/agent/agent-registration.md`
 
-- 如果设置了 `persona_id`，会优先使用 persona 的 system_prompt、begin_dialogs 与 tools（并对 `public_description` 做 fallback）。
-- `provider_id` 允许为某个 subagent 指定更合适/更便宜的模型。
+## MUST
 
-## 调试与排障
+- `name` 必须非空，且在同一实例中保持唯一。
+- `public_description` 必须写“适用任务”，不要写空泛人设。
+- `tools` 必须显式写成字符串列表（不要依赖隐式行为）。
 
-如果主 Agent 从不调用某个子智能体，优先检查：
 
-- `public_description` 是否足够清晰、短、可行动（主 LLM 只能看到这一段）
-- 子智能体 `name` 是否合理（会影响工具名 `transfer_to_<name>`）
-- 主 Agent 的工具集合里是否确实包含该 handoff tool（看注册日志/或直接在运行时打印工具列表）
-
-## 相关源码位置
-
-- SubAgentOrchestrator：`astrbotcore/astrbot/core/subagent_orchestrator.py`
-- HandoffTool：`astrbotcore/astrbot/core/agent/handoff.py`
-- Agent 数据结构：`astrbotcore/astrbot/core/agent/agent.py`

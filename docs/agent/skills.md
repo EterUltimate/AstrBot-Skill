@@ -1,41 +1,61 @@
----
-category: agent
----
+﻿# Skills（能力包）
+## 简介
 
-# Skills（本地技能指令集）
+Skill 是给 Agent 用的本地能力包：一个目录 + `SKILL.md`（可带 `scripts/`、`assets/`、参考文档）。
 
-AstrBot 的 Skills 用于把一组“本地指令 + 参考文件”打包成可复用的技能单元（以 `SKILL.md` 为入口），供 Agent 在对话中按需选择/触发。
+主 Agent 会把已启用 Skill 的名称、描述、入口文件路径注入系统提示词，让模型知道“有哪些可调用的本地能力”。
 
-> 注意：这里的 “skills” 指 AstrBot 运行时的 skill 系统，不等同于本仓库 `docs/SKILL.md`（后者是给文档/RAG 的 skill 入口文件）。
+## 插件侧入口
 
-## Skill 的基本形态
+当前没有 `self.context.skill_manager` 这类快捷入口，按需直接使用 `SkillManager`：
 
-- 一个 skill 是一个目录，目录内必须包含 `SKILL.md`
-- `SKILL.md` 通常包含 frontmatter（name/description）与使用规范
-- Skill 可以启用/禁用，并以配置文件 `skills.json` 管理
+```python
+from astrbot.core.skills.skill_manager import SkillManager
+```
 
-## SkillManager（运行时）
+## SkillManager 方法
 
-核心实现入口：
+### 查询
 
-- `astrbotcore/astrbot/core/skills/skill_manager.py`
+- `list_skills(active_only: bool = False, runtime: str = "local", show_sandbox_path: bool = True) -> list[SkillInfo]`
 
-你会在这里看到：
+```python
+skills = SkillManager().list_skills(active_only=True, runtime="sandbox")
+```
 
-- skill 扫描与描述提取（frontmatter `description`）
-- skill 配置文件 `skills.json` 的读写
-- sandbox 模式下的 skill 路径映射（将本地路径映射为 sandbox 内路径）
+### 启停
 
-## 与 Sandbox 的关系
+- `set_skill_active(name: str, active: bool) -> None`
 
-当启用 sandbox runtime 时，技能包可能会被同步到沙盒环境（用于在沙盒内执行/引用相关文件）。
+```python
+SkillManager().set_skill_active("docs4agent", True)
+```
 
-相关实现：
+### 删除
 
-- `astrbotcore/astrbot/core/computer/computer_client.py`（`_sync_skills_to_sandbox`）
+- `delete_skill(name: str) -> None`
 
-## 最佳实践（写 skill 时）
+```python
+SkillManager().delete_skill("legacy_skill")
+```
 
-- 只在 `SKILL.md` 放“必读规则”和“最短流程”；避免和站点 `index.md` 重复
-- 明确入口文件路径与优先级（从哪个文档/源码开始读）
-- 避免把大量内容堆进同一个 skill：把长文拆成可跳转的页面/文件，让 Agent 只加载必要部分
+### 安装（zip）
+
+- `install_skill_from_zip(zip_path: str, overwrite: bool = True) -> str`
+
+```python
+skill_name = SkillManager().install_skill_from_zip("D:/tmp/my_skill.zip", overwrite=True)
+```
+
+## Agent 注入链路
+
+- 主 Agent 根据 `provider_settings.computer_use_runtime` 选择 runtime。
+- 调用 `SkillManager().list_skills(active_only=True, runtime=runtime)` 获取技能列表。
+- 调用 `build_skills_prompt(skills)` 把技能信息注入 system prompt。
+- 若当前 persona 配置了 `skills` 白名单，则会再做一次过滤。
+
+## MUST
+
+- Skill 目录必须包含 `SKILL.md`。
+- zip 安装包必须是“单一顶层目录”，且禁止绝对路径与 `..` 路径。
+- skill 目录名必须匹配 `^[A-Za-z0-9._-]+$`。

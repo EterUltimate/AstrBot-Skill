@@ -2,38 +2,47 @@
 category: agent
 ---
 
-# Providers（LLM / VLM / Embedding / STT / TTS）
+# Provider 选择与使用（插件可用）
 
-在 Agent 体系里，“模型能力”统一由 Provider 管理。LLM/VLM/Embedding/STT/TTS 都属于 Provider 的不同类型，你在写插件/Agent 时通常只需要从 `context` 获取当前会话正在使用的 provider。
+Provider 是模型能力入口（Chat/STT/TTS/Embedding）
 
-## 常用获取方式（Context 方法）
 
-- `context.get_using_provider(umo: str) -> Provider | None`：获取当前会话正在使用的对话模型（Chat Completion）。
-- `context.get_provider_by_id(provider_id: str)`：按 id 获取指定 provider。
-- `context.get_all_providers()`：列出所有已配置的对话模型 provider。
-- `context.get_using_stt_provider(umo: str)` / `context.get_using_tts_provider(umo: str)`：获取当前使用的 STT/TTS provider。
-- `context.get_all_embedding_providers()`：列出所有 embedding provider（常用于知识库/检索）。
 
-> 这些方法的真实实现入口：`astrbotcore/astrbot/core/star/context.py`  
-> provider 的装配与会话隔离逻辑：`astrbotcore/astrbot/core/provider/manager.py`
+```python
+ctx = self.context
+umo = event.unified_msg_origin
+```
+### 当前会话正在使用的 Provider
 
-## Provider 类型（概念对齐）
+- `get_current_chat_provider_id(umo: str) -> str`：直接拿当前会话 chat provider id（最常用）。
+- `get_using_provider(umo: str | None = None) -> Provider | None`：拿 chat provider 实例。
+- `get_using_stt_provider(umo: str | None = None) -> STTProvider | None`
+- `get_using_tts_provider(umo: str | None = None) -> TTSProvider | None`
 
-- Chat（LLM/VLM）：用于对话与工具循环（`tool_loop_agent` 的 `chat_provider_id` 指向这里）
-- Embedding：用于向量化（知识库检索、相似度搜索）
-- STT：语音转文本（Speech-to-Text）
-- TTS：文本转语音（Text-to-Speech）
+```python
+chat_provider_id = await ctx.get_current_chat_provider_id(umo)
+```
 
-是否“支持 VLM（图像输入）”取决于具体 provider 的能力与配置；当 provider 不支持某些模态时，部分运行时会做清理/降级（参考：`astrbotcore/astrbot/core/astr_main_agent.py` 的配置项与处理逻辑）。
+### 按 ID 读取 Provider
 
-## 与 Agent 的关系
+- `get_provider_by_id(provider_id: str)`：按 ID 获取 provider（可能是 chat/stt/tts/embedding/rerank）。
 
-- Agent 的主入口通常需要一个对话 provider：`chat_provider_id`
-- 工具调用/子智能体 handoff/沙盒工具注入都围绕这个对话 provider 驱动
-- 如果你在同一条会话里需要“不同 provider（例如子智能体用不同模型）”，可参考 `docs/agent/subagents.md`（handoff tool 支持 per-subagent provider override）
+```python
+prov = ctx.get_provider_by_id("your_provider_id")
+```
 
-## 相关源码位置（快速定位）
+### 列表查询（用于配置页或校验）
 
-- ProviderManager：`astrbotcore/astrbot/core/provider/manager.py`
-- Provider 类型定义：`astrbotcore/astrbot/core/provider/entities.py`
-- Context 对外方法：`astrbotcore/astrbot/core/star/context.py`
+- `get_all_providers() -> list[Provider]`
+- `get_all_stt_providers() -> list[STTProvider]`
+- `get_all_tts_providers() -> list[TTSProvider]`
+- `get_all_embedding_providers() -> list[EmbeddingProvider]`
+
+## `_conf_schema.json` 集成
+
+涉及 provider 选择的插件，建议在 `_conf_schema.json` 暴露配置项：
+## tips
+
+- 会话内调用必须优先传 `umo`，否则会回退到默认配置，可能拿到错误 provider。
+- `get_provider_by_id` 返回的不一定是 chat provider，传给 `tool_loop_agent` 前要确保是 chat provider id。
+- 不要把 provider id 硬编码在代码里，优先从 `_conf_schema.json` 配置读取。

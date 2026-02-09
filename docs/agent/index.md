@@ -13,8 +13,9 @@ category: agent
 - 需要让模型调用工具：`docs/agent/tools.md`
 - 需要选模型/Embedding/STT/TTS：`docs/agent/providers.md`
 - 需要控制上下文与压缩：`docs/agent/context-compression.md`
-- 需要 Hook（事件钩子/Agent 钩子）：`docs/agent/hooks.md`
+- 需要 Hook（事件钩子/Agent 钩子）：`docs/agent/agent-related-hooks.md`
 - 需要子智能体：`docs/agent/subagents.md`
+- 需要代码方式注册子智能体：`docs/agent/agent-registration.md`
 - 需要沙盒（computer use）：`docs/agent/sandbox.md`
 - 需要定时任务（主动能力）：`docs/agent/cron.md`
 
