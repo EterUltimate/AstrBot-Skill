@@ -78,7 +78,7 @@ repo: https://github.com/Soulter/helloworld # 插件的仓库地址
 - Do not hardcode provider IDs or secrets; expose configurable fields in `_conf_schema.json`.
 - Prefer small, testable functions over large monolithic handler bodies.
 - Keep README and metadata consistent with actual plugin behavior and version.
-
+-If you are writing AstrBot core code instead of plugins, you must submit a PR to https://github.com/AstrBotDevs/AstrBot-docs if the changes require doc updates (for instance: new hooks, new APIs, new features, platform adapter changes, and so on). If you don't see the docs repo, please remind the user to clone the docs-repo and add it to the workspace.
 ## Hooks: avoid missing / outdated references
 
 There are two different "hook" layers you must not mix up:
@@ -104,3 +104,4 @@ do not reference `.tmp` paths as public documentation URLs.
 - Main agent build (sandbox/cron/tools): `astrbotcore/astrbot/core/astr_main_agent.py`
 - Skills system (AstrBot runtime skills): `astrbotcore/astrbot/core/skills/skill_manager.py`
 - Subagents config loading: `astrbotcore/astrbot/core/subagent_orchestrator.py`
+
