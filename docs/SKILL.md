@@ -30,6 +30,7 @@ Use this skill when you ask for help with:
    - Plugin config: `docs/plugin_config/`
    - Messages: `docs/messages/`
    - Platform adapters: `docs/platform_adapters/`
+3. For Agent Runner (v4.7.0+): `docs/agent/agent-runner.md`
 3. If the user targets a specific AstrBot version, cross-check:
    - `docs/snapshots/<version>/`
 4. If docs and code disagree, treat code as truth:
@@ -104,4 +105,26 @@ do not reference `.tmp` paths as public documentation URLs.
 - Main agent build (sandbox/cron/tools): `astrbotcore/astrbot/core/astr_main_agent.py`
 - Skills system (AstrBot runtime skills): `astrbotcore/astrbot/core/skills/skill_manager.py`
 - Subagents config loading: `astrbotcore/astrbot/core/subagent_orchestrator.py`
+
+## v4.5.7+ New Tool Definition Pattern
+
+推荐使用 dataclass 模式定义 Tool（见 `docs/design_standards/core_concepts.md` 第7节）：
+
+```python
+from pydantic.dataclasses import dataclass
+from astrbot.core.agent.tool import FunctionTool
+
+@dataclass
+class MyTool(FunctionTool):
+    name: str = "my_tool"
+    description: str = "工具描述"
+    parameters: dict = {...}
+
+    async def call(self, context, **kwargs) -> str:
+        return "结果"
+```
+
+注册：`self.context.add_llm_tools(MyTool())`
+
+装饰器方式仍然支持，但推荐新项目使用 dataclass 模式。
 

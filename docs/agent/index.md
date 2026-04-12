@@ -18,6 +18,7 @@ category: agent
 - 需要代码方式注册子智能体：`docs/agent/agent-registration.md`
 - 需要沙盒（computer use）：`docs/agent/sandbox.md`
 - 需要定时任务（主动能力）：`docs/agent/cron.md`
+- **v4.7.0+ Agent Runner 架构（Dify/Coze/DeerFlow）**：`docs/agent/agent-runner.md`
 
 ## 最短示例：工具循环 Agent
 
