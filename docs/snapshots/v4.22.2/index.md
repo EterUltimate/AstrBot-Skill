@@ -2,7 +2,6 @@
 
 这里存放按 AstrBot Tag 归档的文档快照。
 
-- [v4.22.2](/snapshots/v4.22.2/) ← 最新快照
 - [v4.12.3](/snapshots/v4.12.3/)
 - [v4.12.2](/snapshots/v4.12.2/)
 - [v4.12.1](/snapshots/v4.12.1/)

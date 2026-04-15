@@ -17,5 +17,6 @@
 
 版本快照位于 `docs/snapshots/`，例如：
 
-- [快照索引](/snapshots/)
-- [v4.11.2](/snapshots/v4.11.2/)
+- [快照索引（含 v4.22.2 最新快照）](/snapshots/)
+- [v4.22.2](/snapshots/v4.22.2/) ← 官方文档最新快照
+- [v4.12.3](/snapshots/v4.12.3/)
