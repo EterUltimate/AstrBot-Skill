@@ -4,13 +4,13 @@ category: agent
 
 # Agent 系统概览
 
-在 AstrBot 中，“Agent”指的是：**指令/系统提示（instructions）+ 工具（tools）+ 模型提供商（providers）+ 运行时能力（上下文管理 / 子智能体 / 沙盒 / 定时任务）** 的组合。
+在 AstrBot 中，"Agent"指的是：**指令/系统提示（instructions）+ 工具（tools）+ 模型提供商（providers）+ 运行时能力（上下文管理 / 子智能体 / 沙盒 / 定时任务）** 的组合。
 
-本目录把原先以 “LLM” 为中心的内容重组为 “Agent” 视角：LLM/VLM/Embedding 等都被视为 Provider 能力的一部分，工具与运行时能力决定了 Agent 的上限与安全边界。
+本目录把原先以 "LLM" 为中心的内容重组为 "Agent" 视角：LLM/VLM/Embedding 等都被视为 Provider 能力的一部分，工具与运行时能力决定了 Agent 的上限与安全边界。
 
 ## 你大概率会从这里开始
 
-- 需要让模型调用工具：`docs/agent/tools.md`
+- 需要让模型调用工具：`docs/agent/registe tools.md`
 - 需要选模型/Embedding/STT/TTS：`docs/agent/providers.md`
 - 需要控制上下文与压缩：`docs/agent/context-compression.md`
 - 需要 Hook（事件钩子/Agent 钩子）：`docs/agent/agent-related-hooks.md`
@@ -41,6 +41,13 @@ llm_resp = await self.context.tool_loop_agent(
 - `max_steps`：限制循环次数，避免无限工具调用
 - `tool_call_timeout`：单个工具调用超时
 - `system_prompt`：定义 Agent 角色、边界与输出格式
+
+### v4.22.2 扩展参数
+
+`tool_loop_agent` 的 `**kwargs` 支持：
+- `stream: bool` — 流式输出
+- `agent_hooks: BaseAgentRunHooks` — Agent 运行期钩子
+- `agent_context: AstrAgentContext` — 复用已有 agent 上下文
 
 ## 相关源码入口（以代码为准）
 

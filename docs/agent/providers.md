@@ -32,7 +32,7 @@ llm_resp = await ctx.llm_generate(
 print(llm_resp.completion_text)
 ```
 
-- `await llm_generate(chat_provider_id, prompt, contexts=None, system_prompt=None, tools=None) -> LLMResponse`: 简化的 LLM 调用接口
+- `await llm_generate(chat_provider_id, prompt, contexts=None, image_urls=None, system_prompt=None, tools=None) -> LLMResponse`: 简化的 LLM 调用接口，不自动执行 tool call
 
 ### 工具循环 Agent
 
@@ -47,7 +47,21 @@ llm_resp = await ctx.tool_loop_agent(
 )
 ```
 
-- `await tool_loop_agent(event, chat_provider_id, prompt, tools, system_prompt=None, max_steps=30, tool_call_timeout=60) -> LLMResponse`: 自动处理工具调用循环
+- `await tool_loop_agent(event, chat_provider_id, prompt, contexts=None, image_urls=None, tools=None, system_prompt=None, max_steps=30, tool_call_timeout=120, **kwargs) -> LLMResponse`
+  - `event`: AstrMessageEvent，会话上下文来源
+  - `chat_provider_id`: chat provider ID
+  - `prompt`: 用户 prompt
+  - `contexts`: 消息历史上下文（可选，追加到 prompt 后）
+  - `image_urls`: 图片 URL 列表（追加到 prompt）
+  - `tools`: ToolSet，AI 可调用的工具集
+  - `system_prompt`: 系统提示（插到上下文最前面）
+  - `max_steps`: 最大 tool call 轮次，默认 30
+  - `tool_call_timeout`: 单次工具调用超时（秒），默认 120
+  - **`**kwargs`**: 扩展参数：
+    - `stream: bool` — 是否流式输出
+    - `agent_hooks: BaseAgentRunHooks` — Agent 运行期钩子
+    - `agent_context: AstrAgentContext` — 复用已有 agent 上下文
+    - 其他 kwargs — 直接透传给 `runner.reset()`
 
 ## 传统方法
 
@@ -89,7 +103,7 @@ runner = ctx.get_agent_runner_by_id(runner_id="your_runner_id")
 ```json
 {
   "provider_id": {
-    "description": "选择模型提供商",
+    "Description": "选择模型提供商",
     "type": "string",
     "_special": "select_provider"
   }
