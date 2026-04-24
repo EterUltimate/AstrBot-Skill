@@ -1,35 +1,4 @@
----
-category: agent
----
-
-# Agent Runner 架构 (v4.7.0+)
-
-Agent Runner 是 AstrBot 中用于执行 Agent 的组件。从 v4.7.0 起，Dify、Coze、阿里云百炼应用迁移到 Agent Runner 层，解决了与 AstrBot 内置 Agent 功能的冲突。
-
-## 架构理解
-
-- **Chat Provider**: 负责「说话」，是单轮补全接口
-- **Agent Runner**: 负责「思考 + 做事」，是循环（感知 → 规划 → 执行 → 观察 → 再规划）
-
-Dify、Coze、百炼应用、DeerFlow 等平台已内置此循环，作为 Agent Runner 接入可避免与 AstrBot 内置 Agent 冲突。
-
-## 支持的 Agent Runner
-
-| Runner | 说明 |
-|--------|------|
-| AstrBot 内置 | 默认，支持 MCP、知识库、网页搜索 |
-| Dify | Dify Agent 应用 |
-| Coze | Coze Bot |
-| 阿里云百炼应用 | 百炼 Agent 应用 |
-| DeerFlow | DeerFlow 智能体 |
-
-## 创建 Agent Runner
-
-WebUI → 模型提供商 → 新增提供商 → Agent 执行器 → 选择平台 → 填写配置
-
-## 切换默认 Agent Runner
-
-WebUI → 配置 → Agent 执行方式 → 选择执行器类型 → 保存
+Agent Runner 是 AstrBot 中用于执行 Agent 的组件。
 
 ## 插件侧使用
 
