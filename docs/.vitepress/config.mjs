@@ -16,7 +16,32 @@ export default defineConfig({
   },
 
   lastUpdated: true,
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: [
+    // Skill-specific pages that don't exist in upstream docs
+    '/use/mcp',
+    '/use/knowledge-base',
+    '/use/websearch',
+    '/use/astrbot-agent-sandbox',
+    '/use/skills',
+    '/use/agent-runner',
+    '/deploy/astrbot/docker',
+    '/deploy/astrbot/kubernetes',
+    '/deploy/astrbot/launcher',
+    '/deploy/astrbot/rainyun',
+    '/platform/qqofficial/webhook',
+    '/platform/qqofficial/websockets',
+    '/dev/star/plugin',
+    '/providers/agent-runners/astrbot-agent-runner',
+    '/providers/agent-runners/dify',
+    '/providers/agent-runners/coze',
+    '/providers/agent-runners/dashscope',
+    '/providers/agent-runners/deerflow',
+    '/providers/start',
+    // Relative links in provider pages
+    './../agent-runners/coze',
+    './../agent-runners/dashscope',
+    './../agent-runners/dify',
+  ],
 
   locales: {
     root: {
