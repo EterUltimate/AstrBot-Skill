@@ -1,0 +1,25 @@
+# AstrBot MCP 服务器配置
+name: astrbot-mcp
+description: AstrBot 插件开发 MCP 服务器
+version: 1.0.0
+
+# 服务器配置
+server:
+  transport: stdio  # 或 sse
+  
+# 工具配置
+tools:
+  # 文档工具
+  docs:
+    base_path: ../skill-astrbot-dev/references
+    
+  # Hook 清单生成
+  hooks:
+    generator_script: ../scripts/generate_hook_inventory.py
+    output_path: ../skill-astrbot-dev/.tmp/hook_inventory
+
+# 可选：SSE 传输配置
+sse:
+  host: localhost
+  port: 3000
+  path: /mcp

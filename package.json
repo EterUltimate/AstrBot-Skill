@@ -1,13 +1,12 @@
 {
+  "name": "astrbot-skill",
+  "version": "2.0.0",
+  "description": "AstrBot Skill + MCP - AI-friendly plugin development reference",
   "scripts": {
-    "docs:dev": "vitepress dev --host",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "mcp:start": "cd mcp-astrbot && python server.py",
+    "mcp:install": "cd mcp-astrbot && pip install -r requirements.txt",
+    "hooks:generate": "python scripts/generate_hook_inventory.py"
   },
-  "devDependencies": {
-    "vitepress": "^1.6.4"
-  },
-  "dependencies": {
-    "vue": "^3.5.17"
-  }
+  "keywords": ["astrbot", "skill", "mcp", "plugin-development"],
+  "license": "MIT"
 }
