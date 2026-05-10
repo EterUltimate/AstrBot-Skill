@@ -2,7 +2,12 @@ __pycache__/
 venv/
 .DS_Store
 node_modules/
-.vitepress/cache
-*dist
+.vitepress/
+docs/.vitepress/
 docs/.tmp/
+docs/node_modules/
+*dist
 astrbotcore/
+.lingma/
+package-lock.json
+docs/package-lock.json
