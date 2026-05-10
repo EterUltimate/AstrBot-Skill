@@ -1,13 +1,23 @@
+# Python
 __pycache__/
+*.pyc
+*.pyo
 venv/
+.venv/
+*.egg-info/
+
+# IDE
 .DS_Store
-node_modules/
-.vitepress/
-docs/.vitepress/
-docs/.tmp/
-docs/node_modules/
-*dist
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# AstrBot core source (cloned for reference only)
 astrbotcore/
+
+# AI assistant
 .lingma/
-package-lock.json
-docs/package-lock.json
+
+# Temp
+.tmp/
