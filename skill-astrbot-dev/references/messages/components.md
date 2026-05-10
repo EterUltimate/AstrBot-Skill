@@ -21,6 +21,39 @@ AstrBot 使用消息链（MessageChain）来描述消息结构，它是一个由
 | `Poke` | 戳一戳 | - | 主要在 OneBot v11 支持。 |
 | `Reply` | 回复特定消息 | `message_id="xxx"` | 广泛支持。 |
 
+### Video 组件
+
+```python
+from astrbot.api.message_components import Video
+
+# 从本地文件
+video = Video.fromFileSystem("/path/to/video.mp4")
+
+# 从 URL
+video = Video.fromURL("https://example.com/video.mp4")
+
+# 方法
+video.convert_to_file_path()  # -> str: 转换为本地路径
+video.register_to_file_service()  # -> str: 注册到文件服务
+```
+
+### Node / Nodes 组件（合并转发消息）
+
+用于 QQ 等平台的合并转发（长消息）功能：
+
+```python
+from astrbot.api.message_components import Node, Nodes, Plain
+
+# 单条转发节点
+node = Node(uin="123456", name="昵称", content=[Plain(text="转发的内容")])
+
+# 多条转发节点
+nodes = Nodes(nodes=[
+    Node(uin="123456", name="用户A", content=[Plain(text="消息1")]),
+    Node(uin="789012", name="用户B", content=[Plain(text="消息2")]),
+])
+```
+
 ### 消息构建示例
 
 ```python
@@ -39,3 +72,36 @@ from astrbot.api.event import MessageChain
 message_chain = MessageChain().message("Hello!").file_image("path/to/image.jpg")
 await self.context.send_message(event.unified_msg_origin, message_chain)
 ```
+
+### MessageChain 构建器模式
+
+`MessageChain` 支持链式调用构建复杂消息：
+
+```python
+from astrbot.api.event import MessageChain
+
+chain = (MessageChain()
+    .message("这是文本消息")
+    .at(name="用户", qq="123456")
+    .url_image("https://example.com/img.jpg")
+    .file_image("/path/to/local/img.png")
+    .base64_image("iVBORw0KGgo...")
+    .use_t2i(True))  # 启用文本转图片
+```
+
+可用方法：
+
+| 方法 | 说明 |
+| :--- | :--- |
+| `.message(text)` | 添加纯文本 |
+| `.at(name, qq)` | 添加 At |
+| `.at_all()` | 添加 AtAll |
+| `.url_image(url)` | 添加网络图片 |
+| `.file_image(path)` | 添加本地图片 |
+| `.base64_image(b64)` | 添加 base64 图片 |
+| `.use_t2i(bool)` | 设置是否使用文本转图片 |
+
+工具方法：
+
+- `get_plain_text(with_other_comps_mark: bool) -> str`: 获取纯文本
+- `squash_plain()`: 合并所有 Plain 消息段

@@ -1,88 +1,100 @@
 ---
 category: agent
 ---
-# Agent Related Hooks
 
- Agent 请求/工具循环直接相关的 hooks。
+# Agent 相关钩子 (Agent-Related Hooks)
 
-## Plugin Hooks
+AstrBot 有两套钩子机制：
+1. **插件事件钩子** — 装饰器注册，贯穿核心流程（LLM 请求前后、工具调用前后、消息发送前后）。详见 `plugin_config/hooks.md`。
+2. **Agent 运行钩子** — 类继承注册，专用于 `tool_loop_agent` 执行周期的细粒度控制。
 
-### LLM 请求阶段
+---
 
-- `@filter.on_waiting_llm_request()`
-- `@filter.on_llm_request()`
-- `@filter.on_llm_response()`
+## 插件事件钩子（与 Agent 相关部分）
 
-```python
-from astrbot.api.event import filter, AstrMessageEvent
-from astrbot.api.provider import ProviderRequest, LLMResponse
+以下钩子在 `tool_loop_agent` 流程中的关键节点触发，通过 `@filter.*` 装饰器注册：
 
-@filter.on_waiting_llm_request()
-async def on_waiting(self, event: AstrMessageEvent) -> None: ...
-
-@filter.on_llm_request()
-async def on_req(self, event: AstrMessageEvent, request: ProviderRequest) -> None: ...
-
-@filter.on_llm_response()
-async def on_resp(self, event: AstrMessageEvent, response: LLMResponse) -> None: ...
-```
-
-### Tool 调用阶段
-
-- `@filter.on_using_llm_tool()`
-- `@filter.on_llm_tool_respond()`
-
-```python
-from astrbot.api.event import filter, AstrMessageEvent
-from astrbot.core.agent.tool import FunctionTool
-from mcp.types import CallToolResult
-
-@filter.on_using_llm_tool()
-async def on_tool_start(self, event: AstrMessageEvent, tool: FunctionTool, tool_args: dict | None) -> None: ...
-
-@filter.on_llm_tool_respond()
-async def on_tool_end(self, event: AstrMessageEvent, tool: FunctionTool, tool_args: dict | None, tool_result: CallToolResult | None) -> None: ...
-```
-
-### 结果发送阶段
-
-- `@filter.on_decorating_result()`
-- `@filter.after_message_sent()`
+| 钩子 | 触发时机 | 签名 |
+| :--- | :--- | :--- |
+| `on_waiting_llm_request` | 确定调用 LLM，尚未获取会话锁 | `(self, event)` |
+| `on_agent_begin` | Agent 工具循环开始前 (>=v4.23.1) | `(self, event)` |
+| `on_using_llm_tool` | 函数工具调用前 | `(self, event, tool, tool_args)` |
+| `on_llm_tool_respond` | 函数工具调用后 | `(self, event, tool, tool_args, tool_result)` |
+| `on_agent_done` | Agent 工具循环完成后 (>=v4.23.1) | `(self, event)` |
 
 ```python
 from astrbot.api.event import filter, AstrMessageEvent
 
-@filter.on_decorating_result()
-async def on_decorating(self, event: AstrMessageEvent) -> None: ...
+class MyPlugin(Star):
+    @filter.on_agent_begin()
+    async def on_begin(self, event: AstrMessageEvent):
+        logger.info("Agent 开始执行")
 
-@filter.after_message_sent()
-async def after_sent(self, event: AstrMessageEvent) -> None: ...
+    @filter.on_using_llm_tool()
+    async def on_tool_use(self, event, tool, tool_args):
+        logger.info(f"调用工具: {tool.name}, 参数: {tool_args}")
+
+    @filter.on_agent_done()
+    async def on_done(self, event: AstrMessageEvent):
+        logger.info("Agent 执行完成")
 ```
 
-## Agent Runner Hooks
+---
 
-用于 `context.tool_loop_agent(..., agent_hooks=...)` 的运行期扩展。
+## Agent 运行钩子 (BaseAgentRunHooks)
+
+通过类继承实现，用于 `tool_loop_agent` 的 `agent_hooks` 参数：
 
 ```python
-from astrbot.core.agent.hooks import BaseAgentRunHooks
-from astrbot.core.agent.run_context import ContextWrapper
-from astrbot.core.agent.tool import FunctionTool
-from astrbot.core.provider.entities import LLMResponse
-import mcp
+from astrbot.core.agent.agent import BaseAgentRunHooks, AstrAgentContext
 
 class MyAgentHooks(BaseAgentRunHooks):
-    async def on_agent_begin(self, run_context: ContextWrapper) -> None: ...
-    async def on_tool_start(self, run_context: ContextWrapper, tool: FunctionTool, tool_args: dict | None) -> None: ...
-    async def on_tool_end(self, run_context: ContextWrapper, tool: FunctionTool, tool_args: dict | None, tool_result: mcp.types.CallToolResult | None) -> None: ...
-    async def on_agent_done(self, run_context: ContextWrapper, llm_response: LLMResponse) -> None: ...
+    async def on_agent_begin(self, agent_context: AstrAgentContext):
+        """Agent 循环开始前"""
+        pass
+
+    async def on_tool_start(self, agent_context: AstrAgentContext, tool_name: str, tool_args: dict):
+        """工具调用前"""
+        pass
+
+    async def on_tool_end(self, agent_context: AstrAgentContext, tool_name: str, tool_args: dict, tool_result):
+        """工具调用后"""
+        pass
+
+    async def on_agent_done(self, agent_context: AstrAgentContext):
+        """Agent 循环结束后"""
+        pass
 ```
 
-## 主 Agent 默认映射关系
+### 使用方式
 
-- `on_tool_start` -> `@filter.on_using_llm_tool()`
-- `on_tool_end` -> `@filter.on_llm_tool_respond()`
-- `on_agent_done` -> `@filter.on_llm_response()`
+```python
+hooks = MyAgentHooks()
+result = await provider.tool_loop_agent(
+    prompt="...",
+    tools=[...],
+    contexts=[],
+    agent_hooks=hooks,       # 注入钩子
+    agent_context=agent_ctx,  # 可选：注入上下文
+)
+```
 
-## MUST
+### 默认映射
 
-- Hook 处理函数必须使用 `async def`。
+AstrBot 内部默认的 `BaseAgentRunHooks` 实现：
+- `on_agent_begin` / `on_agent_done`：触发对应的插件事件钩子（`@filter.on_agent_begin()` / `@filter.on_agent_done()`）。
+- `on_tool_start`：触发 `@filter.on_using_llm_tool()`。
+- `on_tool_end`：触发 `@filter.on_llm_tool_respond()`。
+
+> 自定义 `agent_hooks` 会替换默认实现。如果仍需默认行为，在自定义钩子中显式调用 `super()`。
+
+---
+
+## 两套钩子的选择
+
+| 场景 | 推荐方式 |
+| :--- | :--- |
+| 插件级全局拦截/审计 | 插件事件钩子（`@filter.*`） |
+| 特定 Agent 调用的细粒度控制 | Agent 运行钩子（`BaseAgentRunHooks`） |
+| 需要访问 `AstrAgentContext` | Agent 运行钩子 |
+| 简单日志/通知 | 插件事件钩子 |

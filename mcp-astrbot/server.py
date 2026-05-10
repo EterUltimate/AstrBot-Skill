@@ -47,11 +47,15 @@ DOCS_INDEX = {
     "plugin_config": {
         "command_management": "Command management",
         "decorators": "Decorators",
+        "env": "Development environment setup",
         "file_config": "File configuration",
         "hooks": "Hooks",
         "lifecycle": "Lifecycle",
+        "plugin-i18n": "Plugin internationalization (i18n)",
+        "plugin-pages": "Dashboard pages (Plugin Pages)",
         "schema": "Configuration schema",
         "session_control": "Session control",
+        "simple": "Minimal plugin example",
     },
     "platform_adapters": {
         "adapter_interface": "Adapter interface",

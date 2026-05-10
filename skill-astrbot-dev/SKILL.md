@@ -1,6 +1,6 @@
 ---
 name: skill-astrbot-dev
-description: Reference + workflow notes for AstrBot plugin development (messages, platform adapters, plugin config, agent system).
+description: Reference + workflow notes for AstrBot plugin development (messages, platform adapters, plugin config, agent system, i18n, pages).
 metadata:
   short-description: AstrBot dev reference
 ---
@@ -31,7 +31,10 @@ Use this skill when you ask for help with:
    - Messages: `skill-astrbot-dev/references/messages/`
    - Platform adapters: `skill-astrbot-dev/references/platform_adapters/`
 3. For Agent Runner (v4.7.0+): `skill-astrbot-dev/references/agent/agent-runner.md`
-4. If docs and code disagree, treat code as truth:
+4. For i18n: `skill-astrbot-dev/references/plugin_config/plugin-i18n.md`
+5. For Dashboard pages: `skill-astrbot-dev/references/plugin_config/plugin-pages.md`
+6. For dev environment setup: `skill-astrbot-dev/references/plugin_config/env.md`
+7. If docs and code disagree, treat code as truth:
    - Core code lives under `astrbotcore/astrbot/core/` (read only the needed files)
 
 ## STRONGLY ADVISED: use AstrBot SDK while writing plugins
@@ -58,18 +61,23 @@ A standard AstrBot plugin project should include:
 - `README.md`: installation, usage, feature overview, and dev links.
 - `.gitignore`: ignore Python cache (`__pycache__`) and IDE config files.
 - `LICENSE`: open-source license file.
+- `logo.png`: plugin icon (256x256 recommended, displayed in marketplace and admin panel).
+- `.astrbot-plugin/`: i18n and Dashboard page resources.
 
 ## `metadata.yaml` minimal template
 
 ```yaml
 name: astrbot_plugin_helloworld # 插件唯一识别名，最好以 astrbot_plugin_ 前缀开头
 display_name: helloworld # 展示名（v4.5.0+）
-desc: AstrBot 插件示例。 # 插件简短描述
+short_desc: AstrBot 插件示例。 # 插件简短描述（v4.5.0+）
+desc: 更详细的插件描述。 # 详细描述
 version: v1.3.0 # 版本号：v1.1.1 或 v1.1
 author: Soulter # 作者
 repo: https://github.com/Soulter/helloworld # 插件的仓库地址
 astrbot_version: ">=4.16,<5" # 声明插件要求的 AstrBot 版本范围
 ```
+
+> `display_name` and `short_desc` (v4.5.0+) override the `@register()` display name and description when i18n metadata is available.
 
 ## Code rules for plugin implementation
 
@@ -80,7 +88,7 @@ astrbot_version: ">=4.16,<5" # 声明插件要求的 AstrBot 版本范围
 - Prefer small, testable functions over large monolithic handler bodies.
 - Keep README and metadata consistent with actual plugin behavior and version.
 - Ensure that a `requirements.txt` file is created in the plugin directory and populated with the necessary dependencies.
-- Plugin i18n is recommended, but is still in experimental state — use it carefully.
+- Plugin i18n is recommended — use `.astrbot-plugin/i18n/*.json` for multi-language support (see `skill-astrbot-dev/references/plugin_config/plugin-i18n.md`).
 - It's best to keep the plugin size under 32MB.
 - For large resources like high-resolution images, it is best to use a CDN instead of hardcoding.
 - If you are writing AstrBot core code instead of plugins, you must submit a PR to https://github.com/AstrBotDevs/AstrBot-docs if the changes require doc updates (for instance: new hooks, new APIs, new features, platform adapter changes, and so on). If you don't see the docs repo, please remind the user to clone the docs-repo and add it to the workspace.
