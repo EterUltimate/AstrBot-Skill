@@ -54,6 +54,7 @@ A standard AstrBot plugin project should include:
 
 - `main.py`: entrypoint. Implement plugin startup and primary features here.
 - `metadata.yaml`: plugin metadata (name, version, author, repo, description).
+- `requirements.txt`: list the Python dependencies your plugin needs.
 - `README.md`: installation, usage, feature overview, and dev links.
 - `.gitignore`: ignore Python cache (`__pycache__`) and IDE config files.
 - `LICENSE`: open-source license file.
@@ -67,6 +68,7 @@ desc: AstrBot 插件示例。 # 插件简短描述
 version: v1.3.0 # 版本号：v1.1.1 或 v1.1
 author: Soulter # 作者
 repo: https://github.com/Soulter/helloworld # 插件的仓库地址
+astrbot_version: ">=4.16,<5" # 声明插件要求的 AstrBot 版本范围
 ```
 
 ## Code rules for plugin implementation
@@ -77,7 +79,12 @@ repo: https://github.com/Soulter/helloworld # 插件的仓库地址
 - Do not hardcode provider IDs or secrets; expose configurable fields in `_conf_schema.json`.
 - Prefer small, testable functions over large monolithic handler bodies.
 - Keep README and metadata consistent with actual plugin behavior and version.
--If you are writing AstrBot core code instead of plugins, you must submit a PR to https://github.com/AstrBotDevs/AstrBot-docs if the changes require doc updates (for instance: new hooks, new APIs, new features, platform adapter changes, and so on). If you don't see the docs repo, please remind the user to clone the docs-repo and add it to the workspace.
+- Ensure that a `requirements.txt` file is created in the plugin directory and populated with the necessary dependencies.
+- Plugin i18n is recommended, but is still in experimental state — use it carefully.
+- It's best to keep the plugin size under 32MB.
+- For large resources like high-resolution images, it is best to use a CDN instead of hardcoding.
+- If you are writing AstrBot core code instead of plugins, you must submit a PR to https://github.com/AstrBotDevs/AstrBot-docs if the changes require doc updates (for instance: new hooks, new APIs, new features, platform adapter changes, and so on). If you don't see the docs repo, please remind the user to clone the docs-repo and add it to the workspace.
+
 ## Hooks: avoid missing / outdated references
 
 There are two different "hook" layers you must not mix up:
